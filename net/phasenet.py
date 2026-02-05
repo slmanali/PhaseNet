@@ -12,6 +12,8 @@ import os
 import os.path
 import sys
 
+from net.complex_layers import ComplexConv2d, ComplexBatchNorm2d, ComplexLeakyReLU, ComplexSequential
+
 pi = np.pi
 
 def normalize(input_):
@@ -38,6 +40,14 @@ def normalize(input_):
                 temp[i, j, :, :] = temp[i, j, :, :]/temp[i, j, :, :].max()
                 temp[i, j+2*bands, :, :] = temp[i, j+2*bands, :, :] / temp[i, j+2*bands, :, :].max()
     return temp
+
+
+def _to_complex(x):
+    return torch.cat([x, torch.zeros_like(x)], dim=1)
+
+
+def _complex_cat(tensors):
+    return torch.cat([_to_complex(item) for item in tensors], dim=1)
 
 def AmpPhase(complex_input):
     '''
@@ -350,6 +360,20 @@ class PhaseNetBlock(nn.Module):
         return self.layer(x)
 
 
+class ComplexPhaseNetBlock(nn.Module):
+    def __init__(self, in_channels=88, out_channels=64, kernel_size=3, padding=1):
+        super().__init__()
+        self.layer = ComplexSequential(
+            ComplexConv2d(in_channels, out_channels, kernel_size, padding=padding),
+            ComplexConv2d(out_channels, out_channels, kernel_size, padding=padding),
+            ComplexBatchNorm2d(out_channels),
+            ComplexLeakyReLU(negative_slope=0.2, inplace=True),
+        )
+
+    def forward(self, x):
+        return self.layer(x)
+
+
 class Pred(nn.Module):
     # Pred，return pred
     def __init__(self, in_channels=64, out_channels=8, kernel_size=1):
@@ -359,6 +383,15 @@ class Pred(nn.Module):
     def forward(self, x):
         out = F.tanh(self.conv(x))
         return out
+
+
+class ComplexPred(nn.Module):
+    def __init__(self, in_channels=64, out_channels=8, kernel_size=1):
+        super().__init__()
+        self.conv = nn.Conv2d(in_channels * 2, out_channels, kernel_size)
+
+    def forward(self, x):
+        return torch.tanh(self.conv(x))
 
 
 class PhaseNet(nn.Module):
@@ -435,6 +468,76 @@ class PhaseNet(nn.Module):
             amp = self.beta*x[i][:, 0:4, :, :] + (1-self.beta)*x[i][:, 8:12, :, :]
             phase = pred_map[i][:,4:8,:,:]
             output.append(torch.cat([amp, phase],1))
+        return output
+
+
+class ComplexPhaseNet(nn.Module):
+    '''
+    Complex-valued variant of PhaseNet using complex feature maps.
+    '''
+
+    def __init__(self):
+        super().__init__()
+        self.alpha = nn.Parameter(torch.rand(1))
+        self.beta = nn.Parameter(torch.rand(1))
+
+        self.layer = nn.ModuleList()
+        self.pred = nn.ModuleList()
+
+        self.layer.append(ComplexPhaseNetBlock(2, 64, 1, 0))
+        self.pred.append(ComplexPred(64, 1))
+
+        self.layer.append(ComplexPhaseNetBlock(81, 64, 1, 0))
+        self.pred.append(ComplexPred(64))
+
+        self.layer.append(ComplexPhaseNetBlock(kernel_size=1, padding=0))
+        self.pred.append(ComplexPred(64))
+
+        self.layer.append(ComplexPhaseNetBlock())
+        self.pred.append(ComplexPred(64))
+
+        self.layer.append(ComplexPhaseNetBlock())
+        self.pred.append(ComplexPred(64))
+
+        self.layer.append(ComplexPhaseNetBlock())
+        self.pred.append(ComplexPred(64))
+
+        self.layer.append(ComplexPhaseNetBlock())
+        self.pred.append(ComplexPred(64))
+
+        self.layer.append(ComplexPhaseNetBlock())
+        self.pred.append(ComplexPred(64))
+
+        self.layer.append(ComplexPhaseNetBlock())
+        self.pred.append(ComplexPred(64))
+
+        self.layer.append(ComplexPhaseNetBlock())
+        self.pred.append(ComplexPred(64))
+
+        self.layer.append(ComplexPhaseNetBlock())
+        self.pred.append(ComplexPred(64))
+
+    def forward(self, x):
+        feature_map = []
+        pred_map = []
+        output = []
+
+        feature_map.append(self.layer[0](_to_complex(normalize(x[0]))))
+        pred_map.append(self.pred[0](feature_map[0]))
+        amp = self.alpha*x[0][:, 0, :, :]+(1-self.alpha)*x[0][:, 1, :, :]
+        output.append(torch.unsqueeze(amp, 1))
+
+        for i in range(1, len(x)):
+            img_shape = (x[i].shape[2], x[i].shape[3])
+            feature_prev = F.interpolate(feature_map[i-1], img_shape, mode='bilinear')
+            pred_prev = F.interpolate(pred_map[i-1], img_shape, mode='bilinear')
+            complex_input = _complex_cat([normalize(x[i]), pred_prev])
+            complex_input = torch.cat([complex_input, feature_prev], dim=1)
+            feature_map.append(self.layer[i](complex_input))
+            pred_map.append(self.pred[i](feature_map[i]))
+            amp = self.beta*x[i][:, 0:4, :, :] + (1-self.beta)*x[i][:, 8:12, :, :]
+            phase = pred_map[i][:, 4:8, :, :]
+            output.append(torch.cat([amp, phase], 1))
         return output
 
 class Total_loss(nn.Module):
