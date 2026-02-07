@@ -1,0 +1,29 @@
+# Complex-Valued PhaseNet for Video Frame Interpolation
+# Requirements for Ubuntu 24.04 with NVIDIA GPU (CUDA 12.7)
+
+# Core Deep Learning Framework
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
+# CUDA support (automatically installed with PyTorch when using CUDA)
+# Make sure to install PyTorch with CUDA support:
+# pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# Image Processing
+Pillow>=9.0.0
+opencv-python>=4.7.0
+imageio>=2.25.0
+
+# Scientific Computing
+numpy>=1.24.0
+scipy>=1.10.0
+
+# Visualization
+matplotlib>=3.7.0
+
+# Utilities
+tqdm>=4.65.0
+
+# Optional but recommended
+tensorboard>=2.12.0
