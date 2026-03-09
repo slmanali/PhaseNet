@@ -1,4 +1,6 @@
 
 /venv_phasenet
 /DAVIS-data
+/net/__pycache__
+/net/complex_nn/__pycache__
 DAVIS-data.zip

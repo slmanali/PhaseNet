@@ -153,17 +153,20 @@ class ComplexPhaseNet(nn.Module):
         # Layer 1: First orientation band level
         # Input: 4 orientations × 2 frames = 8 complex channels + features from previous level
         # Total: ~40 channels (8 complex input + upsampled features + prediction)
-        input_ch_1 = 4 * 2 + feature_dim + 1  # 4 orientations, 2 frames, features, prediction
+        # input_ch_1 = 4 * 2 + feature_dim + 1  # 4 orientations, 2 frames, features, prediction
+        input_ch_1 = 4 * 2 * 2 + feature_dim + 1  # 4 orientations × 2 frames × 2 (amp+phase) + features + prediction
+        print(input_ch_1)
+        # = 16 + 32 + 1 = 49 channels
         self.layer.append(ComplexPhaseNetBlock(input_ch_1, feature_dim, 1, 0))
         self.pred.append(ComplexPred(feature_dim, 4))
-        
+        input_ch_2 = 16 + feature_dim + 4 
         # Layer 2: Second orientation band level
-        self.layer.append(ComplexPhaseNetBlock(input_ch_1, feature_dim, 1, 0))
+        self.layer.append(ComplexPhaseNetBlock(input_ch_2, feature_dim, 1, 0))
         self.pred.append(ComplexPred(feature_dim, 4))
         
         # Layers 3-10: Remaining orientation band levels
         for _ in range(8):
-            self.layer.append(ComplexPhaseNetBlock(input_ch_1, feature_dim))
+            self.layer.append(ComplexPhaseNetBlock(input_ch_2, feature_dim))
             self.pred.append(ComplexPred(feature_dim, 4))
     
     def normalize_complex(self, real, imag, level_type='band'):
