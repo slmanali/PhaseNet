@@ -21,8 +21,9 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import math
+
 import numpy as np
-from scipy.misc import factorial
 import torch
 import torchvision
 
@@ -145,7 +146,7 @@ class SCFpyr_NumPy():
             himask = pointOp(log_rad, Yrcos, Xrcos)
 
             order = self.nbands - 1
-            const = np.power(2, 2*order) * np.square(factorial(order)) / (self.nbands * factorial(2*order))
+            const = np.power(2, 2*order) * np.square(math.factorial(order)) / (self.nbands * math.factorial(2*order))
             Ycosn = 2*np.sqrt(const) * np.power(np.cos(self.Xcosn), order) * (np.abs(self.alpha) < np.pi/2)
 
             # Loop through all orientation bands
@@ -238,7 +239,7 @@ class SCFpyr_NumPy():
         lutsize = 1024
         Xcosn = np.pi * np.array(range(-(2*lutsize+1), (lutsize+2)))/lutsize
         order = self.nbands - 1
-        const = np.power(2, 2*order) * np.square(factorial(order)) / (self.nbands * factorial(2*order))
+        const = np.power(2, 2*order) * np.square(math.factorial(order)) / (self.nbands * math.factorial(2*order))
         Ycosn = np.sqrt(const) * np.power(np.cos(Xcosn), order)
 
         orientdft = np.zeros(coeff[0][0].shape)
@@ -340,7 +341,7 @@ class SCFpyr_NumPy():
             himask = pointOp(log_rad, Yrcos, Xrcos)
 
             order = self.nbands - 1
-            const = np.power(2, 2*order) * np.square(factorial(order)) / (self.nbands * factorial(2*order))
+            const = np.power(2, 2*order) * np.square(math.factorial(order)) / (self.nbands * math.factorial(2*order))
             Ycosn = 2*np.sqrt(const) * np.power(np.cos(self.Xcosn), order) * (np.abs(self.alpha) < np.pi/2)
 
             # Loop through all orientation bands
@@ -427,7 +428,7 @@ class SCFpyr_NumPy():
         lutsize = 1024
         Xcosn = np.pi * np.array(range(-(2*lutsize+1), (lutsize+2)))/lutsize
         order = self.nbands - 1
-        const = np.power(2, 2*order) * np.square(factorial(order)) / (self.nbands * factorial(2*order))
+        const = np.power(2, 2*order) * np.square(math.factorial(order)) / (self.nbands * math.factorial(2*order))
         Ycosn = np.sqrt(const) * np.power(np.cos(Xcosn), order)
 
         orientdft = np.zeros(coeff[0][0].shape)

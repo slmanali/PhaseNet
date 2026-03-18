@@ -211,7 +211,7 @@ def main():
     pyr_type = 1
     
     # Dataset path - UPDATE THIS PATH
-    dataset_path = '~/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS//JPEGImages/480p/'
+    dataset_path = '/home/Salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p'
     
     # Check if dataset exists
     if not os.path.exists(dataset_path):

@@ -20,9 +20,10 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import math
+
 import numpy as np
 import torch
-from scipy.misc import factorial
 
 import steerable.math_utils as math_utils
 pointOp = math_utils.pointOp
@@ -150,7 +151,7 @@ class SCFpyr_PyTorch(object):
             himask = torch.from_numpy(himask[None,:,:,None]).float().to(self.device)
 
             order = self.nbands - 1
-            const = np.power(2, 2*order) * np.square(factorial(order)) / (self.nbands * factorial(2*order))
+            const = np.power(2, 2*order) * np.square(math.factorial(order)) / (self.nbands * math.factorial(2*order))
             Ycosn = 2*np.sqrt(const) * np.power(np.cos(self.Xcosn), order) * (np.abs(self.alpha) < np.pi/2) # [n,]
 
             # Loop through all orientation bands
@@ -275,7 +276,7 @@ class SCFpyr_PyTorch(object):
         lutsize = 1024
         Xcosn = np.pi * np.array(range(-(2*lutsize+1), (lutsize+2)))/lutsize
         order = self.nbands - 1
-        const = np.power(2, 2*order) * np.square(factorial(order)) / (self.nbands * factorial(2*order))
+        const = np.power(2, 2*order) * np.square(math.factorial(order)) / (self.nbands * math.factorial(2*order))
         Ycosn = np.sqrt(const) * np.power(np.cos(Xcosn), order)
 
         orientdft = torch.zeros_like(coeff[0][0])
