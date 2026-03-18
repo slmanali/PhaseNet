@@ -166,8 +166,8 @@ class SCFpyr_NumPy():
 
             lodims=np.round(img_dims/(self.scale_factor**(self.height-height)))
             loctr=np.ceil((lodims+0.5)/2)
-            lostart=(ctr-loctr).astype(np.int)
-            loend=(lostart+lodims).astype(np.int)
+            lostart=(ctr-loctr).astype(int)
+            loend=(lostart+lodims).astype(int)
 
             # Selection
             log_rad = log_rad[lostart[0]:loend[0], lostart[1]:loend[1]]
@@ -258,8 +258,8 @@ class SCFpyr_NumPy():
 
         lodims=np.round(img_dims/(self.scale_factor**(self.height-len(coeff))))
         loctr=np.ceil((lodims+0.5)/2)
-        lostart=(ctr-loctr).astype(np.int)
-        loend=(lostart+lodims).astype(np.int)
+        lostart=(ctr-loctr).astype(int)
+        loend=(lostart+lodims).astype(int)
 
         log_rad = log_rad[lostart[0]:loend[0], lostart[1]:loend[1]]
         angle = angle[lostart[0]:loend[0], lostart[1]:loend[1]]
@@ -360,8 +360,8 @@ class SCFpyr_NumPy():
 
             lodims=np.round(img_dims/(self.scale_factor**(self.height-height)))
             loctr=np.ceil((lodims+0.5)/2)
-            lostart=(ctr-loctr).astype(np.int)
-            loend=(lostart+lodims).astype(np.int)
+            lostart=(ctr-loctr).astype(int)
+            loend=(lostart+lodims).astype(int)
 
             # Selection
             log_rad = log_rad[lostart[0]:loend[0], lostart[1]:loend[1]]
@@ -446,8 +446,8 @@ class SCFpyr_NumPy():
 
         lodims=np.round(img_dims/(self.scale_factor**(self.height-len(coeff))))
         loctr=np.ceil((lodims+0.5)/2)
-        lostart=(ctr-loctr).astype(np.int)
-        loend=(lostart+lodims).astype(np.int)
+        lostart=(ctr-loctr).astype(int)
+        loend=(lostart+lodims).astype(int)
 
         log_rad = log_rad[lostart[0]:loend[0], lostart[1]:loend[1]]
         angle = angle[lostart[0]:loend[0], lostart[1]:loend[1]]

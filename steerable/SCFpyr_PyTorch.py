@@ -28,6 +28,13 @@ import torch
 import steerable.math_utils as math_utils
 pointOp = math_utils.pointOp
 
+def _fft2_realimag(x):
+    return torch.view_as_real(torch.fft.fft2(x, dim=(-2, -1)))
+
+
+def _ifft2_realimag(x):
+    return torch.view_as_real(torch.fft.ifft2(torch.view_as_complex(x.contiguous()), dim=(-2, -1)))
+
 ################################################################################
 ################################################################################
 
@@ -112,7 +119,7 @@ class SCFpyr_PyTorch(object):
         hi0mask = torch.from_numpy(hi0mask).float()[None,:,:,None].to(self.device)
 
         # Fourier transform (2D) and shifting
-        batch_dft = torch.rfft(im_batch, signal_ndim=2, onesided=False)
+        batch_dft = _fft2_realimag(im_batch)
         batch_dft = math_utils.batch_fftshift2d(batch_dft)
 
         # Low-pass
@@ -124,7 +131,7 @@ class SCFpyr_PyTorch(object):
         # High-pass
         hi0dft = batch_dft * hi0mask
         hi0 = math_utils.batch_ifftshift2d(hi0dft)
-        hi0 = torch.ifft(hi0, signal_ndim=2)
+        hi0 = _ifft2_realimag(hi0)
         hi0_real = torch.unbind(hi0, -1)[0]
         coeff.insert(0,hi0_real)
         return coeff
@@ -135,7 +142,7 @@ class SCFpyr_PyTorch(object):
 
             # Low-pass
             lo0 = math_utils.batch_ifftshift2d(lodft)
-            lo0 = torch.ifft(lo0, signal_ndim=2)
+            lo0 = _ifft2_realimag(lo0)
             lo0_real = torch.unbind(lo0, -1)[0]
             coeff = [lo0_real]
 
@@ -173,7 +180,7 @@ class SCFpyr_PyTorch(object):
                 banddft = torch.stack((banddft_real, banddft_imag), -1)
                 if pyr_type==0:
                     band = math_utils.batch_ifftshift2d(banddft)
-                    band = torch.ifft(band, signal_ndim=2)
+                    band = _ifft2_realimag(band)
                     orientations.append(band)
                 else:
                     orientations.append(banddft)
@@ -188,8 +195,8 @@ class SCFpyr_PyTorch(object):
 
             lodims=np.round(img_dims/(self.scale_factor**(self.height-height)))
             loctr=np.ceil((lodims+0.5)/2)
-            lostart=(ctr-loctr).astype(np.int)
-            loend=(lostart+lodims).astype(np.int)
+            lostart=(ctr-loctr).astype(int)
+            loend=(lostart+lodims).astype(int)
 
             # # Both are tuples of size 2
             # low_ind_start = (np.ceil((dims+0.5)/2) - np.ceil((np.ceil((dims-0.5)/2)+0.5)/2)).astype(int)
@@ -246,13 +253,13 @@ class SCFpyr_PyTorch(object):
         # Start recursive reconstruction
         lo0dft = self._reconstruct_levels(coeff[1:], log_rad, Xrcos, Yrcos, angle, np.array((height, width)), pyr_type)
 
-        hidft = torch.rfft(coeff[0], signal_ndim=2, onesided=False)
+        hidft = _fft2_realimag(coeff[0])
         hidft = math_utils.batch_fftshift2d(hidft)
 
         outdft = lo0dft * lo0mask + hidft * hi0mask
 
         reconstruction = math_utils.batch_ifftshift2d(outdft)
-        reconstruction = torch.ifft(reconstruction, signal_ndim=2)
+        reconstruction = _ifft2_realimag(reconstruction)
         reconstruction = torch.unbind(reconstruction, -1)[0]  # real
 
         return reconstruction
@@ -260,7 +267,7 @@ class SCFpyr_PyTorch(object):
     def _reconstruct_levels(self, coeff, log_rad, Xrcos, Yrcos, angle, img_dims, pyr_type):
 
         if len(coeff) == 1:
-            dft = torch.rfft(coeff[0], signal_ndim=2, onesided=False)
+            dft = _fft2_realimag(coeff[0])
             dft = math_utils.batch_fftshift2d(dft)
             return dft
 
@@ -287,7 +294,7 @@ class SCFpyr_PyTorch(object):
             anglemask = torch.from_numpy(anglemask).float().to(self.device)
 
             if pyr_type==0:
-                banddft = torch.fft(coeff[0][b], signal_ndim=2)
+                banddft = _fft2_realimag(coeff[0][b])
                 banddft = math_utils.batch_fftshift2d(banddft)
             else:
                 banddft = coeff[0][b]
@@ -309,11 +316,11 @@ class SCFpyr_PyTorch(object):
 
         lodims=np.round(img_dims/(self.scale_factor**(self.height-len(coeff))))
         loctr=np.ceil((lodims+0.5)/2)
-        lostart=(ctr-loctr).astype(np.int)
-        loend=(lostart+lodims).astype(np.int)
+        lostart=(ctr-loctr).astype(int)
+        loend=(lostart+lodims).astype(int)
         
-        # lostart = (np.ceil((dims+0.5)/2) - np.ceil((np.ceil((dims-0.5)/2)+0.5)/2)).astype(np.int32)
-        # loend = lostart + np.ceil((dims-0.5)/2).astype(np.int32)
+        # lostart = (np.ceil((dims+0.5)/2) - np.ceil((np.ceil((dims-0.5)/2)+0.5)/2)).astype(int32)
+        # loend = lostart + np.ceil((dims-0.5)/2).astype(int32)
 
         nlog_rad = log_rad[lostart[0]:loend[0], lostart[1]:loend[1]]
         nangle = angle[lostart[0]:loend[0], lostart[1]:loend[1]]
