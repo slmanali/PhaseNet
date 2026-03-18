@@ -9,3 +9,8 @@ steerable/__pycache__/SCFpyr_PyTorch.cpython-312.pyc
 DAVIS-2017-trainval-480p.zip
 log/2026-03-18_21-47-08_train_complex.txt
 model/2026-03-18_21-47-08_complex_epoch2.pth
+model/2026-03-18_21-47-08_complex_epoch4.pth
+model/2026-03-18_21-47-08_complex_epoch6.pth
+model/2026-03-18_21-47-08_complex_epoch8.pth
+model/2026-03-18_21-47-08_complex_epoch10.pth
+model/2026-03-18_21-47-08_complex_final.pth
