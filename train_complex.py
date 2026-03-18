@@ -137,7 +137,6 @@ def output_convert_complex(pred_real, pred_imag):
         List of coefficients in pyramid format
     """
     coeff = []
-    batch_size = pred_real[0].shape[0]
     
     # Residual level
     coeff.append(pred_real[0].squeeze(1))
@@ -168,10 +167,12 @@ def output_convert_complex(pred_real, pred_imag):
         
         coeff.insert(0, band)
     
-    # Add high-pass (zeros)
-    coeff.insert(0, torch.zeros(size=(pred_real[-1].shape[0], 
-                                      pred_real[-1].shape[2], 
-                                      pred_real[-1].shape[3])))
+    # Add high-pass (zeros) on the same device/dtype as the predictions.
+    coeff.insert(0, pred_real[-1].new_zeros(
+        pred_real[-1].shape[0],
+        pred_real[-1].shape[2],
+        pred_real[-1].shape[3],
+    ))
     
     return coeff
 

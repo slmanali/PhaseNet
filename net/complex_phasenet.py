@@ -375,6 +375,21 @@ class ComplexTotalLoss(nn.Module):
         
         return self.v * phase_loss + img_loss
 
+def _select_frame_coeff(level_coeff, frame_idx):
+    """Return a single frame from a pyramid coefficient tensor.
+
+    Band tensors produced by ``extract_complex_coefficients`` are usually
+    shaped ``[frames, H, W]`` after splitting real/imaginary parts, but older
+    code paths may still carry a singleton channel dimension as
+    ``[frames, 1, H, W]``. This helper accepts both layouts.
+    """
+    if level_coeff.dim() == 4:
+        return level_coeff[frame_idx, 0, :, :]
+    if level_coeff.dim() == 3:
+        return level_coeff[frame_idx, :, :]
+    raise ValueError(
+        f"Expected coefficient tensor with 3 or 4 dims, got shape {tuple(level_coeff.shape)}"
+    )
 
 def complex_input_convert(Tri_coeff_real, Tri_coeff_imag):
     """
@@ -406,57 +421,57 @@ def complex_input_convert(Tri_coeff_real, Tri_coeff_imag):
     
     # Band levels
     for i in range(1, len(Tri_coeff_real_inv) - 1):
-        # For each level, we have 4 orientations × 3 frames
-        # Get amplitude and phase for all orientations and frames
-        
-        # Process each frame
-        frame_amps_real = []
-        frame_amps_imag = []
-        frame_phases_real = []
-        frame_phases_imag = []
-        
-        for frame_idx in [0, 1, 2]:  # start, middle, end
-            for orient_idx in range(4):  # 4 orientations
-                coeff_r = Tri_coeff_real_inv[i][orient_idx][frame_idx, 0, :, :]
-                coeff_i = Tri_coeff_imag_inv[i][orient_idx][frame_idx, 0, :, :]
-                
-                # Compute amplitude and phase
-                amp = torch.sqrt(coeff_r**2 + coeff_i**2 + 1e-8)
-                phase = torch.atan2(coeff_i, coeff_r)
-                
-                # Store as complex numbers (real = value, imag = 0 for amplitude)
-                # For phase, use cos and sin representation
-                if frame_idx == 0:
-                    frame_amps_real.append(amp)
-                    frame_amps_imag.append(torch.zeros_like(amp))
-                    frame_phases_real.append(torch.cos(phase))
-                    frame_phases_imag.append(torch.sin(phase))
-                elif frame_idx == 1:
-                    frame_amps_real.insert(0, amp)  # Insert at beginning for truth
-                    frame_amps_imag.insert(0, torch.zeros_like(amp))
-                    frame_phases_real.insert(0, torch.cos(phase))
-                    frame_phases_imag.insert(0, torch.sin(phase))
-                else:  # frame_idx == 2
-                    frame_amps_real.append(amp)
-                    frame_amps_imag.append(torch.zeros_like(amp))
-                    frame_phases_real.append(torch.cos(phase))
-                    frame_phases_imag.append(torch.sin(phase))
-        
-        # Organize into train (start + end) and truth (middle)
-        # Train: [4 amps_start, 4 phases_start, 4 amps_end, 4 phases_end]
-        train_r = torch.stack(frame_amps_real[4:8] + frame_phases_real[4:8] + 
-                             frame_amps_real[8:12] + frame_phases_real[8:12])
-        train_i = torch.stack(frame_amps_imag[4:8] + frame_phases_imag[4:8] + 
-                             frame_amps_imag[8:12] + frame_phases_imag[8:12])
-        
-        # Truth: [4 amps_middle, 4 phases_middle]
-        truth_r = torch.stack(frame_amps_real[0:4] + frame_phases_real[0:4])
-        truth_i = torch.stack(frame_amps_imag[0:4] + frame_phases_imag[0:4])
-        
-        train_real.append(train_r)
-        train_imag.append(train_i)
-        truth_real.append(truth_r)
-        truth_imag.append(truth_i)
+        start_amps = []
+        start_phases_r = []
+        start_phases_i = []
+        end_amps = []
+        end_phases_r = []
+        end_phases_i = []
+        mid_amps = []
+        mid_phases_r = []
+        mid_phases_i = []
+
+        n_orient = len(Tri_coeff_real_inv[i])
+
+        for orient_idx in range(n_orient):
+            orient_real = Tri_coeff_real_inv[i][orient_idx]
+            orient_imag = Tri_coeff_imag_inv[i][orient_idx]
+
+            start_r = _select_frame_coeff(orient_real, 0)
+            start_i = _select_frame_coeff(orient_imag, 0)
+            mid_r = _select_frame_coeff(orient_real, 1)
+            mid_i = _select_frame_coeff(orient_imag, 1)
+            end_r = _select_frame_coeff(orient_real, 2)
+            end_i = _select_frame_coeff(orient_imag, 2)
+
+            start_amp = torch.sqrt(start_r**2 + start_i**2 + 1e-8)
+            start_phase = torch.atan2(start_i, start_r)
+            mid_amp = torch.sqrt(mid_r**2 + mid_i**2 + 1e-8)
+            mid_phase = torch.atan2(mid_i, mid_r)
+            end_amp = torch.sqrt(end_r**2 + end_i**2 + 1e-8)
+            end_phase = torch.atan2(end_i, end_r)
+
+            start_amps.append(start_amp)
+            start_phases_r.append(torch.cos(start_phase))
+            start_phases_i.append(torch.sin(start_phase))
+            end_amps.append(end_amp)
+            end_phases_r.append(torch.cos(end_phase))
+            end_phases_i.append(torch.sin(end_phase))
+            mid_amps.append(mid_amp)
+            mid_phases_r.append(torch.cos(mid_phase))
+            mid_phases_i.append(torch.sin(mid_phase))
+
+        train_real.append(torch.stack(start_amps + start_phases_r + end_amps + end_phases_r))
+        train_imag.append(torch.stack(
+            [torch.zeros_like(amp) for amp in start_amps]
+            + start_phases_i
+            + [torch.zeros_like(amp) for amp in end_amps]
+            + end_phases_i
+        ))
+        truth_real.append(torch.stack(mid_amps + mid_phases_r))
+        truth_imag.append(torch.stack(
+            [torch.zeros_like(amp) for amp in mid_amps] + mid_phases_i
+        ))
     
     return train_real, train_imag, truth_real, truth_imag
 
