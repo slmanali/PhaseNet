@@ -84,53 +84,28 @@ def get_complex_input(batch_coeff_list):
     Convert batch of triplet coefficients to training format.
     
     Args:
-        batch_coeff_list: List of triplet coefficients for batch
-                         Each element is [start_coeff, inter_coeff, end_coeff]
+        batch_coeff_list: List of pyramid coefficients for a batch.
+                         Each element is a single pyramid built from a
+                         3-frame tensor [start, inter, end], so the frame
+                         axis is already packed into the first dimension of
+                         every pyramid coefficient tensor.
     
     Returns:
         tuple: (train_real, train_imag, truth_real, truth_imag)
     """
-    # First, extract complex parts for all triplets
-    batch_complex = []
-    for triplet_coeff in batch_coeff_list:
-        triplet_complex = []
-        for frame_coeff in triplet_coeff:
-            real, imag = extract_complex_coefficients(frame_coeff)
-            triplet_complex.append((real, imag))
-        batch_complex.append(triplet_complex)
-    
-    # Now organize into train and truth
+    # Each item in batch_coeff_list is already a full pyramid for the
+    # start/inter/end triplet, with frame index stored in dimension 0.
+    # Extract real/imaginary parts level-by-level and pass them directly
+    # to complex_input_convert, which expects the three frames to remain
+    # stacked inside each coefficient tensor.
     train_real_batch = []
     train_imag_batch = []
     truth_real_batch = []
     truth_imag_batch = []
     
-    for triplet in batch_complex:
-        # triplet = [(start_real, start_imag), (inter_real, inter_imag), (end_real, end_imag)]
-        start_real, start_imag = triplet[0]
-        inter_real, inter_imag = triplet[1]
-        end_real, end_imag = triplet[2]
-        
-        # Create triplet structure for conversion
-        Tri_real = []
-        Tri_imag = []
-        for level_idx in range(len(start_real)):
-            if isinstance(start_real[level_idx], list):
-                # Band level
-                level_real = [torch.stack([s, i, e]) for s, i, e in 
-                             zip(start_real[level_idx], inter_real[level_idx], end_real[level_idx])]
-                level_imag = [torch.stack([s, i, e]) for s, i, e in 
-                             zip(start_imag[level_idx], inter_imag[level_idx], end_imag[level_idx])]
-            else:
-                # Residual level
-                level_real = torch.stack([start_real[level_idx], inter_real[level_idx], end_real[level_idx]])
-                level_imag = torch.stack([start_imag[level_idx], inter_imag[level_idx], end_imag[level_idx]])
-            
-            Tri_real.append(level_real)
-            Tri_imag.append(level_imag)
-        
-        # Convert using complex_input_convert
-        tr_r, tr_i, truth_r, truth_i = complex_input_convert(Tri_real, Tri_imag)
+    for triplet_coeff in batch_coeff_list:
+        tri_real, tri_imag = extract_complex_coefficients(triplet_coeff)
+        tr_r, tr_i, truth_r, truth_i = complex_input_convert(tri_real, tri_imag)
         
         train_real_batch.append(tr_r)
         train_imag_batch.append(tr_i)
@@ -150,7 +125,6 @@ def get_complex_input(batch_coeff_list):
         truth_imag.append(torch.stack([item[level_idx] for item in truth_imag_batch]))
     
     return train_real, train_imag, truth_real, truth_imag
-
 
 def output_convert_complex(pred_real, pred_imag):
     """
