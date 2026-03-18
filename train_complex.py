@@ -11,6 +11,7 @@ import torchvision
 from torchvision import transforms
 import time
 import os
+from pathlib import Path
 import numpy as np
 from tqdm import tqdm
 
@@ -18,6 +19,27 @@ from steerable.SCFpyr_PyTorch import SCFpyr_PyTorch
 from net.phasenet import Triplets, show_Triplets_batch
 from net.complex_phasenet import ComplexPhaseNet, ComplexTotalLoss, complex_input_convert
 
+
+def resolve_dataset_path():
+    """Resolve the DAVIS dataset path from env/configured/common locations."""
+    candidate_paths = []
+
+    env_path = os.environ.get('PHASENET_DATASET_PATH')
+    if env_path:
+        candidate_paths.append(Path(env_path).expanduser())
+
+    repo_root = Path(__file__).resolve().parent
+    candidate_paths.extend([
+        Path('/home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p'),
+        Path('/home/Salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p'),
+        repo_root / 'DAVIS-data' / 'DAVIS' / 'JPEGImages' / '480p',
+    ])
+
+    for candidate in candidate_paths:
+        if candidate.exists():
+            return str(candidate)
+
+    return str(candidate_paths[0] if candidate_paths else repo_root)
 
 def extract_complex_coefficients(pyr_coeff):
     """
@@ -211,15 +233,16 @@ def main():
     pyr_type = 1
     
     # Dataset path - UPDATE THIS PATH
-    dataset_path = '/home/Salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p'
+    dataset_path = resolve_dataset_path()
     
     # Check if dataset exists
     if not os.path.exists(dataset_path):
         print(f"WARNING: Dataset path not found: {dataset_path}")
-        print("Please update the dataset_path in train_complex.py")
-        print("Using dummy dataset for testing...")
-        # For testing without dataset
+        print("Set PHASENET_DATASET_PATH or place DAVIS-data under the repository root.")
+        print("Using repository root as a fallback for testing...")
         dataset_path = './'
+    else:
+        print(f"Using dataset path: {dataset_path}")
     
     # Load dataset
     transform = transforms.Compose([
