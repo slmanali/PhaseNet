@@ -3,6 +3,7 @@
 /DAVIS-data
 /net/__pycache__
 /net/complex_nn/__pycache__
+outputs/test_complex
 DAVIS-data.zip
 steerable/__pycache__/__init__.cpython-312.pyc
 steerable/__pycache__/SCFpyr_PyTorch.cpython-312.pyc
@@ -14,3 +15,4 @@ model/2026-03-18_21-47-08_complex_epoch6.pth
 model/2026-03-18_21-47-08_complex_epoch8.pth
 model/2026-03-18_21-47-08_complex_epoch10.pth
 model/2026-03-18_21-47-08_complex_final.pth
+__pycache__/train_complex.cpython-312.pyc

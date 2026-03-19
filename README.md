@@ -30,6 +30,9 @@ python net/complex_phasenet.py
 
 # Train the network
 python train_complex.py
+
+# Evaluate a trained final/checkpoint model
+python test_complex.py --model-path model/2026-03-18_21-47-08_complex_final.pth --save-dir outputs/test_complex
 ```
 
 ### Documentation
