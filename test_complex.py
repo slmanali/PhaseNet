@@ -123,6 +123,30 @@ def compute_psnr(pred, target):
     return 10.0 * math.log10(1.0 / mse)
 
 
+def normalize_for_visualization(image):
+    """
+    Convert a single image tensor to a viewable [0, 1] range.
+
+    PhaseNet reconstructions can legitimately fall outside [0, 1] or occupy only
+    a tiny value range. Saving them with a hard clamp can therefore produce
+    nearly-black debug images even when the reconstruction contains structure.
+    This helper preserves the raw tensor for metrics while stretching the saved
+    visualization to the full display range.
+    """
+    image = image.detach().float()
+    image_min = image.min()
+    image_max = image.max()
+
+    if not torch.isfinite(image_min) or not torch.isfinite(image_max):
+        return torch.nan_to_num(image, nan=0.0, posinf=1.0, neginf=0.0).clamp(0, 1)
+
+    dynamic_range = image_max - image_min
+    if dynamic_range <= 1e-8:
+        return torch.zeros_like(image)
+
+    return (image - image_min) / dynamic_range
+
+
 def save_batch_visualizations(batch, predictions, save_dir, sample_offset):
     save_dir.mkdir(parents=True, exist_ok=True)
     for batch_idx in range(predictions.shape[0]):
@@ -130,7 +154,15 @@ def save_batch_visualizations(batch, predictions, save_dir, sample_offset):
         save_image(batch["start"][batch_idx], save_dir / f"{sample_id:05d}_start.png")
         save_image(batch["end"][batch_idx], save_dir / f"{sample_id:05d}_end.png")
         save_image(batch["inter"][batch_idx], save_dir / f"{sample_id:05d}_truth.png")
-        save_image(predictions[batch_idx].clamp(0, 1), save_dir / f"{sample_id:05d}_pred.png")
+        save_image(
+            predictions[batch_idx].clamp(0, 1),
+            save_dir / f"{sample_id:05d}_pred_raw.png",
+        )
+        save_image(
+            normalize_for_visualization(predictions[batch_idx]),
+            save_dir / f"{sample_id:05d}_pred.png",
+        )
+
 
 
 def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
