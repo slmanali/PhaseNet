@@ -158,16 +158,16 @@ class ComplexPhaseNet(nn.Module):
         print(input_ch_1)
         # = 16 + 32 + 1 = 49 channels
         self.layer.append(ComplexPhaseNetBlock(input_ch_1, feature_dim, 1, 0))
-        self.pred.append(ComplexPred(feature_dim, 4))
-        input_ch_2 = 16 + feature_dim + 4 
+        self.pred.append(ComplexPred(feature_dim, 8))
+        input_ch_2 = 16 + feature_dim + 8
         # Layer 2: Second orientation band level
         self.layer.append(ComplexPhaseNetBlock(input_ch_2, feature_dim, 1, 0))
-        self.pred.append(ComplexPred(feature_dim, 4))
+        self.pred.append(ComplexPred(feature_dim, 8))
         
         # Layers 3-10: Remaining orientation band levels
         for _ in range(8):
             self.layer.append(ComplexPhaseNetBlock(input_ch_2, feature_dim))
-            self.pred.append(ComplexPred(feature_dim, 4))
+            self.pred.append(ComplexPred(feature_dim, 8))
     
     def normalize_complex(self, real, imag, level_type='band'):
         """
@@ -291,12 +291,15 @@ class ComplexPhaseNet(nn.Module):
             #  phase0_end, phase1_end, phase2_end, phase3_end]
             
             # Linear interpolation for amplitude (first and third quarters)
-            amp_r = self.beta * x_real[i][:, 0:4, :, :] + (1 - self.beta) * x_real[i][:, 8:12, :, :]
-            amp_i = self.beta * x_imag[i][:, 0:4, :, :] + (1 - self.beta) * x_imag[i][:, 8:12, :, :]
-            
-            # Use predicted phase (network output)
-            phase_r = pred_r
-            phase_i = pred_i
+            base_amp = self.beta * x_real[i][:, 0:4, :, :] + (1 - self.beta) * x_real[i][:, 8:12, :, :]
+
+            # Predict both amplitude residuals and phase.
+            amp_delta = pred_r[:, 0:4, :, :]
+            amp_r = torch.relu(base_amp + amp_delta)
+            amp_i = torch.zeros_like(amp_r)
+
+            phase_r = pred_r[:, 4:8, :, :]
+            phase_i = pred_i[:, 4:8, :, :]
             
             # Combine amplitude and phase
             out_r = torch.cat([amp_r, phase_r], dim=1)
@@ -320,9 +323,11 @@ class ComplexTotalLoss(nn.Module):
         v (float): Weight for phase loss term
     """
     
-    def __init__(self, v=0.1):
+    def __init__(self, v=0.1, amp_weight=0.5, amp_imag_weight=0.1):
         super(ComplexTotalLoss, self).__init__()
         self.v = v
+        self.amp_weight = amp_weight
+        self.amp_imag_weight = amp_imag_weight
     
     def forward(self, truth_real, truth_imag, pred_real, pred_imag, 
                 truth_img, pred_img):
@@ -343,11 +348,17 @@ class ComplexTotalLoss(nn.Module):
         
         # Phase difference loss for band levels
         phase_loss = 0
+        amp_loss = 0
+        amp_imag_loss = 0
         num_bands = 0
         
         for i in range(1, len(truth_real)):
             # Extract phase channels (second half of each level)
             n_orient = truth_real[i].shape[1] // 2
+
+            truth_amp = truth_real[i][:, :n_orient, :, :]
+            pred_amp = pred_real[i][:, :n_orient, :, :]
+            pred_amp_imag = pred_imag[i][:, :n_orient, :, :]
             
             # Ground truth phase (complex representation)
             truth_phase_r = truth_real[i][:, n_orient:, :, :]
@@ -366,14 +377,23 @@ class ComplexTotalLoss(nn.Module):
             dphase_wrapped = torch.atan2(torch.sin(dphase), torch.cos(dphase))
             
             # L1 loss on wrapped phase difference
+            amp_loss += nn.L1Loss()(pred_amp, truth_amp)
+            amp_imag_loss += nn.L1Loss()(pred_amp_imag, torch.zeros_like(pred_amp_imag))
             phase_loss += nn.L1Loss()(dphase_wrapped, torch.zeros_like(dphase_wrapped))
             num_bands += 1
         
         # Average phase loss over all band levels
         if num_bands > 0:
             phase_loss = phase_loss / num_bands
-        
-        return self.v * phase_loss + img_loss
+            amp_loss = amp_loss / num_bands
+            amp_imag_loss = amp_imag_loss / num_bands
+
+        return (
+            img_loss
+            + self.v * phase_loss
+            + self.amp_weight * amp_loss
+            + self.amp_imag_weight * amp_imag_loss
+        )
 
 def _select_frame_coeff(level_coeff, frame_idx):
     """Return a single frame from a pyramid coefficient tensor.

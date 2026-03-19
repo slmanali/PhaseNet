@@ -147,19 +147,19 @@ def normalize_for_visualization(image):
     return (image - image_min) / dynamic_range
 
 
-def save_batch_visualizations(batch, predictions, save_dir, sample_offset):
+def save_batch_visualizations(batch, raw_predictions, clamped_predictions, save_dir, sample_offset):
     save_dir.mkdir(parents=True, exist_ok=True)
-    for batch_idx in range(predictions.shape[0]):
+    for batch_idx in range(raw_predictions.shape[0]):
         sample_id = sample_offset + batch_idx
         save_image(batch["start"][batch_idx], save_dir / f"{sample_id:05d}_start.png")
         save_image(batch["end"][batch_idx], save_dir / f"{sample_id:05d}_end.png")
         save_image(batch["inter"][batch_idx], save_dir / f"{sample_id:05d}_truth.png")
         save_image(
-            predictions[batch_idx].clamp(0, 1),
+            clamped_predictions[batch_idx],
             save_dir / f"{sample_id:05d}_pred_raw.png",
         )
         save_image(
-            normalize_for_visualization(predictions[batch_idx]),
+            normalize_for_visualization(raw_predictions[batch_idx]),
             save_dir / f"{sample_id:05d}_pred.png",
         )
 
@@ -211,7 +211,8 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
                 pred_img = pyr.reconstruct(pred_coeff, pyr_type=pyr_type)
                 recon_channels.append(pred_img.unsqueeze(1))
 
-            pred_batch = torch.cat(recon_channels, dim=1).clamp(0, 1)
+            raw_pred_batch = torch.cat(recon_channels, dim=1)
+            pred_batch = raw_pred_batch.clamp(0, 1)
             truth_batch = batch["inter"].to(device)
 
             if max_samples is not None:
@@ -231,7 +232,13 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
             processed += batch_count
 
             if save_dir is not None:
-                save_batch_visualizations(batch, pred_batch.cpu(), save_dir, processed - batch_count)
+                save_batch_visualizations(
+                    batch,
+                    raw_pred_batch.cpu(),
+                    pred_batch.cpu(),
+                    save_dir,
+                    processed - batch_count,
+                )
 
             progress.set_postfix(
                 samples=processed,

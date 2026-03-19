@@ -6,19 +6,80 @@ It processes video frames through complex steerable pyramids and trains the
 network to predict interpolated frames.
 """
 
+import argparse
+import os
+from pathlib import Path
+import time
+
+import numpy as np
 import torch
 import torchvision
 from torchvision import transforms
-import time
-import os
-from pathlib import Path
-import numpy as np
+from torchvision.utils import save_image
 from tqdm import tqdm
 
 from steerable.SCFpyr_PyTorch import SCFpyr_PyTorch
 from net.phasenet import Triplets, show_Triplets_batch
 from net.complex_phasenet import ComplexPhaseNet, ComplexTotalLoss, complex_input_convert
 
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Train the complex-valued PhaseNet model."
+    )
+    parser.add_argument("--epochs", type=int, default=10, help="Number of training epochs.")
+    parser.add_argument("--batch-size", type=int, default=4, help="Training batch size.")
+    parser.add_argument("--learning-rate", type=float, default=0.001, help="Adam learning rate.")
+    parser.add_argument("--feature-dim", type=int, default=32, help="Model feature dimension.")
+    parser.add_argument(
+        "--dataset-path",
+        type=str,
+        default=None,
+        help="Optional DAVIS-style dataset path override.",
+    )
+    parser.add_argument(
+        "--overfit-samples",
+        type=int,
+        default=0,
+        help="If > 0, train on only the first N triplets for debugging/overfit checks.",
+    )
+    parser.add_argument(
+        "--max-steps-per-epoch",
+        type=int,
+        default=0,
+        help="If > 0, stop each epoch after this many optimizer steps.",
+    )
+    parser.add_argument(
+        "--debug-interval",
+        type=int,
+        default=0,
+        help="If > 0, print tensor stats and optionally dump sample images every N steps.",
+    )
+    parser.add_argument(
+        "--debug-save-dir",
+        type=Path,
+        default=None,
+        help="Optional directory for periodic training debug images.",
+    )
+    parser.add_argument(
+        "--phase-loss-weight",
+        type=float,
+        default=1.0,
+        help="Weight applied to the wrapped phase loss term.",
+    )
+    parser.add_argument(
+        "--amp-loss-weight",
+        type=float,
+        default=0.5,
+        help="Weight applied to the amplitude supervision term.",
+    )
+    parser.add_argument(
+        "--amp-imag-loss-weight",
+        type=float,
+        default=0.1,
+        help="Weight applied to keeping imaginary amplitude channels near zero.",
+    )
+    return parser.parse_args()
 
 def resolve_dataset_path():
     """Resolve the DAVIS dataset path from env/configured/common locations."""
@@ -177,8 +238,40 @@ def output_convert_complex(pred_real, pred_imag):
     return coeff
 
 
+def describe_tensor(name, tensor):
+    tensor = tensor.detach().float()
+    return (
+        f"{name}: shape={tuple(tensor.shape)} "
+        f"min={tensor.min().item():.4f} max={tensor.max().item():.4f} "
+        f"mean={tensor.mean().item():.4f} std={tensor.std(unbiased=False).item():.4f}"
+    )
+
+
+def save_debug_batch(save_dir, step, channel, batch, pred_img):
+    save_dir.mkdir(parents=True, exist_ok=True)
+    prefix = save_dir / f"step_{step:06d}_ch{channel}"
+    save_image(batch['start'][0, channel].unsqueeze(0), prefix.with_name(f"{prefix.name}_start.png"))
+    save_image(batch['inter'][0, channel].unsqueeze(0), prefix.with_name(f"{prefix.name}_truth.png"))
+    save_image(batch['end'][0, channel].unsqueeze(0), prefix.with_name(f"{prefix.name}_end.png"))
+    save_image(pred_img[0].detach().cpu().clamp(0, 1).unsqueeze(0), prefix.with_name(f"{prefix.name}_pred.png"))
+
+
+def log_debug_stats(step, channel, truth_img, pred_img, pred_real, pred_imag):
+    print(f"\n[debug] step={step} channel={channel}")
+    print(describe_tensor("truth_img", truth_img))
+    print(describe_tensor("pred_img", pred_img))
+    if len(pred_real) > 1:
+        band_amp = pred_real[1][:, :4, :, :]
+        band_phase_r = pred_real[1][:, 4:8, :, :]
+        band_phase_i = pred_imag[1][:, 4:8, :, :]
+        phase_angle = torch.atan2(band_phase_i, band_phase_r)
+        print(describe_tensor("band1_amp", band_amp))
+        print(describe_tensor("band1_phase_angle", phase_angle))
+
+
 def main():
     """Main training function."""
+    args = parse_args()
     
     # Create log directory
     log_dir = './log/'
@@ -197,9 +290,9 @@ def main():
         print(f"GPU Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB")
     
     # Training parameters
-    num_epochs = 10
-    learning_rate = 0.001
-    batch_size = 4  # Reduced for complex network
+    num_epochs = args.epochs
+    learning_rate = args.learning_rate
+    batch_size = args.batch_size
     
     # Pyramid parameters
     height = 12
@@ -208,7 +301,7 @@ def main():
     pyr_type = 1
     
     # Dataset path - UPDATE THIS PATH
-    dataset_path = resolve_dataset_path()
+    dataset_path = args.dataset_path or resolve_dataset_path()
     
     # Check if dataset exists
     if not os.path.exists(dataset_path):
@@ -227,6 +320,10 @@ def main():
     
     try:
         dataset = Triplets(dataset_path, transform)
+        if args.overfit_samples > 0:
+            overfit_count = min(args.overfit_samples, len(dataset))
+            dataset = torch.utils.data.Subset(dataset, range(overfit_count))
+            print(f"Overfit/debug mode enabled: using first {overfit_count} triplets")
         print(f"Dataset loaded: {len(dataset)} triplets")
     except Exception as e:
         print(f"Error loading dataset: {e}")
@@ -238,7 +335,7 @@ def main():
                          scale_factor=scale_factor, device=device)
     
     # Define network
-    model = ComplexPhaseNet(feature_dim=32).to(device)
+    model = ComplexPhaseNet(feature_dim=args.feature_dim).to(device)
     print(f"\nModel architecture:")
     print(model)
     
@@ -248,7 +345,11 @@ def main():
     print(f"Trainable parameters: {trainable_params:,}")
     
     # Loss and optimizer
-    criterion = ComplexTotalLoss(v=1.0)
+    criterion = ComplexTotalLoss(
+        v=args.phase_loss_weight,
+        amp_weight=args.amp_loss_weight,
+        amp_imag_weight=args.amp_imag_loss_weight,
+    )
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, 
                                  betas=(0.9, 0.999))
     
@@ -264,11 +365,15 @@ def main():
     for epoch in range(num_epochs):
         model.train()
         trainloader = torch.utils.data.DataLoader(
-            dataset, batch_size=batch_size, shuffle=True, num_workers=2
+            dataset,
+            batch_size=batch_size,
+            shuffle=args.overfit_samples <= 0,
+            num_workers=2,
         )
         
         epoch_loss = 0.0
         num_batches = 0
+        epoch_steps = 0
         
         # Progress bar
         pbar = tqdm(trainloader, desc=f'Epoch {epoch+1}/{num_epochs}')
@@ -311,8 +416,14 @@ def main():
                     pred_img = pyr.reconstruct(pred_coeff, pyr_type=pyr_type)
                     
                     # Compute loss
-                    loss = criterion(truth_real, truth_imag, pred_real, pred_imag,
-                                   truth_img, pred_img)
+                    loss = criterion(
+                        truth_real,
+                        truth_imag,
+                        pred_real,
+                        pred_imag,
+                        truth_img,
+                        pred_img,
+                    )
                     
                     # Backward and optimize
                     optimizer.zero_grad()
@@ -328,6 +439,24 @@ def main():
                     num_batches += 1
                     total_step += 1
                     
+                    if args.debug_interval > 0 and total_step % args.debug_interval == 0:
+                        log_debug_stats(
+                            total_step,
+                            channel,
+                            truth_img,
+                            pred_img,
+                            pred_real,
+                            pred_imag,
+                        )
+                        if args.debug_save_dir is not None:
+                            save_debug_batch(
+                                args.debug_save_dir,
+                                total_step,
+                                channel,
+                                Triplets_batch,
+                                pred_img,
+                            )
+
                     # Update progress bar
                     pbar.set_postfix({
                         'loss': f'{loss.item():.4f}',
@@ -344,13 +473,15 @@ def main():
                         
                         with open(os.path.join(log_dir, log_name), 'a') as f:
                             f.write(log_msg)
-                
+                    if args.max_steps_per_epoch > 0 and epoch_steps >= args.max_steps_per_epoch:
+                        break
                 except Exception as e:
                     print(f"\nError in batch {n}: {e}")
                     import traceback
                     traceback.print_exc()
                     continue
-        
+            if args.max_steps_per_epoch > 0 and epoch_steps >= args.max_steps_per_epoch:
+                break
         # Epoch statistics
         avg_epoch_loss = epoch_loss / max(num_batches, 1)
         print(f'\nEpoch {epoch+1} completed. Average Loss: {avg_epoch_loss:.4f}')

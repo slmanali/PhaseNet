@@ -35,7 +35,7 @@ python train_complex.py
 python test_complex.py --model-path model/2026-03-18_21-47-08_complex_final.pth --save-dir outputs/test_complex
 ```
 
-`test_complex.py` saves two prediction files per sample when `--save-dir` is used: a visibility-normalized preview (`*_pred.png`) and the raw clamped reconstruction (`*_pred_raw.png`). This avoids the common “all black prediction” debugging artifact when the reconstructed tensor falls outside the display range.
+`test_complex.py` saves two prediction files per sample when `--save-dir` is used: a visibility-normalized preview (`*_pred.png`) generated from the unclamped reconstruction, and the raw clamped reconstruction (`*_pred_raw.png`). This avoids the common “all black prediction” debugging artifact when the reconstructed tensor falls outside the display range while still preserving the true clamped output for direct inspection.
 
 ### Documentation
 
