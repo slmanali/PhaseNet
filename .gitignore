@@ -6,6 +6,7 @@
 outputs/test_complex
 /model
 /log
+/debug_cvnn
 DAVIS-data.zip
 steerable/__pycache__/__init__.cpython-312.pyc
 steerable/__pycache__/SCFpyr_PyTorch.cpython-312.pyc

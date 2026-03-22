@@ -79,6 +79,12 @@ def parse_args():
         default=0.1,
         help="Weight applied to keeping imaginary amplitude channels near zero.",
     )
+    parser.add_argument(
+        "--phase-unit-weight",
+        type=float,
+        default=0.1,
+        help="Weight applied to keeping predicted phase vectors near unit magnitude.",
+    )
     return parser.parse_args()
 
 def resolve_dataset_path():
@@ -349,6 +355,9 @@ def main():
         v=args.phase_loss_weight,
         amp_weight=args.amp_loss_weight,
         amp_imag_weight=args.amp_imag_loss_weight,
+        phase_unit_weight=args.phase_unit_weight,
+        residual_weight=1.0,
+        residual_imag_weight=0.1,
     )
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, 
                                  betas=(0.9, 0.999))
@@ -415,6 +424,13 @@ def main():
                     pred_coeff = output_convert_complex(pred_real, pred_imag)
                     pred_img = pyr.reconstruct(pred_coeff, pyr_type=pyr_type)
                     
+                    truth_coeff_dbg = output_convert_complex(truth_real, truth_imag)
+                    truth_recon_dbg = pyr.reconstruct(truth_coeff_dbg, pyr_type=pyr_type)
+
+                    # print(describe_tensor("truth_img", truth_img))
+                    # print(describe_tensor("truth_recon_dbg", truth_recon_dbg))
+                    # print("truth_recon_l1:", torch.mean(torch.abs(truth_recon_dbg - truth_img)).item())
+
                     # Compute loss
                     loss = criterion(
                         truth_real,
@@ -424,10 +440,15 @@ def main():
                         truth_img,
                         pred_img,
                     )
+                    if total_step % 10 == 0:
+                        print("loss parts:", criterion.last_stats)
                     
                     # Backward and optimize
                     optimizer.zero_grad()
                     loss.backward()
+
+                    g = model.pred[0].conv.conv_real.weight.grad
+                    print("grad pred0:", None if g is None else g.norm().item())
                     
                     # Gradient clipping
                     torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
@@ -438,6 +459,7 @@ def main():
                     epoch_loss += loss.item()
                     num_batches += 1
                     total_step += 1
+                    epoch_steps += 1
                     
                     if args.debug_interval > 0 and total_step % args.debug_interval == 0:
                         log_debug_stats(

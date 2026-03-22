@@ -72,7 +72,7 @@ class ComplexPhaseNetBlock(nn.Module):
         """
         real, imag = self.conv1(real, imag)
         real, imag = self.conv2(real, imag)
-        real, imag = self.bn(real, imag)
+        # real, imag = self.bn(real, imag)
         real, imag = self.activation(real, imag)
         
         return real, imag
@@ -133,10 +133,10 @@ class ComplexPhaseNet(nn.Module):
         
         # Learnable interpolation parameters
         # For residual (low-pass) level
-        self.alpha = nn.Parameter(torch.rand(1))
+        self.alpha = nn.Parameter(torch.tensor(0.5))
         
         # For orientation bands (amplitude and phase)
-        self.beta = nn.Parameter(torch.rand(1))
+        self.beta = nn.Parameter(torch.tensor(0.5))
         
         self.feature_dim = feature_dim
         
@@ -210,6 +210,10 @@ class ComplexPhaseNet(nn.Module):
         
         return real, imag
     
+    def normalize_unit_complex(self, real, imag, eps=1e-8):
+        mag = torch.sqrt(real ** 2 + imag ** 2 + eps)
+        return real / mag, imag / mag
+    
     def forward(self, x_real, x_imag):
         """
         Forward pass through ComplexPhaseNet.
@@ -248,10 +252,15 @@ class ComplexPhaseNet(nn.Module):
         pred_r, pred_i = self.pred[0](feat_r, feat_i)
         pred_map_real.append(pred_r)
         pred_map_imag.append(pred_i)
-        
-        # Linear interpolation for residual
-        out_r = self.alpha * x_real[0][:, 0:1, :, :] + (1 - self.alpha) * x_real[0][:, 1:2, :, :]
-        out_i = self.alpha * x_imag[0][:, 0:1, :, :] + (1 - self.alpha) * x_imag[0][:, 1:2, :, :]
+
+        # Base interpolation for residual
+        base_r = self.alpha * x_real[0][:, 0:1, :, :] + (1 - self.alpha) * x_real[0][:, 1:2, :, :]
+        base_i = self.alpha * x_imag[0][:, 0:1, :, :] + (1 - self.alpha) * x_imag[0][:, 1:2, :, :]
+
+        # Let the network correct the low-pass too
+        out_r = base_r + pred_r
+        out_i = base_i + pred_i
+
         output_real.append(out_r)
         output_imag.append(out_i)
         
@@ -290,18 +299,35 @@ class ComplexPhaseNet(nn.Module):
             #  amp0_end, amp1_end, amp2_end, amp3_end,
             #  phase0_end, phase1_end, phase2_end, phase3_end]
             
-            # Linear interpolation for amplitude (first and third quarters)
+            # Linear interpolation for amplitude
             base_amp = self.beta * x_real[i][:, 0:4, :, :] + (1 - self.beta) * x_real[i][:, 8:12, :, :]
 
-            # Predict both amplitude residuals and phase.
+            # small amplitude residual around the linear-interpolation baseline
             amp_delta = pred_r[:, 0:4, :, :]
             amp_r = torch.relu(base_amp + amp_delta)
             amp_i = torch.zeros_like(amp_r)
 
-            phase_r = pred_r[:, 4:8, :, :]
-            phase_i = pred_i[:, 4:8, :, :]
-            
-            # Combine amplitude and phase
+            # start/end phase from input
+            start_phase_r = x_real[i][:, 4:8, :, :]
+            start_phase_i = x_imag[i][:, 4:8, :, :]
+            end_phase_r = x_real[i][:, 12:16, :, :]
+            end_phase_i = x_imag[i][:, 12:16, :, :]
+
+            # midpoint base phase
+            base_phase_r = start_phase_r + end_phase_r
+            base_phase_i = start_phase_i + end_phase_i
+            base_phase_r, base_phase_i = self.normalize_unit_complex(base_phase_r, base_phase_i)
+
+            # predict a SMALL angular residual; zero prediction => identity correction
+            delta_theta = np.pi * pred_r[:, 4:8, :, :]
+
+            cos_d = torch.cos(delta_theta)
+            sin_d = torch.sin(delta_theta)
+
+            phase_r = base_phase_r * cos_d - base_phase_i * sin_d
+            phase_i = base_phase_r * sin_d + base_phase_i * cos_d
+            phase_r, phase_i = self.normalize_unit_complex(phase_r, phase_i)
+
             out_r = torch.cat([amp_r, phase_r], dim=1)
             out_i = torch.cat([amp_i, phase_i], dim=1)
             
@@ -309,8 +335,7 @@ class ComplexPhaseNet(nn.Module):
             output_imag.append(out_i)
         
         return output_real, output_imag
-
-
+    
 class ComplexTotalLoss(nn.Module):
     """
     Loss function for ComplexPhaseNet.
@@ -323,11 +348,22 @@ class ComplexTotalLoss(nn.Module):
         v (float): Weight for phase loss term
     """
     
-    def __init__(self, v=0.1, amp_weight=0.5, amp_imag_weight=0.1):
+    def __init__(
+        self,
+        v=0.1,
+        amp_weight=0.5,
+        amp_imag_weight=0.1,
+        phase_unit_weight=0.1,
+        residual_weight=1.0,
+        residual_imag_weight=0.1,
+    ):
         super(ComplexTotalLoss, self).__init__()
         self.v = v
         self.amp_weight = amp_weight
         self.amp_imag_weight = amp_imag_weight
+        self.phase_unit_weight = phase_unit_weight
+        self.residual_weight = residual_weight
+        self.residual_imag_weight = residual_imag_weight
     
     def forward(self, truth_real, truth_imag, pred_real, pred_imag, 
                 truth_img, pred_img):
@@ -346,11 +382,14 @@ class ComplexTotalLoss(nn.Module):
         # Image reconstruction loss
         img_loss = nn.L1Loss()(truth_img, pred_img)
         
+        residual_real_loss = nn.L1Loss()(pred_real[0], truth_real[0])
+        residual_imag_loss = nn.L1Loss()(pred_imag[0], truth_imag[0])
         # Phase difference loss for band levels
         phase_loss = 0
         amp_loss = 0
         amp_imag_loss = 0
         num_bands = 0
+        phase_unit_loss = 0
         
         for i in range(1, len(truth_real)):
             # Extract phase channels (second half of each level)
@@ -367,7 +406,11 @@ class ComplexTotalLoss(nn.Module):
             # Predicted phase (complex representation)
             pred_phase_r = pred_real[i][:, n_orient:, :, :]
             pred_phase_i = pred_imag[i][:, n_orient:, :, :]
-            
+
+            pred_phase_mag = torch.sqrt(pred_phase_r ** 2 + pred_phase_i ** 2 + 1e-8)
+            phase_unit_loss += nn.L1Loss()(pred_phase_mag, torch.ones_like(pred_phase_mag))
+
+                        
             # Compute phase angles
             truth_angle = torch.atan2(truth_phase_i, truth_phase_r)
             pred_angle = torch.atan2(pred_phase_i, pred_phase_r)
@@ -387,13 +430,30 @@ class ComplexTotalLoss(nn.Module):
             phase_loss = phase_loss / num_bands
             amp_loss = amp_loss / num_bands
             amp_imag_loss = amp_imag_loss / num_bands
+            phase_unit_loss = phase_unit_loss / num_bands
 
-        return (
+        total_loss = (
             img_loss
+            + self.residual_weight * residual_real_loss
+            + self.residual_imag_weight * residual_imag_loss
             + self.v * phase_loss
+            + self.phase_unit_weight * phase_unit_loss
             + self.amp_weight * amp_loss
             + self.amp_imag_weight * amp_imag_loss
         )
+
+        self.last_stats = {
+            "img": float(img_loss.detach().cpu()),
+            "residual_real": float(residual_real_loss.detach().cpu()),
+            "residual_imag": float(residual_imag_loss.detach().cpu()),
+            "phase": float(phase_loss.detach().cpu()),
+            "phase_unit": float(phase_unit_loss.detach().cpu()),
+            "amp": float(amp_loss.detach().cpu()),
+            "amp_imag": float(amp_imag_loss.detach().cpu()),
+            "total": float(total_loss.detach().cpu()),
+        }
+
+        return total_loss
 
 def _select_frame_coeff(level_coeff, frame_idx):
     """Return a single frame from a pyramid coefficient tensor.
