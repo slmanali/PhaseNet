@@ -278,6 +278,7 @@ def log_debug_stats(step, channel, truth_img, pred_img, pred_real, pred_imag):
 def main():
     """Main training function."""
     args = parse_args()
+    torch.autograd.set_detect_anomaly(True)
     
     # Create log directory
     log_dir = './log/'
@@ -359,8 +360,12 @@ def main():
         residual_weight=1.0,
         residual_imag_weight=0.1,
     )
-    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, 
-                                 betas=(0.9, 0.999))
+    optimizer = torch.optim.Adam(
+        model.parameters(), 
+        lr=5e-5,                    # ← lowered
+        betas=(0.9, 0.999),
+        weight_decay=1e-5           # ← new: prevents weight growth
+    )
     
     # Learning rate scheduler
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
@@ -451,7 +456,7 @@ def main():
                     print("grad pred0:", None if g is None else g.norm().item())
                     
                     # Gradient clipping
-                    torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+                    torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=0.5)
                     
                     optimizer.step()
                     

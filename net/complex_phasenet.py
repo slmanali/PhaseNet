@@ -72,7 +72,7 @@ class ComplexPhaseNetBlock(nn.Module):
         """
         real, imag = self.conv1(real, imag)
         real, imag = self.conv2(real, imag)
-        # real, imag = self.bn(real, imag)
+        real, imag = self.bn(real, imag)
         real, imag = self.activation(real, imag)
         
         return real, imag
@@ -128,7 +128,7 @@ class ComplexPhaseNet(nn.Module):
     through complex arithmetic operations.
     """
     
-    def __init__(self, feature_dim=32):
+    def __init__(self, feature_dim=64):
         super(ComplexPhaseNet, self).__init__()
         
         # Learnable interpolation parameters
@@ -138,8 +138,11 @@ class ComplexPhaseNet(nn.Module):
         # For orientation bands (amplitude and phase)
         self.beta = nn.Parameter(torch.tensor(0.5))
         
-        self.feature_dim = feature_dim
-        
+        # NEW: learnable per-level amplitude gain (critical for pyramid scales)
+        self.amp_gain = nn.Parameter(torch.ones(11))   # 10 pyramid levels
+
+        self.feature_dim = feature_dim             
+
         # Create network layers
         self.layer = nn.ModuleList()
         self.pred = nn.ModuleList()
@@ -155,7 +158,6 @@ class ComplexPhaseNet(nn.Module):
         # Total: ~40 channels (8 complex input + upsampled features + prediction)
         # input_ch_1 = 4 * 2 + feature_dim + 1  # 4 orientations, 2 frames, features, prediction
         input_ch_1 = 4 * 2 * 2 + feature_dim + 1  # 4 orientations × 2 frames × 2 (amp+phase) + features + prediction
-        print(input_ch_1)
         # = 16 + 32 + 1 = 49 channels
         self.layer.append(ComplexPhaseNetBlock(input_ch_1, feature_dim, 1, 0))
         self.pred.append(ComplexPred(feature_dim, 8))
@@ -210,8 +212,10 @@ class ComplexPhaseNet(nn.Module):
         
         return real, imag
     
-    def normalize_unit_complex(self, real, imag, eps=1e-8):
+    def normalize_unit_complex(self, real, imag, eps=1e-6):
+        """Safe version that prevents division by zero."""
         mag = torch.sqrt(real ** 2 + imag ** 2 + eps)
+        mag = torch.clamp(mag, min=eps)
         return real / mag, imag / mag
     
     def forward(self, x_real, x_imag):
@@ -235,13 +239,17 @@ class ComplexPhaseNet(nn.Module):
         output_imag = []
         
         # Process residual level (level 0)
-        # Input is 2 real channels (start and end), treat as complex
+        # Save original scale before normalization (non-destructive)
+        residual_scale = torch.zeros(x_real[0].shape[0], 1, 1, 1, device=x_real[0].device)
+        for b in range(x_real[0].shape[0]):
+            mag = torch.sqrt(x_real[0][b]**2 + x_imag[0][b]**2 + 1e-8).max()
+            residual_scale[b, 0, 0, 0] = mag
+
         norm_real, norm_imag = self.normalize_complex(
             x_real[0], x_imag[0], 'residual'
         )
         
-        # Reshape [N, 2, H, W] to [N, 1, H, W] for real and imag
-        # Take mean as the complex representation
+        # Reshape to treat as single complex channel
         residual_real = norm_real.mean(dim=1, keepdim=True)
         residual_imag = norm_imag.mean(dim=1, keepdim=True) if norm_imag.abs().sum() > 0 else torch.zeros_like(residual_real)
         
@@ -253,13 +261,16 @@ class ComplexPhaseNet(nn.Module):
         pred_map_real.append(pred_r)
         pred_map_imag.append(pred_i)
 
-        # Base interpolation for residual
-        base_r = self.alpha * x_real[0][:, 0:1, :, :] + (1 - self.alpha) * x_real[0][:, 1:2, :, :]
-        base_i = self.alpha * x_imag[0][:, 0:1, :, :] + (1 - self.alpha) * x_imag[0][:, 1:2, :, :]
+        # Base interpolation and correction — all in normalized space
+        base_r = self.alpha * norm_real[:, 0:1, :, :] + (1 - self.alpha) * norm_real[:, 1:2, :, :]
+        base_i = self.alpha * norm_imag[:, 0:1, :, :] + (1 - self.alpha) * norm_imag[:, 1:2, :, :]
 
-        # Let the network correct the low-pass too
-        out_r = base_r + pred_r
-        out_i = base_i + pred_i
+        out_r_norm = base_r + pred_r
+        out_i_norm = base_i + pred_i
+
+        # Denormalize back to original pyramid scale (matching truth and reconstruction)
+        out_r = out_r_norm * residual_scale
+        out_i = out_i_norm * residual_scale
 
         output_real.append(out_r)
         output_imag.append(out_i)
@@ -268,11 +279,30 @@ class ComplexPhaseNet(nn.Module):
         for i in range(1, len(x_real)):
             img_shape = (x_real[i].shape[2], x_real[i].shape[3])
             
-            # Normalize input
-            norm_real, norm_imag = self.normalize_complex(
-                x_real[i], x_imag[i], 'band'
+            # ───────────────────────────────────────────────────────────────
+            # Proper per-component normalization for band levels             ← NEW
+            # Amplitudes (ch 0–3 start, 8–11 end) → scale to roughly [0,1]   ← NEW
+            # Phases   (ch 4–7 start, 12–15 end) → keep on unit circle       ← NEW
+            # ───────────────────────────────────────────────────────────────
+            amp_channels = [0,1,2,3,8,9,10,11]
+            phase_channels_real = [4,5,6,7,12,13,14,15]
+            phase_channels_imag = [4,5,6,7,12,13,14,15]
+
+            amp_max = torch.max(
+                torch.abs(x_real[i][:, amp_channels]),
+                dim=1, keepdim=True
+            )[0].clamp(min=1e-6)
+            norm_real = x_real[i].clone()
+            norm_imag = x_imag[i].clone()
+            norm_real[:, amp_channels] = norm_real[:, amp_channels] / amp_max
+
+            norm_real[:, phase_channels_real] = torch.clamp(
+                norm_real[:, phase_channels_real], -1.0, 1.0
             )
-            
+            norm_imag[:, phase_channels_imag] = torch.clamp(
+                norm_imag[:, phase_channels_imag], -1.1, 1.1
+            )
+
             # Upsample previous features and predictions
             feat_up_r = F.interpolate(feature_map_real[i-1], img_shape, mode='bilinear')
             feat_up_i = F.interpolate(feature_map_imag[i-1], img_shape, mode='bilinear')
@@ -300,11 +330,16 @@ class ComplexPhaseNet(nn.Module):
             #  phase0_end, phase1_end, phase2_end, phase3_end]
             
             # Linear interpolation for amplitude
-            base_amp = self.beta * x_real[i][:, 0:4, :, :] + (1 - self.beta) * x_real[i][:, 8:12, :, :]
+            base_amp = self.beta * norm_real[:, 0:4, :, :] + (1 - self.beta) * norm_real[:, 8:12, :, :]
 
-            # small amplitude residual around the linear-interpolation baseline
             amp_delta = pred_r[:, 0:4, :, :]
+            amp_delta = torch.clamp(amp_delta, min=-0.3, max=0.3)
             amp_r = torch.relu(base_amp + amp_delta)
+            amp_r = amp_r * amp_max
+            
+            # NEW: per-level gain (this is what was missing to beat Phase Based)
+            amp_r = amp_r * self.amp_gain[i].view(1, 1, 1, 1)
+            
             amp_i = torch.zeros_like(amp_r)
 
             # start/end phase from input
@@ -320,6 +355,7 @@ class ComplexPhaseNet(nn.Module):
 
             # predict a SMALL angular residual; zero prediction => identity correction
             delta_theta = np.pi * pred_r[:, 4:8, :, :]
+            delta_theta = torch.clamp(delta_theta, min=-np.pi/2, max=np.pi/2)
 
             cos_d = torch.cos(delta_theta)
             sin_d = torch.sin(delta_theta)

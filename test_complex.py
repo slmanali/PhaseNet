@@ -12,6 +12,7 @@ from pathlib import Path
 
 import torch
 from torch.utils.data import DataLoader
+import torch.nn.functional as F
 from torchvision import transforms
 from torchvision.utils import save_image
 from tqdm import tqdm
@@ -122,6 +123,37 @@ def compute_psnr(pred, target):
         return float("inf")
     return 10.0 * math.log10(1.0 / mse)
 
+def compute_ssim(pred, target, window_size=11, sigma=1.5, data_range=1.0):
+    """
+    Compute mean SSIM between two batches of images (pure PyTorch, no external dependencies).
+    """
+    def gaussian_window(size, sigma):
+        coords = torch.arange(size, dtype=torch.float32, device=pred.device)
+        coords = coords - (size - 1) / 2
+        g = torch.exp(-(coords ** 2) / (2 * sigma ** 2))
+        g = g / g.sum()
+        return g.view(1, 1, 1, -1) * g.view(1, 1, -1, 1)
+
+    kernel = gaussian_window(window_size, sigma).repeat(pred.shape[1], 1, 1, 1)
+    
+    mu1 = F.conv2d(pred, kernel, padding=window_size//2, groups=pred.shape[1])
+    mu2 = F.conv2d(target, kernel, padding=window_size//2, groups=pred.shape[1])
+    
+    mu1_sq = mu1 ** 2
+    mu2_sq = mu2 ** 2
+    mu1_mu2 = mu1 * mu2
+    
+    sigma1_sq = F.conv2d(pred * pred, kernel, padding=window_size//2, groups=pred.shape[1]) - mu1_sq
+    sigma2_sq = F.conv2d(target * target, kernel, padding=window_size//2, groups=pred.shape[1]) - mu2_sq
+    sigma12 = F.conv2d(pred * target, kernel, padding=window_size//2, groups=pred.shape[1]) - mu1_mu2
+    
+    c1 = (0.01 * data_range) ** 2
+    c2 = (0.03 * data_range) ** 2
+    
+    ssim_map = ((2 * mu1_mu2 + c1) * (2 * sigma12 + c2)) / \
+               ((mu1_sq + mu2_sq + c1) * (sigma1_sq + sigma2_sq + c2))
+    
+    return ssim_map.mean(dim=[1, 2, 3]).mean().item()
 
 def normalize_for_visualization(image):
     """
@@ -177,6 +209,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
     l1_total = 0.0
     mse_total = 0.0
     psnr_total = 0.0
+    ssim_total = 0.0
     processed = 0
 
     progress = tqdm(dataloader, desc="Evaluating", unit="batch")
@@ -224,11 +257,13 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
             l1_batch = torch.mean(torch.abs(pred_batch - truth_batch)).item()
             mse_batch = torch.mean((pred_batch - truth_batch) ** 2).item()
             psnr_batch = compute_psnr(pred_batch, truth_batch)
+            ssim_batch = compute_ssim(pred_batch, truth_batch)
 
             batch_count = pred_batch.shape[0]
             l1_total += l1_batch * batch_count
             mse_total += mse_batch * batch_count
             psnr_total += psnr_batch * batch_count
+            ssim_total += ssim_batch * batch_count
             processed += batch_count
 
             if save_dir is not None:
@@ -245,6 +280,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
                 l1=f"{l1_total / processed:.6f}",
                 mse=f"{mse_total / processed:.6f}",
                 psnr=f"{psnr_total / processed:.2f}",
+                ssim=f"{ssim_total / processed:.4f}",
             )
 
     if processed == 0:
@@ -255,6 +291,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
         "l1": l1_total / processed,
         "mse": mse_total / processed,
         "psnr": psnr_total / processed,
+        "ssim": ssim_total / processed,
     }
 
 
@@ -297,6 +334,7 @@ def main():
     print(f"Mean L1:  {metrics['l1']:.6f}")
     print(f"Mean MSE: {metrics['mse']:.6f}")
     print(f"Mean PSNR: {metrics['psnr']:.2f} dB")
+    print(f"Mean SSIM: {metrics['ssim']:.4f}")
     if args.save_dir is not None:
         print(f"Saved predictions to: {args.save_dir}")
 
