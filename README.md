@@ -25,14 +25,36 @@ We've implemented a novel **complex-valued neural network** version of PhaseNet 
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 pip install -r requirements.txt
 
+
+source venv_phasenet/bin/activate
 # Test complex-valued network
 python net/complex_phasenet.py
 
+
 # Train the network
-python train_complex.py
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+python train_complex.py \
+  --epochs 10 \
+  --batch-size 4 \
+  --feature-dim 64 \
+  --learning-rate 1e-5 \
+  --debug-interval 20 \
+  --debug-save-dir debug_sharp \
+  --phase-loss-weight 0.1 \
+  --amp-loss-weight 1.0 \
+  --amp-imag-loss-weight 0.05 \
+  --phase-unit-weight 0.01
 
 # Evaluate a trained final/checkpoint model
 python test_complex.py --model-path model/2026-03-18_21-47-08_complex_final.pth --save-dir outputs/test_complex
+python test_complex.py --model-path ./model/2026-03-25_10-04-18_complex_epoch10.pth --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p --save-dir ./test_davis_sharp --batch-size 4
+
+python test_complex.py \
+  --model-path ./model/2026-03-25_10-04-18_complex_epoch10.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
+  --save-dir ./test_davis_sharp \
+  --batch-size 4 \
+  --feature-dim 64
 ```
 
 `test_complex.py` saves two prediction files per sample when `--save-dir` is used: a visibility-normalized preview (`*_pred.png`) generated from the unclamped reconstruction, and the raw clamped reconstruction (`*_pred_raw.png`). This avoids the common “all black prediction” debugging artifact when the reconstructed tensor falls outside the display range while still preserving the true clamped output for direct inspection.

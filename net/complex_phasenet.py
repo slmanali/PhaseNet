@@ -353,6 +353,10 @@ class ComplexPhaseNet(nn.Module):
             base_phase_i = start_phase_i + end_phase_i
             base_phase_r, base_phase_i = self.normalize_unit_complex(base_phase_r, base_phase_i)
 
+            # Extra safety for loss atan2
+            base_phase_r = base_phase_r + 1e-8
+            base_phase_i = base_phase_i + 1e-8
+
             # predict a SMALL angular residual; zero prediction => identity correction
             delta_theta = np.pi * pred_r[:, 4:8, :, :]
             delta_theta = torch.clamp(delta_theta, min=-np.pi/2, max=np.pi/2)
@@ -387,10 +391,10 @@ class ComplexTotalLoss(nn.Module):
     def __init__(
         self,
         v=0.1,
-        amp_weight=0.5,
+        amp_weight=1.0,
         amp_imag_weight=0.1,
         phase_unit_weight=0.1,
-        residual_weight=1.0,
+        residual_weight=2.0,
         residual_imag_weight=0.1,
     ):
         super(ComplexTotalLoss, self).__init__()
@@ -448,8 +452,12 @@ class ComplexTotalLoss(nn.Module):
 
                         
             # Compute phase angles
-            truth_angle = torch.atan2(truth_phase_i, truth_phase_r)
-            pred_angle = torch.atan2(pred_phase_i, pred_phase_r)
+            truth_angle = torch.atan2(
+                truth_phase_i + 1e-8, truth_phase_r + 1e-8
+            )
+            pred_angle = torch.atan2(
+                pred_phase_i + 1e-8, pred_phase_r + 1e-8
+            )
             
             # Phase difference (wrapped to [-pi, pi])
             dphase = truth_angle - pred_angle
@@ -469,7 +477,7 @@ class ComplexTotalLoss(nn.Module):
             phase_unit_loss = phase_unit_loss / num_bands
 
         total_loss = (
-            img_loss
+            3.0 * img_loss
             + self.residual_weight * residual_real_loss
             + self.residual_imag_weight * residual_imag_loss
             + self.v * phase_loss
