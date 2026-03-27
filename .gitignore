@@ -8,6 +8,9 @@ outputs/test_complex
 /log
 /debug_cvnn
 /debug_strong
+/test_davis_sharp
+/test_ucf101_sharp
+/ucf101_interp_ours
 DAVIS-data.zip
 steerable/__pycache__/__init__.cpython-312.pyc
 steerable/__pycache__/SCFpyr_PyTorch.cpython-312.pyc

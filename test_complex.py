@@ -11,6 +11,7 @@ import math
 from pathlib import Path
 
 import torch
+import torchvision
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
 from torchvision import transforms
@@ -26,6 +27,50 @@ from train_complex import (
     resolve_dataset_path,
 )
 
+class UCF101Triplets(torch.utils.data.Dataset):
+    """Dataset for ucf101_interp_ours structure from Deep Voxel Flow paper."""
+    def __init__(self, root, transform=None):
+        self.root = Path(root)
+        self.transform = transform
+        
+        # Find all subfolders that contain the required frames
+        self.samples = []
+        for item in sorted(self.root.iterdir()):
+            if item.is_dir():
+                if (item / "frame_00.png").exists() and \
+                   (item / "frame_02.png").exists() and \
+                   (item / "frame_01_gt.png").exists():
+                    self.samples.append(item)
+        
+        print(f"Found {len(self.samples)} UCF101 triplets.")
+        if len(self.samples) == 0:
+            raise FileNotFoundError(f"No valid triplets found in {self.root}")
+
+    def __len__(self):
+        return len(self.samples)
+
+    def __getitem__(self, idx):
+        folder = self.samples[idx]
+        
+        # Read images directly to tensor (range [0, 1]) — do NOT apply ToTensor again
+        start = torchvision.io.read_image(str(folder / "frame_00.png")).float() / 255.0
+        end   = torchvision.io.read_image(str(folder / "frame_02.png")).float() / 255.0
+        inter = torchvision.io.read_image(str(folder / "frame_01_gt.png")).float() / 255.0
+        
+        # Apply only Resize (and any future transforms that support tensors)
+        if self.transform:
+            # Remove ToTensor from the transform for UCF101 (it is already a tensor)
+            # We keep Resize only
+            resize_only = transforms.Compose([t for t in self.transform.transforms if not isinstance(t, transforms.ToTensor)])
+            start = resize_only(start)
+            end   = resize_only(end)
+            inter = resize_only(inter)
+        
+        return {
+            "start": start,
+            "end": end,
+            "inter": inter,
+        }
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -306,7 +351,15 @@ def main():
         transforms.Resize((256, 256)),
         transforms.ToTensor(),
     ])
-    dataset = Triplets(str(dataset_path), transform)
+    # Choose dataset class based on path or add a new argument
+    dataset_path_str = str(dataset_path)
+    if "ucf101_interp_ours" in dataset_path_str.lower() or "ucf101" in dataset_path_str.lower():
+        print("Using UCF101 (Deep Voxel Flow) dataset structure.")
+        dataset = UCF101Triplets(dataset_path_str, transform)
+    else:
+        print("Using standard Triplets (DAVIS-style) dataset.")
+        dataset = Triplets(dataset_path_str, transform)
+
     dataloader = DataLoader(
         dataset,
         batch_size=args.batch_size,

@@ -50,7 +50,7 @@ python test_complex.py --model-path model/2026-03-18_21-47-08_complex_final.pth 
 python test_complex.py --model-path ./model/2026-03-25_10-04-18_complex_epoch10.pth --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p --save-dir ./test_davis_sharp --batch-size 4
 
 python test_complex.py \
-  --model-path ./model/2026-03-25_10-04-18_complex_epoch10.pth \
+  --model-path ./model/2026-03-25_10-04-18_complex_final.pth \
   --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
   --save-dir ./test_davis_sharp \
   --batch-size 4 \
