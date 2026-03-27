@@ -24,3 +24,4 @@ model/2026-03-18_21-47-08_complex_epoch8.pth
 model/2026-03-18_21-47-08_complex_epoch10.pth
 model/2026-03-18_21-47-08_complex_final.pth
 __pycache__/train_complex.cpython-312.pyc
+ucf101_interp_ours.zip
