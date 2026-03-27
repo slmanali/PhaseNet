@@ -12,6 +12,7 @@ outputs/test_complex
 /test_ucf101_sharp
 /ucf101_interp_ours
 DAVIS-data.zip
+ucf101_interp_ours.zip
 steerable/__pycache__/__init__.cpython-312.pyc
 steerable/__pycache__/SCFpyr_PyTorch.cpython-312.pyc
 DAVIS-2017-trainval-480p.zip
