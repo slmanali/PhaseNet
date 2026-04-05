@@ -126,7 +126,7 @@ class SCFpyr_PyTorch(object):
         lo0dft = batch_dft * lo0mask
 
         # Start recursively building the pyramids
-        coeff = self._build_levels(lo0dft, log_rad, angle, Xrcos, Yrcos, self.height-1, np.array((height, width)), pyr_type)
+        coeff = self._build_levels(lo0dft, log_rad, angle, Xrcos, Yrcos, self.height-1, np.array((height, width)), pyr_type, self.device)
 
         # High-pass
         hi0dft = batch_dft * hi0mask
@@ -136,44 +136,30 @@ class SCFpyr_PyTorch(object):
         coeff.insert(0,hi0_real)
         return coeff
 
-    def _build_levels(self, lodft, log_rad, angle, Xrcos, Yrcos, height, img_dims, pyr_type):
+    def _build_levels(self, lodft, log_rad, angle, Xrcos, Yrcos, height, img_dims, pyr_type, device):
+        # ↑ Add device parameter
         
         if height <= 1:
-
-            # Low-pass
             lo0 = math_utils.batch_ifftshift2d(lodft)
             lo0 = _ifft2_realimag(lo0)
             lo0_real = torch.unbind(lo0, -1)[0]
             coeff = [lo0_real]
-
         else:
-            
             Xrcos = Xrcos - np.log2(self.scale_factor)
-
             ####################################################################
             ####################### Orientation bandpass #######################
             ####################################################################
-
             himask = pointOp(log_rad, Yrcos, Xrcos)
-            himask = torch.from_numpy(himask[None,:,:,None]).float().to(self.device)
-
+            himask = torch.from_numpy(himask[None,:,:,None]).float().to(device)  # ✓ Use device param
             order = self.nbands - 1
             const = np.power(2, 2*order) * np.square(math.factorial(order)) / (self.nbands * math.factorial(2*order))
-            Ycosn = 2*np.sqrt(const) * np.power(np.cos(self.Xcosn), order) * (np.abs(self.alpha) < np.pi/2) # [n,]
-
-            # Loop through all orientation bands
+            Ycosn = 2*np.sqrt(const) * np.power(np.cos(self.Xcosn), order) * (np.abs(self.alpha) < np.pi/2)
             orientations = []
             for b in range(self.nbands):
-
                 anglemask = pointOp(angle, Ycosn, self.Xcosn + np.pi*b/self.nbands)
-                anglemask = anglemask[None,:,:,None]  # for broadcasting
-                anglemask = torch.from_numpy(anglemask).float().to(self.device)
-
-                # Bandpass filtering                
+                anglemask = anglemask[None,:,:,None]
+                anglemask = torch.from_numpy(anglemask).float().to(device)  # ✓ Use device param
                 banddft = lodft * anglemask * himask
-
-                # Now multiply with complex number
-                # (x+yi)(u+vi) = (xu-yv) + (xv+yu)i
                 banddft = torch.unbind(banddft, -1)
                 banddft_real = self.complex_fact_construct.real*banddft[0] - self.complex_fact_construct.imag*banddft[1]
                 banddft_imag = self.complex_fact_construct.real*banddft[1] + self.complex_fact_construct.imag*banddft[0]
@@ -184,47 +170,28 @@ class SCFpyr_PyTorch(object):
                     orientations.append(band)
                 else:
                     orientations.append(banddft)
-
             ####################################################################
             ######################## Subsample lowpass #########################
             ####################################################################
-
-            # Don't consider batch_size and imag/real dim
             dims = np.array(lodft.shape[1:3])
             ctr=np.ceil((dims+0.5)/2)
-
             lodims=np.round(img_dims/(self.scale_factor**(self.height-height)))
             loctr=np.ceil((lodims+0.5)/2)
             lostart=(ctr-loctr).astype(int)
             loend=(lostart+lodims).astype(int)
-
-            # # Both are tuples of size 2
-            # low_ind_start = (np.ceil((dims+0.5)/2) - np.ceil((np.ceil((dims-0.5)/2)+0.5)/2)).astype(int)
-            # low_ind_end   = (low_ind_start + np.ceil((dims-0.5)/2)).astype(int)
-
-            # Subsampling indices
             log_rad = log_rad[lostart[0]:loend[0],lostart[1]:loend[1]]
             angle = angle[lostart[0]:loend[0],lostart[1]:loend[1]]
-
-            # Actual subsampling
             lodft = lodft[:,lostart[0]:loend[0],lostart[1]:loend[1],:]
-
-            # Filtering
             YIrcos = np.abs(np.sqrt(1 - Yrcos**2))
             lomask = pointOp(log_rad, YIrcos, Xrcos)
-            lomask = torch.from_numpy(lomask[None,:,:,None]).float()
-            lomask = lomask.to(self.device)
-
-            # Convolution in spatial domain
+            lomask = torch.from_numpy(lomask[None,:,:,None]).float().to(device)  # ✓ Use device param
             lodft = lomask * lodft
-
             ####################################################################
             ####################### Recursion next level #######################
             ####################################################################
-
-            coeff = self._build_levels(lodft, log_rad, angle, Xrcos, Yrcos, height-1, img_dims, pyr_type)
+            # ✓ Pass device to recursive call
+            coeff = self._build_levels(lodft, log_rad, angle, Xrcos, Yrcos, height-1, img_dims, pyr_type, device)
             coeff.insert(0, orientations)
-
         return coeff
 
     ############################################################################
@@ -236,6 +203,7 @@ class SCFpyr_PyTorch(object):
         if self.nbands != len(coeff[1]):
             raise Exception("Unmatched number of orientations")
         
+        device = coeff[0].device
         height, width = coeff[0].shape[2], coeff[0].shape[1] 
         log_rad, angle = math_utils.prepare_grid(height, width)
 
@@ -247,11 +215,11 @@ class SCFpyr_PyTorch(object):
         hi0mask = pointOp(log_rad, Yrcos, Xrcos)
 
         # Note that we expand dims to support broadcasting later
-        lo0mask = torch.from_numpy(lo0mask).float()[None,:,:,None].to(self.device)
-        hi0mask = torch.from_numpy(hi0mask).float()[None,:,:,None].to(self.device)
+        lo0mask = torch.from_numpy(lo0mask).float()[None,:,:,None].to(device)
+        hi0mask = torch.from_numpy(hi0mask).float()[None,:,:,None].to(device)
 
         # Start recursive reconstruction
-        lo0dft = self._reconstruct_levels(coeff[1:], log_rad, Xrcos, Yrcos, angle, np.array((height, width)), pyr_type)
+        lo0dft = self._reconstruct_levels(coeff[1:], log_rad, Xrcos, Yrcos, angle, np.array((height, width)), pyr_type, device)
 
         hidft = _fft2_realimag(coeff[0])
         hidft = math_utils.batch_fftshift2d(hidft)
@@ -264,80 +232,83 @@ class SCFpyr_PyTorch(object):
 
         return reconstruction
 
-    def _reconstruct_levels(self, coeff, log_rad, Xrcos, Yrcos, angle, img_dims, pyr_type):
+    def _reconstruct_levels(self, coeff, log_rad, Xrcos, Yrcos, angle, img_dims, pyr_type, device=None):
+            if device is None:
+                device = self.device 
+                
+            if len(coeff) == 1:
+                # ✓ FIX: Explicitly move the lowest-level residual to the GPU before FFT
+                c0 = coeff[0].to(device)
+                dft = _fft2_realimag(c0)
+                dft = math_utils.batch_fftshift2d(dft)
+                return dft
 
-        if len(coeff) == 1:
-            dft = _fft2_realimag(coeff[0])
-            dft = math_utils.batch_fftshift2d(dft)
-            return dft
+            Xrcos = Xrcos - np.log2(self.scale_factor)
 
-        Xrcos = Xrcos - np.log2(self.scale_factor)
+            ####################################################################
+            ####################### Orientation Residue ########################
+            ####################################################################
 
-        ####################################################################
-        ####################### Orientation Residue ########################
-        ####################################################################
+            himask = pointOp(log_rad, Yrcos, Xrcos)
+            himask = torch.from_numpy(himask[None,:,:,None]).float().to(device)
 
-        himask = pointOp(log_rad, Yrcos, Xrcos)
-        himask = torch.from_numpy(himask[None,:,:,None]).float().to(self.device)
+            lutsize = 1024
+            Xcosn = np.pi * np.array(range(-(2*lutsize+1), (lutsize+2)))/lutsize
+            order = self.nbands - 1
+            const = np.power(2, 2*order) * np.square(math.factorial(order)) / (self.nbands * math.factorial(2*order))
+            Ycosn = np.sqrt(const) * np.power(np.cos(Xcosn), order)
 
-        lutsize = 1024
-        Xcosn = np.pi * np.array(range(-(2*lutsize+1), (lutsize+2)))/lutsize
-        order = self.nbands - 1
-        const = np.power(2, 2*order) * np.square(math.factorial(order)) / (self.nbands * math.factorial(2*order))
-        Ycosn = np.sqrt(const) * np.power(np.cos(Xcosn), order)
+            # Extract reference tensor for shape & dtype
+            ref_tensor = coeff[0][0]
+            orientdft = torch.zeros(ref_tensor.shape, dtype=ref_tensor.dtype, device=device)
+            
+            for b in range(self.nbands):
+                anglemask = pointOp(angle, Ycosn, Xcosn + np.pi * b/self.nbands)
+                anglemask = anglemask[None,:,:,None]
+                anglemask = torch.from_numpy(anglemask).float().to(device)
 
-        orientdft = torch.zeros_like(coeff[0][0])
-        for b in range(self.nbands):
+                if pyr_type==0:
+                    banddft = _fft2_realimag(coeff[0][b].to(device))
+                    banddft = math_utils.batch_fftshift2d(banddft)
+                else:
+                    banddft = coeff[0][b].to(device)
+                    
+                # Explicit device alignment before complex multiplication
+                anglemask = anglemask.to(device)
+                himask = himask.to(device)
+                
+                banddft = banddft * anglemask * himask
+                banddft = torch.unbind(banddft, -1)
+                banddft_real = self.complex_fact_reconstruct.real*banddft[0] - self.complex_fact_reconstruct.imag*banddft[1]
+                banddft_imag = self.complex_fact_reconstruct.real*banddft[1] + self.complex_fact_reconstruct.imag*banddft[0]
+                banddft = torch.stack((banddft_real, banddft_imag), -1)
 
-            anglemask = pointOp(angle, Ycosn, Xcosn + np.pi * b/self.nbands)
-            anglemask = anglemask[None,:,:,None]  # for broadcasting
-            anglemask = torch.from_numpy(anglemask).float().to(self.device)
+                orientdft = orientdft + banddft
 
-            if pyr_type==0:
-                banddft = _fft2_realimag(coeff[0][b])
-                banddft = math_utils.batch_fftshift2d(banddft)
-            else:
-                banddft = coeff[0][b]
-            banddft = banddft * anglemask * himask
-            banddft = torch.unbind(banddft, -1)
-            banddft_real = self.complex_fact_reconstruct.real*banddft[0] - self.complex_fact_reconstruct.imag*banddft[1]
-            banddft_imag = self.complex_fact_reconstruct.real*banddft[1] + self.complex_fact_reconstruct.imag*banddft[0]
-            banddft = torch.stack((banddft_real, banddft_imag), -1)
+            ####################################################################
+            ########## Lowpass component are upsampled and convoluted ##########
+            ####################################################################
+            
+            dims = np.array(coeff[0][0].shape[1:3])
+            ctr=np.ceil((dims+0.5)/2)
+            lodims=np.round(img_dims/(self.scale_factor**(self.height-len(coeff))))
+            loctr=np.ceil((lodims+0.5)/2)
+            lostart=(ctr-loctr).astype(int)
+            loend=(lostart+lodims).astype(int)
 
-            orientdft = orientdft + banddft
+            nlog_rad = log_rad[lostart[0]:loend[0], lostart[1]:loend[1]]
+            nangle = angle[lostart[0]:loend[0], lostart[1]:loend[1]]
+            YIrcos = np.sqrt(np.abs(1 - Yrcos**2))
+            lomask = pointOp(nlog_rad, YIrcos, Xrcos)
+            lomask = torch.from_numpy(lomask[None,:,:,None]).float().to(device)
 
-        ####################################################################
-        ########## Lowpass component are upsampled and convoluted ##########
-        ####################################################################
-        
-        dims = np.array(coeff[0][0].shape[1:3])
+            # Recursive call for image reconstruction         
+            nresdft = self._reconstruct_levels(coeff[1:], nlog_rad, Xrcos, Yrcos, nangle, img_dims, pyr_type, device)
+            
+            # ✓ FIX: Ensure recursive return matches target device
+            nresdft = nresdft.to(device)
 
-        ctr=np.ceil((dims+0.5)/2)
+            resdft = torch.zeros(ref_tensor.shape, dtype=ref_tensor.dtype, device=device)
+            resdft[:,lostart[0]:loend[0], lostart[1]:loend[1],:] = nresdft * lomask
 
-        lodims=np.round(img_dims/(self.scale_factor**(self.height-len(coeff))))
-        loctr=np.ceil((lodims+0.5)/2)
-        lostart=(ctr-loctr).astype(int)
-        loend=(lostart+lodims).astype(int)
-        
-        # lostart = (np.ceil((dims+0.5)/2) - np.ceil((np.ceil((dims-0.5)/2)+0.5)/2)).astype(int32)
-        # loend = lostart + np.ceil((dims-0.5)/2).astype(int32)
-
-        nlog_rad = log_rad[lostart[0]:loend[0], lostart[1]:loend[1]]
-        nangle = angle[lostart[0]:loend[0], lostart[1]:loend[1]]
-        YIrcos = np.sqrt(np.abs(1 - Yrcos**2))
-        lomask = pointOp(nlog_rad, YIrcos, Xrcos)
-
-        # Filtering
-        lomask = pointOp(nlog_rad, YIrcos, Xrcos)
-        lomask = torch.from_numpy(lomask[None,:,:,None])
-        lomask = lomask.float().to(self.device)
-
-        ################################################################################
-
-        # Recursive call for image reconstruction        
-        nresdft = self._reconstruct_levels(coeff[1:], nlog_rad, Xrcos, Yrcos, nangle, img_dims, pyr_type)
-
-        resdft = torch.zeros_like(coeff[0][0]).to(self.device)
-        resdft[:,lostart[0]:loend[0], lostart[1]:loend[1],:] = nresdft * lomask
-
-        return resdft + orientdft
+            return resdft + orientdft

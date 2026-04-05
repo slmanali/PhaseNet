@@ -34,28 +34,92 @@ python net/complex_phasenet.py
 # Train the network
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 python train_complex.py \
-  --epochs 10 \
-  --batch-size 4 \
+  --epochs 20 \
+  --batch-size 1 \
   --feature-dim 64 \
-  --learning-rate 1e-5 \
-  --debug-interval 20 \
-  --debug-save-dir debug_sharp \
-  --phase-loss-weight 0.1 \
-  --amp-loss-weight 1.0 \
+  --learning-rate 4e-5 \
+  --debug-save-dir debug_sharp_v4 \
+  --img-weight 1.0 \
+  --residual-weight 1.8 \
+  --phase-weight 0.2 \
+  --amp-weight 1.1 \
   --amp-imag-loss-weight 0.05 \
   --phase-unit-weight 0.01
 
+python train_complex.py \
+  --epochs 20 \
+  --batch-size 1 \
+  --feature-dim 64 \
+  --learning-rate 4e-5 \
+  --debug-save-dir debug_sharp_v5 \
+  --img-weight 1.5 \
+  --residual-weight 1.8 \
+  --phase-weight 0.2 \
+  --amp-weight 1.1 \
+  --amp-imag-loss-weight 0.05 \
+  --phase-unit-weight 0.01
+
+python train_complex.py \
+  --epochs 20 \
+  --batch-size 1 \
+  --feature-dim 64 \
+  --learning-rate 4e-5 \
+  --debug-save-dir debug_sharp_v6 \
+  --img-weight 2.0 \
+  --residual-weight 1.6 \
+  --phase-weight 0.2 \
+  --amp-weight 1.1 \
+  --amp-imag-loss-weight 0.05 \
+  --phase-unit-weight 0.01
+
+python train_complex.py \
+  --epochs 20 \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --learning-rate 8e-5 \
+  --debug-save-dir debug_sharp_v8 \
+  --img-weight 4.0 \
+  --residual-weight 1.4 \
+  --phase-weight 0.4 \
+  --amp-weight 1.4 \
+  --amp-imag-loss-weight 0.05 \
+  --phase-unit-weight 0.01
+
+python train_complex.py \
+  --epochs 30 \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --learning-rate 8e-5 \
+  --debug-save-dir debug_sharp_final \
+  --save-interval 200 \
+  --img-weight 8.0 \
+  --residual-weight 0.2 \
+  --phase-weight 0.15 \
+  --amp-weight 0.4 \
+  --amp-imag-loss-weight 0.02 \
+  --phase-unit-weight 0.005 \
+  --grad-weight 2.0
+
 # Evaluate a trained final/checkpoint model
-python test_complex.py --model-path model/2026-03-18_21-47-08_complex_final.pth --save-dir outputs/test_complex
+python test_complex.py --model-path model/2026-03-31_13-28-33_complex_final.pth --save-dir outputs/test_complex
 python test_complex.py --model-path ./model/2026-03-25_10-04-18_complex_epoch10.pth --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p --save-dir ./test_davis_sharp --batch-size 4
 
 python test_complex.py \
-  --model-path ./model/2026-03-25_10-04-18_complex_final.pth \
+  --model-path ./model/2026-03-30_22-44-27_complex_final.pth \
   --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
-  --save-dir ./test_davis_sharp \
-  --batch-size 4 \
+  --save-dir ./test_davis_sharp1 \
+  --batch-size 2 \
+  --feature-dim 64
+
+  python test_complex.py \
+  --model-path ./model/2026-03-31_13-28-33_complex_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
+  --save-dir ./test_DAVIS_sharp \
+  --batch-size 2 \
   --feature-dim 64
 ```
+
+
 
 `test_complex.py` saves two prediction files per sample when `--save-dir` is used: a visibility-normalized preview (`*_pred.png`) generated from the unclamped reconstruction, and the raw clamped reconstruction (`*_pred_raw.png`). This avoids the common “all black prediction” debugging artifact when the reconstructed tensor falls outside the display range while still preserving the true clamped output for direct inspection.
 

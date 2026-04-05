@@ -17,7 +17,7 @@ import torch.nn.functional as F
 from torchvision import transforms
 from torchvision.utils import save_image
 from tqdm import tqdm
-
+import lpips
 from net.complex_phasenet import ComplexPhaseNet
 from net.phasenet import Triplets
 from steerable.SCFpyr_PyTorch import SCFpyr_PyTorch
@@ -72,6 +72,68 @@ class UCF101Triplets(torch.utils.data.Dataset):
             "inter": inter,
         }
 
+
+class MiddleburyTriplets(torch.utils.data.Dataset):
+    """Dataset for Middlebury eval-color-allframes structure."""
+    def __init__(self, root, transform=None):
+        self.root = Path(root)
+        self.transform = transform
+        
+        # The real data is under eval-data/
+        data_root = self.root / "eval-data"
+        if not data_root.exists():
+            data_root = self.root  # fallback if user points directly to eval-data
+        
+        self.samples = []
+        for item in sorted(data_root.iterdir()):
+            if item.is_dir():
+                f10 = item / "frame10.png"
+                f12 = item / "frame12.png"
+                f11 = item / "frame11.png"
+                if f10.exists() and f12.exists() and f11.exists():
+                    self.samples.append(item)
+        
+        print(f"Found {len(self.samples)} Middlebury sequences.")
+        if len(self.samples) == 0:
+            raise FileNotFoundError(f"No valid sequences found in {data_root}")
+
+    def __len__(self):
+        return len(self.samples)
+
+    def _to_rgb(self, img):
+        """Ensure image is 3-channel RGB (repeat grayscale if needed)."""
+        if img.shape[0] == 1:
+            img = img.repeat(3, 1, 1)
+        elif img.shape[0] == 4:  # RGBA
+            img = img[:3]
+        return img
+
+    def __getitem__(self, idx):
+        folder = self.samples[idx]
+        
+        start = torchvision.io.read_image(str(folder / "frame10.png")).float() / 255.0
+        end   = torchvision.io.read_image(str(folder / "frame12.png")).float() / 255.0
+        inter = torchvision.io.read_image(str(folder / "frame11.png")).float() / 255.0
+        
+        # Force RGB
+        start = self._to_rgb(start)
+        end   = self._to_rgb(end)
+        inter = self._to_rgb(inter)
+        
+        if self.transform:
+            resize_only = transforms.Compose([t for t in self.transform.transforms 
+                                            if not isinstance(t, transforms.ToTensor)])
+            start = resize_only(start)
+            end   = resize_only(end)
+            inter = resize_only(inter)
+        
+        return {
+            "start": start,
+            "end": end,
+            "inter": inter,
+        }
+
+        
 def parse_args():
     parser = argparse.ArgumentParser(
         description="Evaluate a trained Complex PhaseNet model on triplet data."
@@ -223,6 +285,75 @@ def normalize_for_visualization(image):
 
     return (image - image_min) / dynamic_range
 
+def compute_lpips(pred, target, net_type='alex', device='cuda'):
+    """
+    Compute LPIPS (Learned Perceptual Image Patch Similarity).
+    
+    Args:
+        pred, target: [B, 3, H, W] in [0, 1]
+        net_type: 'alex', 'vgg', or 'squeeze'
+    
+    Returns:
+        Mean LPIPS distance (0=identical, 1=maximally different)
+    """
+    loss_fn = lpips.LPIPS(net=net_type, verbose=False).to(device)
+    
+    # lpips expects [-1, 1] range
+    pred_normalized = 2 * pred - 1
+    target_normalized = 2 * target - 1
+    
+    with torch.no_grad():
+        distance = loss_fn(pred_normalized, target_normalized)
+    
+    return distance.mean().item()
+
+def compute_pce(truth_real, truth_imag, pred_real, pred_imag, amp_eps=1e-4):
+    """
+    Phase Coherence Error (PCE):
+        mean_pixel( wrapped_abs(phase_pred - phase_gt) )
+
+    Uses only band levels (skip residual / low-pass level 0).
+    Returns mean angular error in radians, in [0, pi].
+
+    amp_eps:
+        optional threshold to ignore pixels where GT amplitude is too small,
+        because phase there is unstable / not meaningful.
+    """
+    total_error = 0.0
+    total_count = 0
+
+    for i in range(1, len(truth_real)):
+        n_orient = truth_real[i].shape[1] // 2
+
+        # Ground-truth phase channels
+        truth_phase_r = truth_real[i][:, n_orient:, :, :]
+        truth_phase_i = truth_imag[i][:, n_orient:, :, :]
+
+        # Predicted phase channels
+        pred_phase_r = pred_real[i][:, n_orient:, :, :]
+        pred_phase_i = pred_imag[i][:, n_orient:, :, :]
+
+        # Angles in [-pi, pi]
+        truth_angle = torch.atan2(truth_phase_i, truth_phase_r)
+        pred_angle = torch.atan2(pred_phase_i, pred_phase_r)
+
+        # Wrapped angular difference in [-pi, pi]
+        phase_diff = torch.atan2(
+            torch.sin(pred_angle - truth_angle),
+            torch.cos(pred_angle - truth_angle)
+        ).abs()   # [B, n_orient, H, W], now in [0, pi]
+
+        # Optional masking by GT amplitude magnitude
+        truth_amp = truth_real[i][:, :n_orient, :, :]
+        valid_mask = truth_amp > amp_eps
+
+        total_error += phase_diff[valid_mask].sum().item()
+        total_count += valid_mask.sum().item()
+
+    if total_count == 0:
+        return 0.0
+
+    return total_error / total_count
 
 def save_batch_visualizations(batch, raw_predictions, clamped_predictions, save_dir, sample_offset):
     save_dir.mkdir(parents=True, exist_ok=True)
@@ -240,8 +371,6 @@ def save_batch_visualizations(batch, raw_predictions, clamped_predictions, save_
             save_dir / f"{sample_id:05d}_pred.png",
         )
 
-
-
 def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
     pyr = SCFpyr_PyTorch(
         height=12,
@@ -255,6 +384,9 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
     mse_total = 0.0
     psnr_total = 0.0
     ssim_total = 0.0
+    lpips_total = 0.0
+    pce_total = 0.0
+    loss_fn_lpips = lpips.LPIPS(net='alex').to(device) 
     processed = 0
 
     progress = tqdm(dataloader, desc="Evaluating", unit="batch")
@@ -271,6 +403,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
             ]
 
             recon_channels = []
+            pce_batch_sum = 0.0
             for channel in range(3):
                 batch_coeff_list = [
                     pyr.build(
@@ -279,12 +412,24 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
                     )
                     for image in images_list
                 ]
-
-                train_real, train_imag, _, _ = get_complex_input(batch_coeff_list)
+                outputs = get_complex_input(batch_coeff_list)
+                if len(outputs) == 6:
+                    train_real, train_imag, truth_real, truth_imag, hp_start, hp_end = outputs
+                    hp_start = hp_start.float().to(device)
+                    hp_end = hp_end.float().to(device)
+                    hp_mid = 0.5 * (hp_start + hp_end)
+                else:
+                    train_real, train_imag, truth_real, truth_imag = outputs
+                    hp_mid = None
                 train_real = [tensor.float().to(device) for tensor in train_real]
                 train_imag = [tensor.float().to(device) for tensor in train_imag]
+                truth_real = [tensor.float().to(device) for tensor in truth_real]
+                truth_imag = [tensor.float().to(device) for tensor in truth_imag]
 
                 pred_real, pred_imag = model(train_real, train_imag)
+                pce_channel = compute_pce(truth_real, truth_imag, pred_real, pred_imag)
+                pce_batch_sum += pce_channel
+
                 pred_coeff = output_convert_complex(pred_real, pred_imag)
                 pred_img = pyr.reconstruct(pred_coeff, pyr_type=pyr_type)
                 recon_channels.append(pred_img.unsqueeze(1))
@@ -303,12 +448,16 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
             mse_batch = torch.mean((pred_batch - truth_batch) ** 2).item()
             psnr_batch = compute_psnr(pred_batch, truth_batch)
             ssim_batch = compute_ssim(pred_batch, truth_batch)
+            lpips_batch = loss_fn_lpips(pred_batch, truth_batch).mean().item()
+            pce_batch = pce_batch_sum / 3.0
 
             batch_count = pred_batch.shape[0]
             l1_total += l1_batch * batch_count
             mse_total += mse_batch * batch_count
             psnr_total += psnr_batch * batch_count
             ssim_total += ssim_batch * batch_count
+            lpips_total += lpips_batch * batch_count
+            pce_total += pce_batch * batch_count
             processed += batch_count
 
             if save_dir is not None:
@@ -326,6 +475,8 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
                 mse=f"{mse_total / processed:.6f}",
                 psnr=f"{psnr_total / processed:.2f}",
                 ssim=f"{ssim_total / processed:.4f}",
+                lpips=f"{lpips_total / processed:.4f}",
+                pce=f"{pce_total / processed:.4f}",
             )
 
     if processed == 0:
@@ -337,6 +488,8 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
         "mse": mse_total / processed,
         "psnr": psnr_total / processed,
         "ssim": ssim_total / processed,
+        "lpips": lpips_total / processed,
+        "pce": pce_total / processed,
     }
 
 
@@ -353,9 +506,13 @@ def main():
     ])
     # Choose dataset class based on path or add a new argument
     dataset_path_str = str(dataset_path)
+    
     if "ucf101_interp_ours" in dataset_path_str.lower() or "ucf101" in dataset_path_str.lower():
         print("Using UCF101 (Deep Voxel Flow) dataset structure.")
         dataset = UCF101Triplets(dataset_path_str, transform)
+    elif "middlebury" in dataset_path_str.lower() or "eval-color-allframes" in dataset_path_str.lower():
+        print("Using Middlebury eval-color-allframes dataset structure.")
+        dataset = MiddleburyTriplets(dataset_path_str, transform)
     else:
         print("Using standard Triplets (DAVIS-style) dataset.")
         dataset = Triplets(dataset_path_str, transform)
@@ -388,6 +545,9 @@ def main():
     print(f"Mean MSE: {metrics['mse']:.6f}")
     print(f"Mean PSNR: {metrics['psnr']:.2f} dB")
     print(f"Mean SSIM: {metrics['ssim']:.4f}")
+    print(f"Mean LPIPS: {metrics['lpips']:.4f}")
+    print(f"Mean PCE:   {metrics['pce']:.4f} rad")
+    print(f"Mean PCE:   {metrics['pce'] * 180.0 / math.pi:.2f} deg")
     if args.save_dir is not None:
         print(f"Saved predictions to: {args.save_dir}")
 

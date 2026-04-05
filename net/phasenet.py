@@ -102,18 +102,24 @@ def output_convert(pre_coeff):
     coeff = []
     batch_size = pre_coeff[0].shape[0]
     bands_num = int(pre_coeff[1].shape[1]/2)
+    
+    # ✓ FIX: Infer the active device from the network's output
+    device = pre_coeff[0].device
 
     coeff.append(pre_coeff[0].squeeze(1))
-    for i in range(1,len(pre_coeff)):
+    for i in range(1, len(pre_coeff)):
         band = []
         for j in range(bands_num):
-            amp = pre_coeff[i][:,j,:,:]
-            phase = pre_coeff[i][:,j+bands_num,:,:]
-            real = amp*torch.cos(phase)
-            imag = amp*torch.sin(phase)
-            band.append(torch.stack([real,imag],-1))
-        coeff.insert(0,band)
-    coeff.insert(0,torch.zeros(size=(pre_coeff[-1].shape[0],pre_coeff[-1].shape[2],pre_coeff[-1].shape[3])))
+            amp = pre_coeff[i][:, j, :, :]
+            phase = pre_coeff[i][:, j + bands_num, :, :]
+            real = amp * torch.cos(phase)
+            imag = amp * torch.sin(phase)
+            band.append(torch.stack([real, imag], -1))
+        coeff.insert(0, band)
+        
+    # ✓ FIX: Create the high-pass residual on the correct device
+    hi0_shape = (pre_coeff[-1].shape[0], pre_coeff[-1].shape[2], pre_coeff[-1].shape[3])
+    coeff.insert(0, torch.zeros(size=hi0_shape, device=device))
     return coeff
 
 # def get_phase(complex_input):
