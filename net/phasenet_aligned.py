@@ -393,15 +393,17 @@ class Triplets(Dataset):
 #             output[i, j, :, :] = np.array(temp)
 #     return torch.from_numpy(output)
 
+
 class PhaseNetBlock(nn.Module):
-    # PhaseNetBlock，return feature map
+    """Basic real-valued PhaseNet block."""
+
     def __init__(self, in_channels=88, out_channels=64, kernel_size=3, padding=1):
         super(PhaseNetBlock, self).__init__()
         self.layer = nn.Sequential(
             nn.Conv2d(in_channels, out_channels, kernel_size, padding=padding),
-            nn.Conv2d(out_channels, out_channels,kernel_size, padding=padding),
+            nn.Conv2d(out_channels, out_channels, kernel_size, padding=padding),
             nn.BatchNorm2d(out_channels),
-            nn.LeakyReLU(negative_slope=0.2, inplace=True)
+            nn.LeakyReLU(negative_slope=0.2, inplace=True),
         )
 
     def forward(self, x):
@@ -409,120 +411,178 @@ class PhaseNetBlock(nn.Module):
 
 
 class Pred(nn.Module):
-    # Pred，return pred
+    """Prediction head for residual or band coefficients."""
+
     def __init__(self, in_channels=64, out_channels=8, kernel_size=1):
         super(Pred, self).__init__()
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size)
 
     def forward(self, x):
-        out = F.tanh(self.conv(x))
-        return out
+        return torch.tanh(self.conv(x))
 
 
 class PhaseNet(nn.Module):
-    '''
-    Added by Lijie
+    """
+    Real-valued PhaseNet with configurable feature width so it can be trained
+    under settings closer to ComplexPhaseNet.
+    """
 
-    the net proposed in paper "PhaseNet for Video Frame Interpolation"(https://arxiv.org/abs/1804.00884v1)
-
-    input:
-        truth_coeff,pre_coeff,truth_img,pre_img
-
-    '''
-
-    def __init__(self):
+    def __init__(self, feature_dim=64):
         super(PhaseNet, self).__init__()
-        # alpha and beta are used to predict the low level residual and amplitude values  according to the 'first' and 'end' frame
-        self.alpha = nn.Parameter(torch.rand(1))
-        self.beta = nn.Parameter(torch.rand(1))
-        
+
+        self.alpha = nn.Parameter(torch.tensor(0.5))
+        self.beta = nn.Parameter(torch.tensor(0.5))
+        self.feature_dim = feature_dim
+
         self.layer = nn.ModuleList()
         self.pred = nn.ModuleList()
 
-        self.layer.append(PhaseNetBlock(2, 64, 1, 0))
-        self.pred.append(Pred(64, 1))
+        self.layer.append(PhaseNetBlock(2, feature_dim, 1, 0))
+        self.pred.append(Pred(feature_dim, 1))
 
-        self.layer.append(PhaseNetBlock(81, 64, 1, 0))
-        self.pred.append(Pred())
+        self.layer.append(PhaseNetBlock(81, feature_dim, 1, 0))
+        self.pred.append(Pred(feature_dim, 8))
 
-        self.layer.append(PhaseNetBlock(kernel_size=1, padding=0))
-        self.pred.append(Pred())
+        self.layer.append(PhaseNetBlock(88, feature_dim, 1, 0))
+        self.pred.append(Pred(feature_dim, 8))
 
-        # layer3
-        self.layer.append(PhaseNetBlock())
-        self.pred.append(Pred())
-
-        self.layer.append(PhaseNetBlock())
-        self.pred.append(Pred())
-
-        self.layer.append(PhaseNetBlock())
-        self.pred.append(Pred())
-
-        self.layer.append(PhaseNetBlock())
-        self.pred.append(Pred())
-
-        self.layer.append(PhaseNetBlock())
-        self.pred.append(Pred())
-
-        self.layer.append(PhaseNetBlock())
-        self.pred.append(Pred())
-
-        self.layer.append(PhaseNetBlock())
-        self.pred.append(Pred())
-
-        # layer10
-        self.layer.append(PhaseNetBlock())
-        self.pred.append(Pred())
+        for _ in range(8):
+            self.layer.append(PhaseNetBlock(88, feature_dim))
+            self.pred.append(Pred(feature_dim, 8))
 
     def forward(self, x):
         feature_map = []
         pred_map = []
         output = []
 
-        feature_map.append(self.layer[0](normalize(x[0])))
-        pred_map.append(self.pred[0](feature_map[0]))
-        amp = self.alpha*x[0][:, 0, :, :]+(1-self.alpha)*x[0][:, 1, :, :]
-        output.append(torch.unsqueeze(amp,1))
+        feature_0 = self.layer[0](normalize(x[0]))
+        pred_0 = self.pred[0](feature_0)
+        feature_map.append(feature_0)
+        pred_map.append(pred_0)
+
+        residual = self.alpha * x[0][:, 0, :, :] + (1 - self.alpha) * x[0][:, 1, :, :]
+        residual = residual + pred_0.squeeze(1)
+        output.append(residual.unsqueeze(1))
 
         for i in range(1, len(x)):
             img_shape = (x[i].shape[2], x[i].shape[3])
-            feature_map.append(self.layer[i](torch.cat([normalize(x[i]),
-                                            F.interpolate(feature_map[i-1], img_shape, mode='bilinear'),
-                                            F.interpolate(pred_map[i-1], img_shape, mode='bilinear')], 1)))
-            pred_map.append(self.pred[i](feature_map[i]))
-            amp = self.beta*x[i][:, 0:4, :, :] + (1-self.beta)*x[i][:, 8:12, :, :]
-            phase = pred_map[i][:,4:8,:,:]
-            output.append(torch.cat([amp, phase],1))
+
+            feat_up = F.interpolate(feature_map[i - 1], img_shape, mode='bilinear', align_corners=False)
+            pred_up = F.interpolate(pred_map[i - 1], img_shape, mode='bilinear', align_corners=False)
+
+            block_input = torch.cat([normalize(x[i]), feat_up, pred_up], dim=1)
+            feat_i = self.layer[i](block_input)
+            pred_i = self.pred[i](feat_i)
+
+            feature_map.append(feat_i)
+            pred_map.append(pred_i)
+
+            base_amp = self.beta * x[i][:, 0:4, :, :] + (1 - self.beta) * x[i][:, 8:12, :, :]
+            amp_delta = 0.5 * pred_i[:, 0:4, :, :]
+            amp = torch.clamp(base_amp + amp_delta, min=1e-4)
+
+            base_phase = 0.5 * (x[i][:, 4:8, :, :] + x[i][:, 12:16, :, :])
+            delta_phase = np.pi * pred_i[:, 4:8, :, :]
+            phase = base_phase + delta_phase
+
+            output.append(torch.cat([amp, phase], dim=1))
+
         return output
 
+
 class Total_loss(nn.Module):
-    '''
-    Added by Lijie
+    """
+    Weighted real-valued PhaseNet loss, aligned with the complex training style.
 
-    the loss proposed in paper "PhaseNet for Video Frame Interpolation"(https://arxiv.org/abs/1804.00884v1)
+    Components:
+      - image L1 reconstruction loss
+      - image gradient loss
+      - residual coefficient loss
+      - amplitude coefficient loss
+      - wrapped phase loss
+    """
 
-    input:
-        truth_coeff,pre_coeff,truth_img,pre_img
-
-    '''
-
-    def __init__(self, v=0.1):
+    def __init__(
+        self,
+        img_weight=3.0,
+        residual_weight=2.0,
+        phase_weight=0.2,
+        amp_weight=1.2,
+        grad_weight=2.0,
+    ):
         super(Total_loss, self).__init__()
-        self.v = v
+        self.img_weight = img_weight
+        self.residual_weight = residual_weight
+        self.phase_weight = phase_weight
+        self.amp_weight = amp_weight
+        self.grad_weight = grad_weight
+        self.last_stats = None
 
-    def forward(self, truth_coeff, pre_coeff, truth_img, pre_img):
-        img_loss = nn.L1Loss()(truth_img, pre_img)
-        dphase = [truth_coeff[i][:, 4:, :, :]-pre_coeff[i][:, 4:, :, :]
-                  for i in range(1, len(truth_coeff))]
-        atan2_phase = [torch.atan2(torch.sin(d), torch.cos(d)) for d in dphase]
-        phase_loss = 0
-        for i in range(len(dphase)):
-            phase_loss += nn.L1Loss()(atan2_phase[i],
-                                      torch.zeros_like(atan2_phase[i]))
-        return self.v*phase_loss+img_loss
+    @staticmethod
+    def gradient_loss(x, y):
+        dx = torch.abs(x[:, :, :, :-1] - x[:, :, :, 1:])
+        dy = torch.abs(x[:, :, :-1, :] - x[:, :, 1:, :])
+
+        dx_gt = torch.abs(y[:, :, :, :-1] - y[:, :, :, 1:])
+        dy_gt = torch.abs(y[:, :, :-1, :] - y[:, :, 1:, :])
+
+        return torch.abs(dx - dx_gt).mean() + torch.abs(dy - dy_gt).mean()
+
+    def forward(self, truth_coeff, pred_coeff, truth_img, pred_img):
+        if truth_img.dim() == 3:
+            truth_img = truth_img.unsqueeze(1)
+        if pred_img.dim() == 3:
+            pred_img = pred_img.unsqueeze(1)
+
+        img_loss = nn.L1Loss()(pred_img, truth_img)
+        grad_loss = self.gradient_loss(pred_img, truth_img)
+        residual_loss = nn.L1Loss()(pred_coeff[0], truth_coeff[0])
+
+        phase_loss = 0.0
+        amp_loss = 0.0
+        num_bands = 0
+
+        for i in range(1, len(truth_coeff)):
+            n_orient = truth_coeff[i].shape[1] // 2
+
+            truth_amp = truth_coeff[i][:, :n_orient, :, :]
+            pred_amp = pred_coeff[i][:, :n_orient, :, :]
+            amp_loss += nn.L1Loss()(pred_amp, truth_amp)
+
+            truth_phase = truth_coeff[i][:, n_orient:, :, :]
+            pred_phase = pred_coeff[i][:, n_orient:, :, :]
+            dphase = truth_phase - pred_phase
+            wrapped = torch.atan2(torch.sin(dphase), torch.cos(dphase))
+            phase_loss += torch.abs(wrapped).mean()
+
+            num_bands += 1
+
+        if num_bands > 0:
+            phase_loss = phase_loss / num_bands
+            amp_loss = amp_loss / num_bands
+
+        total_loss = (
+            self.img_weight * img_loss
+            + self.grad_weight * grad_loss
+            + self.residual_weight * residual_loss
+            + self.phase_weight * phase_loss
+            + self.amp_weight * amp_loss
+        )
+
+        self.last_stats = {
+            "img": float(img_loss.detach().cpu()),
+            "grad": float(grad_loss.detach().cpu()),
+            "residual": float(residual_loss.detach().cpu()),
+            "phase": float(phase_loss.detach().cpu() if isinstance(phase_loss, torch.Tensor) else phase_loss),
+            "amp": float(amp_loss.detach().cpu() if isinstance(amp_loss, torch.Tensor) else amp_loss),
+            "total": float(total_loss.detach().cpu()),
+        }
+
+        return total_loss
 
 
 if __name__ == "__main__":
+
     model = PhaseNet()
     print(model)
     temp =0

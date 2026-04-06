@@ -100,16 +100,31 @@ python train_complex.py \
   --phase-unit-weight 0.005 \
   --grad-weight 2.0
 
+
+python test_complex.py \
+  --model-path path/to/model.pth \
+  --dataset-path /path/to/DAVIS \
+  --save-dir ./best_complex_metrics \
+  --device cuda:0
+
 # Evaluate a trained final/checkpoint model
 python test_complex.py --model-path model/2026-03-31_13-28-33_complex_final.pth --save-dir outputs/test_complex
 python test_complex.py --model-path ./model/2026-03-25_10-04-18_complex_epoch10.pth --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p --save-dir ./test_davis_sharp --batch-size 4
 
 python test_complex.py \
-  --model-path ./model/2026-03-30_22-44-27_complex_final.pth \
+  --model-path ./model/2026-04-03_10-59-56_complex_final.pth \
   --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
-  --save-dir ./test_davis_sharp1 \
+  --save-dir ./best_complex_metrics_davis \
   --batch-size 2 \
   --feature-dim 64
+
+python test.py \
+  --model-path ./model/2026-04-04_09-04-14_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
+  --save-dir ./best_metrics_davis \
+  --batch-size 2 \
+  --device cuda:0 \
+  --feature-dim 32
 
   python test_complex.py \
   --model-path ./model/2026-03-31_13-28-33_complex_final.pth \
@@ -366,3 +381,5 @@ For questions, issues, or contributions:
 ---
 
 **Star ⭐ this repository if you find it useful!**
+
+

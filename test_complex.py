@@ -133,6 +133,71 @@ class MiddleburyTriplets(torch.utils.data.Dataset):
             "inter": inter,
         }
 
+
+class BestMetricsTracker:
+    """Track and save images with best metrics."""
+    def __init__(self, save_dir):
+        self.save_dir = Path(save_dir)
+        self.save_dir.mkdir(parents=True, exist_ok=True)
+        
+        self.best = {
+            "psnr": {"value": -float("inf"), "idx": None, "pred": None, "truth": None},
+            "ssim": {"value": -float("inf"), "idx": None, "pred": None, "truth": None},
+            "lpips": {"value": float("inf"), "idx": None, "pred": None, "truth": None},
+            "pce": {"value": float("inf"), "idx": None, "pred": None, "truth": None},
+        }
+    def update(self, batch_idx, psnr, ssim, lpips_val, pce_val, pred, truth):
+        """Update best metrics if current is better."""
+        if psnr > self.best["psnr"]["value"]:
+            self.best["psnr"]["value"] = psnr
+            self.best["psnr"]["idx"] = batch_idx
+            self.best["psnr"]["pred"] = pred.clone().detach().cpu()
+            self.best["psnr"]["truth"] = truth.clone().detach().cpu()
+        if ssim > self.best["ssim"]["value"]:
+            self.best["ssim"]["value"] = ssim
+            self.best["ssim"]["idx"] = batch_idx
+            self.best["ssim"]["pred"] = pred.clone().detach().cpu()
+            self.best["ssim"]["truth"] = truth.clone().detach().cpu()
+        if lpips_val < self.best["lpips"]["value"]:
+            self.best["lpips"]["value"] = lpips_val
+            self.best["lpips"]["idx"] = batch_idx
+            self.best["lpips"]["pred"] = pred.clone().detach().cpu()
+            self.best["lpips"]["truth"] = truth.clone().detach().cpu()
+        if pce_val < self.best["pce"]["value"]:
+            self.best["pce"]["value"] = pce_val
+            self.best["pce"]["idx"] = batch_idx
+            self.best["pce"]["pred"] = pred.clone().detach().cpu()
+            self.best["pce"]["truth"] = truth.clone().detach().cpu()
+    def save_best(self):
+        """Save best images for each metric."""
+        for metric_name, data in self.best.items():
+            if data["pred"] is None:
+                print(f"⚠ No data for {metric_name}")
+                continue
+            
+            metric_dir = self.save_dir / metric_name
+            metric_dir.mkdir(exist_ok=True)
+            
+            # Save pred (normalized for visualization)
+            pred_normalized = normalize_for_visualization(data["pred"].squeeze(0) if data["pred"].dim() == 4 else data["pred"])
+            save_image(pred_normalized, metric_dir / f"best_{metric_name}_pred.png")
+            
+            # Save truth
+            truth_normalized = data["truth"].squeeze(0) if data["truth"].dim() == 4 else data["truth"]
+            save_image(truth_normalized, metric_dir / f"best_{metric_name}_truth.png")
+            
+            # Save metric value
+            with open(metric_dir / "metric_value.txt", "w") as f:
+                f.write(f"{data['value']:.6f}\n")
+                f.write(f"Batch index: {data['idx']}\n")
+            
+            # Determine unit
+            if metric_name == "pce":
+                unit = f"{data['value']:.4f} rad ({data['value'] * 180.0 / math.pi:.2f}°)"
+            else:
+                unit = f"{data['value']:.6f}"
+            
+            print(f"✓ Saved best {metric_name:6s}: {unit:20s} (batch {data['idx']})")
         
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -389,6 +454,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
     loss_fn_lpips = lpips.LPIPS(net='alex').to(device) 
     processed = 0
 
+    tracker = BestMetricsTracker(save_dir) if save_dir else None
     progress = tqdm(dataloader, desc="Evaluating", unit="batch")
 
     with torch.no_grad():
@@ -460,14 +526,26 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
             pce_total += pce_batch * batch_count
             processed += batch_count
 
-            if save_dir is not None:
-                save_batch_visualizations(
-                    batch,
-                    raw_pred_batch.cpu(),
-                    pred_batch.cpu(),
-                    save_dir,
-                    processed - batch_count,
+            # ✓ Update tracker
+            if tracker is not None:
+                tracker.update(
+                    batch_size,
+                    psnr_batch,
+                    ssim_batch,
+                    lpips_batch,
+                    pce_batch,
+                    pred_batch,
+                    truth_batch
                 )
+
+            # if save_dir is not None:
+            #     save_batch_visualizations(
+            #         batch,
+            #         raw_pred_batch.cpu(),
+            #         pred_batch.cpu(),
+            #         save_dir,
+            #         processed - batch_count,
+            #     )
 
             progress.set_postfix(
                 samples=processed,
@@ -481,7 +559,12 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
 
     if processed == 0:
         raise RuntimeError("No samples were evaluated. Check --max-samples and dataset contents.")
-
+    # ✓ Save best images
+    if tracker is not None:
+        print("\n" + "="*70)
+        print("BEST METRIC IMAGES")
+        print("="*70)
+        tracker.save_best()
     return {
         "samples": processed,
         "l1": l1_total / processed,
