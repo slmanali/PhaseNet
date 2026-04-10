@@ -19,7 +19,7 @@ from torchvision.utils import save_image
 from tqdm import tqdm
 
 from steerable.SCFpyr_PyTorch import SCFpyr_PyTorch
-from net.phasenet import Triplets, show_Triplets_batch
+from net.phasenet import Triplets
 from net.complex_phasenet import ComplexPhaseNet, ComplexTotalLoss, complex_input_convert
 
 

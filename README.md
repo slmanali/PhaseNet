@@ -100,7 +100,54 @@ python train_complex.py \
   --phase-unit-weight 0.005 \
   --grad-weight 2.0
 
+python train_complex.py \
+  --epochs 30 \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --learning-rate 8e-5 \
+  --debug-save-dir debug_sharp_final1 \
+  --save-interval 200 \
+  --img-weight 0.05 \
+  --residual-weight 0.1 \
+  --phase-weight 0.2 \
+  --amp-weight 0.0 \
+  --amp-imag-loss-weight 0.02 \
+  --phase-unit-weight 0.005 \
+  --grad-weight 0.1
 
+python train_complex.py \
+  --epochs 40 \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --learning-rate 8e-5 \
+  --debug-save-dir debug_sharp_final2 \
+  --save-interval 200 \
+  --img-weight 0.08 \
+  --residual-weight 0.1 \
+  --phase-weight 0.25 \
+  --amp-weight 0.0 \
+  --amp-imag-loss-weight 0.02 \
+  --phase-unit-weight 0.01 \
+  --grad-weight 0.12
+
+python train_complex_safe_baseline.py \
+  --epochs 40 \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --learning-rate 8e-5 \
+  --debug-save-dir debug_complex_safe \
+  --save-interval 200 \
+  --img-weight 0.08 \
+  --residual-weight 0.1 \
+  --residual-imag-weight 0.05 \
+  --phase-weight 0.25 \
+  --amp-weight 0.0 \
+  --amp-imag-loss-weight 0.0 \
+  --phase-unit-weight 0.01 \
+  --grad-weight 0.12 \
+  --phase-correction-scale 0.1 \
+  --residual-correction-scale 0.1
+  
 python test_complex.py \
   --model-path path/to/model.pth \
   --dataset-path /path/to/DAVIS \
@@ -118,20 +165,77 @@ python test_complex.py \
   --batch-size 2 \
   --feature-dim 64
 
+python test_complex.py \
+  --model-path ./model/2026-04-08_12-18-57_complex_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/ucf101_interp_ours \
+  --save-dir ./best_complex_metrics_ucf101 \
+  --batch-size 2 \
+  --feature-dim 64
+
+
+python test_complex.py \
+  --model-path ./model/2026-04-07_10-54-59_complex_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/eval-color-allframes/eval-data/ \
+  --save-dir ./best_complex_metrics_Middlebury \
+  --batch-size 2 \
+  --feature-dim 64
+
+python test_complex_safe_baseline.py \
+  --model-path ./model/2026-04-08_12-18-57_complex_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
+  --save-dir ./best_complex_safe_metrics_davis \
+  --batch-size 2 \
+  --feature-dim 64
+
+python test_complex_safe_baseline.py \
+  --model-path ./model/2026-04-08_12-18-57_complex_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/ucf101_interp_ours \
+  --save-dir ./best_complex_safe_metrics_ucf101 \
+  --batch-size 2 \
+  --feature-dim 64
+
+python test_complex_safe_baseline.py \
+  --model-path ./model/2026-04-08_12-18-57_complex_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/eval-color-allframes/eval-data/ \
+  --save-dir ./best_complex_safe_metrics_middlebury \
+  --batch-size 2 \
+  --feature-dim 64
+
+
+python train.py \
+  --epochs 30 \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --learning-rate 8e-5 \
+  --debug-save-dir debug_real_aligned \
+  --save-interval 200 \
+  --img-weight 0.05 \
+  --residual-weight 0.1 \
+  --phase-weight 0.2 \
+  --amp-weight 0.0 \
+  --grad-weight 0.1
+
 python test.py \
-  --model-path ./model/2026-04-04_09-04-14_final.pth \
+  --model-path ./model/2026-04-06_21-03-22_real_safe_final.pth \
   --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
   --save-dir ./best_metrics_davis \
   --batch-size 2 \
-  --device cuda:0 \
-  --feature-dim 32
+  --device cuda:0 
 
-  python test_complex.py \
-  --model-path ./model/2026-03-31_13-28-33_complex_final.pth \
-  --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
-  --save-dir ./test_DAVIS_sharp \
+python test.py \
+  --model-path ./model/2026-04-06_21-03-22_real_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/ucf101_interp_ours \
+  --save-dir ./best_metrics_ucf \
   --batch-size 2 \
-  --feature-dim 64
+  --device cuda:0 
+
+python test.py \
+  --model-path ./model/2026-04-06_21-03-22_real_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/eval-color-allframes/eval-data/ \
+  --save-dir ./best_metrics_Middlebury \
+  --batch-size 2 \
+  --device cuda:0 
+
 ```
 
 

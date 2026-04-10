@@ -156,7 +156,7 @@ def main():
                 B = start_batch.shape[0]
 
                 channel_losses = []
-                vis_pred_channels = []
+                vis_pred_ch = None
 
                 for channel in range(3):
                     start_ch = start_batch[:, channel:channel + 1, :, :]
@@ -177,8 +177,8 @@ def main():
                     loss_ch = criterion(truth_coeff, pred_coeff, inter_ch, pred_img_ch)
                     channel_losses.append(loss_ch)
 
-                    
-                    vis_pred_channels.append(pred_img_ch.detach().cpu().clamp(0, 1))
+                    if vis_pred_ch is None:
+                        vis_pred_ch = pred_img_ch.detach()
 
                 loss = sum(channel_losses) / len(channel_losses)
 
@@ -205,15 +205,14 @@ def main():
                     with open(log_file, 'a') as f:
                         f.write(log_msg + '\n')
 
-                if args.save_interval > 0 and total_step % args.save_interval == 0:
+                if args.save_interval > 0 and total_step % args.save_interval == 0 and vis_pred_ch is not None:
                     with torch.no_grad():
                         vis_truth = inter_batch[0].cpu().clamp(0, 1)
                         vis_pred = torch.cat([
-                            vis_pred_channels[0][0], # Red channel
-                            vis_pred_channels[1][0], # Green channel
-                            vis_pred_channels[2][0], # Blue channel
+                            vis_pred_ch[0, 0].cpu().clamp(0, 1).unsqueeze(0),
+                            vis_pred_ch[0, 0].cpu().clamp(0, 1).unsqueeze(0),
+                            vis_pred_ch[0, 0].cpu().clamp(0, 1).unsqueeze(0),
                         ], dim=0)
-
                         comparison = torch.cat([vis_truth, vis_pred], dim=2)
                         save_image(comparison, args.debug_save_dir / f"step_{total_step:06d}.png")
 

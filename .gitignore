@@ -24,9 +24,19 @@ outputs/test_complex
 /debug_sharp_v11
 /debug_sharp_v12
 /debug_sharp_final
+/debug_sharp_final1
 /debug_images
 /best_complex_metrics_davis
 /best_metrics_davis
+/best_complex_metrics_Middlebury
+/best_metrics_Middlebury
+/best_complex_metrics_ucf101
+/best_metrics_ucf
+/debug_real_aligned
+/debug_complex_safe
+/best_complex_safe_metrics_middlebury
+/best_complex_safe_metrics_ucf101
+/best_complex_safe_metrics_davis
 DAVIS-data.zip
 ucf101_interp_ours.zip
 eval-color-allframes.zip
@@ -51,3 +61,5 @@ train_complex (Copy).txt
 net/phasenet (Copy).txt
 steerable/SCFpyr_PyTorch (Copy).txt
 net/complex_phasenet.txt
+__pycache__/test_complex_safe_baseline.cpython-312.pyc
+__pycache__/train_complex_safe_baseline.cpython-312.pyc

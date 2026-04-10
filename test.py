@@ -19,7 +19,7 @@ from tqdm import tqdm
 import lpips
 from net.phasenet import PhaseNet, Triplets, get_input, output_convert
 from steerable.SCFpyr_PyTorch import SCFpyr_PyTorch
-
+from test_complex_safe_baseline import UCF101Triplets, MiddleburyTriplets
 
 # ============================================================================
 # REUSABLE METRIC FUNCTIONS (Same as test_complex.py)
@@ -281,20 +281,25 @@ class BestMetricsTracker:
             metric_dir = self.save_dir / metric_name
             metric_dir.mkdir(exist_ok=True)
             
-            # Save pred (normalized for visualization)
+            # Prepare pred (normalized for visualization)
             pred_normalized = normalize_for_visualization(
                 data["pred"].squeeze(0) if data["pred"].dim() == 4 else data["pred"]
             )
-            save_image(pred_normalized, metric_dir / f"best_{metric_name}_pred.png")
             
-            # Save truth
+            # Prepare truth
             truth_normalized = data["truth"].squeeze(0) if data["truth"].dim() == 4 else data["truth"]
-            save_image(truth_normalized, metric_dir / f"best_{metric_name}_truth.png")
+            
+            # Concatenate side-by-side (Truth on left, Prediction on right)
+            comparison = torch.cat([truth_normalized, pred_normalized], dim=2)
+            
+            # Save the combined image
+            save_image(comparison, metric_dir / f"best_{metric_name}_comparison.png")
             
             # Save metric value
             with open(metric_dir / "metric_value.txt", "w") as f:
                 f.write(f"{data['value']:.6f}\n")
                 f.write(f"Batch index: {data['idx']}\n")
+            
             # Determine unit
             if metric_name == "pce":
                 unit = f"{data['value']:.4f} rad ({data['value'] * 180.0 / math.pi:.2f}°)"
@@ -470,6 +475,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
             psnr_batch = compute_psnr(pred_batch, truth_batch)
             ssim_batch = compute_ssim(pred_batch, truth_batch)
             lpips_batch = compute_lpips(pred_batch, truth_batch, device=device)
+            pce_batch = pce_batch_sum / 3.0
             
             batch_count = pred_batch.shape[0]
             l1_total += l1_batch * batch_count
@@ -477,7 +483,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
             psnr_total += psnr_batch * batch_count
             ssim_total += ssim_batch * batch_count
             lpips_total += lpips_batch * batch_count
-            pce_total += (pce_batch_sum / 3.0) * batch_count
+            pce_total += pce_batch * batch_count
             processed += batch_count
 
             if tracker is not None:
@@ -486,7 +492,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
                     psnr_batch,
                     ssim_batch,
                     lpips_batch,
-                    pce_batch_sum / 3.0,
+                    pce_batch,
                     pred_batch,
                     truth_batch
                 )
@@ -538,6 +544,17 @@ def main():
     ])
 
     dataset = Triplets(str(dataset_path), transform)
+
+    dataset_path_str = str(dataset_path)
+    if "ucf101_interp_ours" in dataset_path_str.lower() or "ucf101" in dataset_path_str.lower():
+        print("Using UCF101 (Deep Voxel Flow) dataset structure.")
+        dataset = UCF101Triplets(dataset_path_str, transform)
+    elif "middlebury" in dataset_path_str.lower() or "eval-color-allframes" in dataset_path_str.lower():
+        print("Using Middlebury eval-color-allframes dataset structure.")
+        dataset = MiddleburyTriplets(dataset_path_str, transform)
+    else:
+        print("Using standard Triplets (DAVIS-style) dataset.")
+        dataset = Triplets(dataset_path_str, transform)
     dataloader = DataLoader(
         dataset,
         batch_size=args.batch_size,

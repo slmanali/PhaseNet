@@ -100,8 +100,6 @@ def input_convert(Tri_coeff):
     return train, truth, amp_scales  # ✓ Return scales
 
 
-
-
 def get_input(batch_coeff_list):
     res = [input_convert(Tri_coeff) for Tri_coeff in batch_coeff_list]
     train = []
@@ -123,7 +121,6 @@ def get_input(batch_coeff_list):
             amp_scales_batch.append(stacked)
     
     return train, truth, amp_scales_batch
-
 
 
 def output_convert(pred_coeff, amp_scales=None):
@@ -171,8 +168,6 @@ def output_convert(pred_coeff, amp_scales=None):
     coeff.insert(0, torch.zeros(size=hi0_shape, device=device))
     
     return coeff
-
-
 
 # def get_phase(complex_input):
 #     '''

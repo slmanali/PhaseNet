@@ -53,27 +53,23 @@ def input_convert(Tri_coeff):
 
     for i in range(1, len(Tri_coeff_inv) - 1):
         AP = [AmpPhase(item) for item in Tri_coeff_inv[i]]
-        
-        # FIX: Use start (index 0) and end (index 2), not inter (index 1)
         amp_max = torch.stack([
-            torch.max(AP[0][0][0, :, :], AP[0][0][2, :, :]),
-            torch.max(AP[1][0][0, :, :], AP[1][0][2, :, :]),
-            torch.max(AP[2][0][0, :, :], AP[2][0][2, :, :]),
-            torch.max(AP[3][0][0, :, :], AP[3][0][2, :, :]),
-        ]) + 1e-8 # Add epsilon to prevent division by zero
-        
+            torch.max(AP[0][0][0, :, :], AP[0][0][1, :, :]),
+            torch.max(AP[1][0][0, :, :], AP[1][0][1, :, :]),
+            torch.max(AP[2][0][0, :, :], AP[2][0][1, :, :]),
+            torch.max(AP[3][0][0, :, :], AP[3][0][1, :, :]),
+        ])
         amp_scales.append(amp_max)
 
-        # FIX: Actually divide the amplitudes by amp_max to normalize them
         train.append(torch.stack([
-            AP[0][0][0, :, :] / amp_max[0], AP[1][0][0, :, :] / amp_max[1], AP[2][0][0, :, :] / amp_max[2], AP[3][0][0, :, :] / amp_max[3],
+            AP[0][0][0, :, :], AP[1][0][0, :, :], AP[2][0][0, :, :], AP[3][0][0, :, :],
             AP[0][1][0, :, :], AP[1][1][0, :, :], AP[2][1][0, :, :], AP[3][1][0, :, :],
-            AP[0][0][2, :, :] / amp_max[0], AP[1][0][2, :, :] / amp_max[1], AP[2][0][2, :, :] / amp_max[2], AP[3][0][2, :, :] / amp_max[3],
+            AP[0][0][2, :, :], AP[1][0][2, :, :], AP[2][0][2, :, :], AP[3][0][2, :, :],
             AP[0][1][2, :, :], AP[1][1][2, :, :], AP[2][1][2, :, :], AP[3][1][2, :, :],
         ]))
 
         truth.append(torch.stack([
-            AP[0][0][1, :, :] / amp_max[0], AP[1][0][1, :, :] / amp_max[1], AP[2][0][1, :, :] / amp_max[2], AP[3][0][1, :, :] / amp_max[3],
+            AP[0][0][1, :, :], AP[1][0][1, :, :], AP[2][0][1, :, :], AP[3][0][1, :, :],
             AP[0][1][1, :, :], AP[1][1][1, :, :], AP[2][1][1, :, :], AP[3][1][1, :, :],
         ]))
 
@@ -258,17 +254,7 @@ class PhaseNet(nn.Module):
             pred_map.append(phase_pred)
 
             amp = self.beta * x[i][:, 0:4, :, :] + (1.0 - self.beta) * x[i][:, 8:12, :, :]
-            phase_start = x[i][:, 4:8, :, :]
-            phase_end   = x[i][:, 12:16, :, :]
-
-            # wrap-aware interpolation
-            base_phase = torch.atan2(
-                torch.sin(phase_start) + torch.sin(phase_end),
-                torch.cos(phase_start) + torch.cos(phase_end)
-            )
-
-            # small correction
-            phase = base_phase + 0.1 * pi * phase_pred
+            phase = pi * phase_pred
             output.append(torch.cat([amp, phase], dim=1))
 
         return output

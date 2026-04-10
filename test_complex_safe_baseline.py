@@ -18,10 +18,10 @@ from torchvision import transforms
 from torchvision.utils import save_image
 from tqdm import tqdm
 import lpips
-from net.complex_phasenet import ComplexPhaseNet
+from net.complex_phasenet_safe_baseline import ComplexPhaseNetSafe
 from net.phasenet import Triplets
 from steerable.SCFpyr_PyTorch import SCFpyr_PyTorch
-from train_complex import (
+from train_complex_safe_baseline import (
     get_complex_input,
     output_convert_complex,
     resolve_dataset_path,
@@ -271,7 +271,7 @@ def resolve_device(device_arg):
 
 def load_model(model_path, device, feature_dim):
     checkpoint = torch.load(model_path, map_location=device)
-    model = ComplexPhaseNet(feature_dim=feature_dim).to(device)
+    model = ComplexPhaseNetSafe(feature_dim=feature_dim).to(device)
 
     if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
         model.load_state_dict(checkpoint["model_state_dict"])
