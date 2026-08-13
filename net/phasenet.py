@@ -223,7 +223,7 @@ class PhaseNet(nn.Module):
         self.layer.append(PhaseNetBlock(2, feature_dim, 1, 0))
         self.pred.append(Pred(feature_dim, 1))
 
-        self.layer.append(PhaseNetBlock(81, feature_dim, 1, 0))
+        self.layer.append(PhaseNetBlock(16 + feature_dim + 1, feature_dim, 1, 0))
         self.pred.append(Pred(feature_dim, 4))
 
         self.layer.append(PhaseNetBlock(16 + feature_dim + 4, feature_dim, 1, 0))

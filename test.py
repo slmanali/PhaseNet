@@ -358,6 +358,12 @@ def parse_args():
         default=None,
         help="Directory where best metric images are saved.",
     )
+    parser.add_argument(
+        "--feature-dim",
+        type=int,
+        default=64,
+        help="Feature dimension used when training the model.",
+    )
     return parser.parse_args()
 
 
@@ -367,10 +373,10 @@ def resolve_device(device_arg):
     return torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-def load_model(model_path, device):
+def load_model(model_path, device, feature_dim):
     """Load model checkpoint (state_dict only)."""
     checkpoint = torch.load(model_path, map_location=device)
-    model = PhaseNet().to(device)
+    model = PhaseNet(feature_dim=feature_dim).to(device)
 
     if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
         model.load_state_dict(checkpoint["model_state_dict"])
@@ -536,7 +542,11 @@ def main():
     if not dataset_path.exists():
         raise FileNotFoundError(f"Dataset path not found: {dataset_path}")
 
-    model, checkpoint_epoch = load_model(args.model_path, device)
+    model, checkpoint_epoch = load_model(
+        args.model_path,
+        device,
+        args.feature_dim
+    )
 
     transform = transforms.Compose([
         transforms.Resize((256, 256)),

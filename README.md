@@ -147,6 +147,24 @@ python train_complex_safe_baseline.py \
   --grad-weight 0.12 \
   --phase-correction-scale 0.1 \
   --residual-correction-scale 0.1
+
+python train_complex_safe_baseline.py \
+  --epochs 30 \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --learning-rate 8e-5 \
+  --debug-save-dir debug_complex_loss_matched \
+  --save-interval 200 \
+  --img-weight 0.05 \
+  --residual-weight 0.1 \
+  --residual-imag-weight 0.0 \
+  --phase-weight 0.2 \
+  --amp-weight 0.0 \
+  --amp-imag-loss-weight 0.0 \
+  --phase-unit-weight 0.0 \
+  --grad-weight 0.1 \
+  --phase-correction-scale 0.1 \
+  --residual-correction-scale 0.1
   
 python test_complex.py \
   --model-path path/to/model.pth \
@@ -181,23 +199,23 @@ python test_complex.py \
   --feature-dim 64
 
 python test_complex_safe_baseline.py \
-  --model-path ./model/2026-04-08_12-18-57_complex_safe_final.pth \
+  --model-path ./model/2026-08-11_06-37-18_complex_safe_final.pth \
   --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
-  --save-dir ./best_complex_safe_metrics_davis \
+  --save-dir ./best_complex_safe_metrics_davis_matched \
   --batch-size 2 \
   --feature-dim 64
 
 python test_complex_safe_baseline.py \
-  --model-path ./model/2026-04-08_12-18-57_complex_safe_final.pth \
+  --model-path ./model/2026-08-11_06-37-18_complex_safe_final.pth \
   --dataset-path /home/salman/Documents/GitHub/PhaseNet/ucf101_interp_ours \
-  --save-dir ./best_complex_safe_metrics_ucf101 \
+  --save-dir ./best_complex_safe_metrics_ucf101_matched \
   --batch-size 2 \
   --feature-dim 64
 
 python test_complex_safe_baseline.py \
-  --model-path ./model/2026-04-08_12-18-57_complex_safe_final.pth \
+  --model-path ./model/2026-08-11_06-37-18_complex_safe_final.pth \
   --dataset-path /home/salman/Documents/GitHub/PhaseNet/eval-color-allframes/eval-data/ \
-  --save-dir ./best_complex_safe_metrics_middlebury \
+  --save-dir ./best_complex_safe_metrics_middlebury_matched \
   --batch-size 2 \
   --feature-dim 64
 
@@ -205,9 +223,9 @@ python test_complex_safe_baseline.py \
 python train.py \
   --epochs 30 \
   --batch-size 2 \
-  --feature-dim 64 \
+  --feature-dim 93 \
   --learning-rate 8e-5 \
-  --debug-save-dir debug_real_aligned \
+  --debug-save-dir debug_real_aligned-93 \
   --save-interval 200 \
   --img-weight 0.05 \
   --residual-weight 0.1 \
@@ -216,25 +234,29 @@ python train.py \
   --grad-weight 0.1
 
 python test.py \
-  --model-path ./model/2026-04-06_21-03-22_real_safe_final.pth \
+  --model-path ./model/2026-08-09_16-13-14_real_safe_final.pth \
   --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
-  --save-dir ./best_metrics_davis \
+  --save-dir ./best_metrics_davis93 \
   --batch-size 2 \
-  --device cuda:0 
+  --device cuda:0 \
+  --feature-dim 93
 
+// model/2026-04-06_21-03-22_real_safe_final.pth (64 model)
 python test.py \
-  --model-path ./model/2026-04-06_21-03-22_real_safe_final.pth \
+  --model-path ./model/2026-08-09_16-13-14_real_safe_final.pth \
   --dataset-path /home/salman/Documents/GitHub/PhaseNet/ucf101_interp_ours \
-  --save-dir ./best_metrics_ucf \
+  --save-dir ./best_metrics_ucf93 \
   --batch-size 2 \
-  --device cuda:0 
+  --device cuda:0 \
+  --feature-dim 93
 
 python test.py \
-  --model-path ./model/2026-04-06_21-03-22_real_safe_final.pth \
+  --model-path ./model/2026-08-09_16-13-14_real_safe_final.pth \
   --dataset-path /home/salman/Documents/GitHub/PhaseNet/eval-color-allframes/eval-data/ \
-  --save-dir ./best_metrics_Middlebury \
+  --save-dir ./best_metrics_Middlebury93 \
   --batch-size 2 \
-  --device cuda:0 
+  --device cuda:0 \
+  --feature-dim 93
 
 ```
 
