@@ -62,6 +62,7 @@ __pycache__/train_complex.cpython-312.pyc
 ucf101_interp_ours.zipucf101_interp_ours.zip
 phasenet_test.png
 test_complex (Copy).txt
+.gitignore
 test (Copy).txt
 train (Copy).txt
 train_complex (Copy).txt
