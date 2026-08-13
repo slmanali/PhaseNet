@@ -9,7 +9,12 @@ def resolve_davis_root(davis_root=None, dataset_path=None):
         root = Path(davis_root).expanduser().resolve()
     elif dataset_path is not None:
         images = Path(dataset_path).expanduser().resolve()
-        root = images.parent.parent if images.name == "480p" else images
+        if images.name == "480p" and images.parent.name == "JPEGImages":
+            root = images.parent.parent
+        elif images.name == "JPEGImages":
+            root = images.parent
+        else:
+            root = images
     else:
         raise ValueError("Pass --davis-root or --dataset-path")
     return root
@@ -26,11 +31,11 @@ def _candidate_split_files(root, split):
             for year in ("2017", "2016")]
 
 
-def load_davis_split(davis_root, split="train"):
+def load_davis_split(davis_root, split="train", imageset_root=None):
     """Load an official DAVIS train/val sequence list; never fabricate one."""
     if split not in {"train", "val"}:
         raise ValueError(f"DAVIS split must be 'train' or 'val', got {split!r}")
-    root = Path(davis_root).expanduser().resolve()
+    root = Path(imageset_root or davis_root).expanduser().resolve()
     for path in _candidate_split_files(root, split):
         if path.is_file():
             names = [line.strip().split()[0] for line in path.read_text().splitlines()
@@ -41,12 +46,18 @@ def load_davis_split(davis_root, split="train"):
                 raise RuntimeError(f"Duplicate sequence in DAVIS split file: {path}")
             return names
     searched = "\n  ".join(str(p) for p in _candidate_split_files(root, split))
-    raise FileNotFoundError(f"No official DAVIS {split} split file found. Searched:\n  {searched}")
+    raise FileNotFoundError(
+        f"No official DAVIS {split} split file found. Searched:\n  {searched}\n"
+        "The JPEGImages-only download does not contain the official split metadata. "
+        "Install/extract the complete DAVIS trainval package so that "
+        "<DAVIS_ROOT>/ImageSets/2017/train.txt and val.txt exist, or pass the "
+        "directory containing ImageSets with --imageset-root."
+    )
 
 
-def load_davis_train_val(davis_root):
-    train = load_davis_split(davis_root, "train")
-    val = load_davis_split(davis_root, "val")
+def load_davis_train_val(davis_root, imageset_root=None):
+    train = load_davis_split(davis_root, "train", imageset_root)
+    val = load_davis_split(davis_root, "val", imageset_root)
     overlap = set(train) & set(val)
     if overlap:
         raise RuntimeError("DAVIS train/val sequence overlap: " + ", ".join(sorted(overlap)))

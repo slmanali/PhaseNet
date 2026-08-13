@@ -7,7 +7,6 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from net.phasenet import Triplets
 from utils.davis import davis_image_root, load_davis_train_val, resolve_davis_root
 
 
@@ -17,20 +16,34 @@ def frame_paths(dataset):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--davis-root", required=True)
-    parser.add_argument("--dataset-path", default=None)
+    location = parser.add_mutually_exclusive_group(required=True)
+    location.add_argument("--davis-root", help="DAVIS root containing JPEGImages and ImageSets")
+    location.add_argument(
+        "--dataset-path",
+        help="DAVIS root, JPEGImages directory, or JPEGImages/480p directory",
+    )
+    parser.add_argument(
+        "--imageset-root",
+        help="Optional separate DAVIS root containing ImageSets/2017",
+    )
     args = parser.parse_args()
 
     root = resolve_davis_root(args.davis_root, args.dataset_path)
     image_root = davis_image_root(root, args.dataset_path)
+    if not image_root.is_dir():
+        parser.error(f"DAVIS image directory does not exist: {image_root}")
     all_sequences = sorted(p.name for p in image_root.iterdir() if p.is_dir())
-    train, val = load_davis_train_val(root)
+    train, val = load_davis_train_val(root, args.imageset_root)
+    from net.phasenet import Triplets
+
     overlap = set(train) & set(val)
     train_data = Triplets(str(image_root), allowed_sequences=train)
     val_data = Triplets(str(image_root), allowed_sequences=val)
     frame_overlap = frame_paths(train_data) & frame_paths(val_data)
     total_assigned_sequences = len(train) + len(val)
     total_triplets = len(train_data) + len(val_data)
+    if not total_triplets:
+        raise RuntimeError("The official DAVIS train/val sequences generated no triplets")
 
     print(f"DAVIS root: {root}")
     print(f"Image root: {image_root}")

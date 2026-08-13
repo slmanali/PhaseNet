@@ -260,6 +260,28 @@ python test.py \
 
 ```
 
+### Audit the DAVIS train/validation split
+
+The audit requires the official split metadata in addition to the 480p images.
+With a complete DAVIS trainval extraction, the expected layout is
+`DAVIS/ImageSets/2017/{train,val}.txt` and `DAVIS/JPEGImages/480p/`:
+
+```bash
+python tools/audit_davis_split.py --davis-root /path/to/DAVIS
+```
+
+If the images and official metadata were extracted separately, point to both
+locations explicitly:
+
+```bash
+python tools/audit_davis_split.py \
+  --dataset-path /path/to/DAVIS/JPEGImages/480p \
+  --imageset-root /path/to/DAVIS-metadata
+```
+
+The tool intentionally does not infer or fabricate a split when `ImageSets` is
+missing, because that could silently contaminate train/validation evaluation.
+
 
 
 `test_complex.py` saves two prediction files per sample when `--save-dir` is used: a visibility-normalized preview (`*_pred.png`) generated from the unclamped reconstruction, and the raw clamped reconstruction (`*_pred_raw.png`). This avoids the common “all black prediction” debugging artifact when the reconstructed tensor falls outside the display range while still preserving the true clamped output for direct inspection.
@@ -507,5 +529,4 @@ For questions, issues, or contributions:
 ---
 
 **Star ⭐ this repository if you find it useful!**
-
 
