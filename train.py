@@ -20,6 +20,8 @@ from tqdm import tqdm
 
 from steerable.SCFpyr_PyTorch import SCFpyr_PyTorch
 from net.phasenet import PhaseNet, Triplets, get_input, Total_loss, output_convert
+from utils.davis import (davis_image_root, load_davis_train_val,
+                         print_davis_split, resolve_davis_root)
 
 
 def parse_args():
@@ -29,6 +31,8 @@ def parse_args():
     parser.add_argument("--learning-rate", type=float, default=8e-5)
     parser.add_argument("--feature-dim", type=int, default=64)
     parser.add_argument("--dataset-path", type=str, default=None)
+    parser.add_argument("--davis-root", type=str, default=None)
+    parser.add_argument("--split", choices=("train",), default="train")
     parser.add_argument("--overfit-samples", type=int, default=0)
     parser.add_argument("--max-steps-per-epoch", type=int, default=0)
     parser.add_argument("--log-interval", type=int, default=10)
@@ -84,7 +88,9 @@ def main():
         print(f"GPU: {torch.cuda.get_device_name(0)}")
         print(f"GPU Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB")
 
-    dataset_path = args.dataset_path or resolve_dataset_path()
+    dataset_path = args.dataset_path or (None if args.davis_root else resolve_dataset_path())
+    davis_root = resolve_davis_root(args.davis_root, dataset_path)
+    dataset_path = str(davis_image_root(davis_root, args.dataset_path))
     if not os.path.exists(dataset_path):
         raise FileNotFoundError(f"Dataset path not found: {dataset_path}")
     print(f"Using dataset path: {dataset_path}")
@@ -93,7 +99,10 @@ def main():
         transforms.Resize((256, 256)),
         transforms.ToTensor(),
     ])
-    dataset = Triplets(dataset_path, transform)
+    train_sequences, val_sequences = load_davis_train_val(davis_root)
+    assert set(train_sequences).isdisjoint(set(val_sequences))
+    dataset = Triplets(dataset_path, transform, allowed_sequences=train_sequences)
+    print_davis_split(args.split, train_sequences, len(dataset))
     if args.overfit_samples > 0:
         dataset = torch.utils.data.Subset(dataset, range(min(args.overfit_samples, len(dataset))))
         print(f"Overfit/debug mode enabled: using first {len(dataset)} triplets")

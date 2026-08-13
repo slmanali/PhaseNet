@@ -138,8 +138,11 @@ def pil_loader(path):
 
 
 class Triplets(Dataset):
-    def __init__(self, root_dir, transform=None):
+    def __init__(self, root_dir, transform=None, allowed_sequences=None):
         self.root_dir = root_dir
+        self.allowed_sequences = (
+            None if allowed_sequences is None else set(allowed_sequences)
+        )
         self.classes, self.class_to_idx = self._find_classes()
         self.sample = self._make_sample()
         self.transform = transform
@@ -160,6 +163,15 @@ class Triplets(Dataset):
         else:
             classes = [d for d in os.listdir(self.root_dir) if os.path.isdir(os.path.join(self.root_dir, d))]
         classes.sort()
+        if self.allowed_sequences is not None:
+            available = set(classes)
+            missing = self.allowed_sequences - available
+            if missing:
+                raise ValueError(
+                    "DAVIS split contains sequences absent from the image root: "
+                    + ", ".join(sorted(missing))
+                )
+            classes = [name for name in classes if name in self.allowed_sequences]
         class_to_idx = {classes[i]: i for i in range(len(classes))}
         return classes, class_to_idx
 

@@ -20,6 +20,11 @@ import lpips
 from net.phasenet import PhaseNet, Triplets, get_input, output_convert
 from steerable.SCFpyr_PyTorch import SCFpyr_PyTorch
 from test_complex_safe_baseline import UCF101Triplets, MiddleburyTriplets
+from utils.davis import (davis_image_root, load_davis_train_val,
+                         print_davis_split, resolve_davis_root)
+from utils.metrics import (compute_l1 as shared_l1, compute_mse as shared_mse,
+                           compute_psnr as shared_psnr, compute_ssim as shared_ssim,
+                           compute_lpips as shared_lpips, compute_real_pce)
 
 # ============================================================================
 # REUSABLE METRIC FUNCTIONS (Same as test_complex.py)
@@ -325,9 +330,11 @@ def parse_args():
     parser.add_argument(
         "--dataset-path",
         type=str,
-        required=True,
+        default=None,
         help="Path to the DAVIS-style dataset root.",
     )
+    parser.add_argument("--davis-root", type=str, default=None)
+    parser.add_argument("--split", choices=("train", "val"), default="val")
     parser.add_argument(
         "--batch-size",
         type=int,
@@ -452,13 +459,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
                 
                 # ✓ FIX: Denormalize using amp_scales (stays as list[Tensor])
                 # amp_scales_dict = {i: amp_scales[i] for i in range(len(amp_scales))}
-                pred_coeff_denorm = denormalize_coefficients(pred_coeff, amp_scales)
-                truth_coeff_denorm = denormalize_coefficients(truth_coeff, amp_scales)
-                
-                # Convert to complex format for PCE
-                pred_real, pred_imag = convert_coeff_to_complex_format(pred_coeff_denorm)
-                truth_real, truth_imag = convert_coeff_to_complex_format(truth_coeff_denorm)
-                pce_channel = compute_pce(truth_real, truth_imag, pred_real, pred_imag)
+                pce_channel = compute_real_pce(truth_coeff, pred_coeff)
                 pce_batch_sum += pce_channel
 
                 # Reconstruction: convert back to output_convert format for pyr.reconstruct()
@@ -476,11 +477,11 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
                 truth_batch = truth_batch[:remaining]
 
             # Compute metrics
-            l1_batch = torch.mean(torch.abs(pred_batch - truth_batch)).item()
-            mse_batch = torch.mean((pred_batch - truth_batch) ** 2).item()
-            psnr_batch = compute_psnr(pred_batch, truth_batch)
-            ssim_batch = compute_ssim(pred_batch, truth_batch)
-            lpips_batch = compute_lpips(pred_batch, truth_batch, device=device)
+            l1_batch = shared_l1(pred_batch, truth_batch)
+            mse_batch = shared_mse(pred_batch, truth_batch)
+            psnr_batch = shared_psnr(pred_batch, truth_batch)
+            ssim_batch = shared_ssim(pred_batch, truth_batch)
+            lpips_batch = shared_lpips(pred_batch, truth_batch, loss_fn_lpips)
             pce_batch = pce_batch_sum / 3.0
             
             batch_count = pred_batch.shape[0]
@@ -537,7 +538,8 @@ def main():
     args = parse_args()
 
     device = resolve_device(args.device)
-    dataset_path = Path(args.dataset_path).expanduser()
+    davis_root = resolve_davis_root(args.davis_root, args.dataset_path)
+    dataset_path = davis_image_root(davis_root, args.dataset_path)
     
     if not dataset_path.exists():
         raise FileNotFoundError(f"Dataset path not found: {dataset_path}")
@@ -553,8 +555,6 @@ def main():
         transforms.ToTensor(),
     ])
 
-    dataset = Triplets(str(dataset_path), transform)
-
     dataset_path_str = str(dataset_path)
     if "ucf101_interp_ours" in dataset_path_str.lower() or "ucf101" in dataset_path_str.lower():
         print("Using UCF101 (Deep Voxel Flow) dataset structure.")
@@ -564,7 +564,11 @@ def main():
         dataset = MiddleburyTriplets(dataset_path_str, transform)
     else:
         print("Using standard Triplets (DAVIS-style) dataset.")
-        dataset = Triplets(dataset_path_str, transform)
+        train_sequences, val_sequences = load_davis_train_val(davis_root)
+        assert set(train_sequences).isdisjoint(set(val_sequences))
+        sequences = train_sequences if args.split == "train" else val_sequences
+        dataset = Triplets(dataset_path_str, transform, allowed_sequences=sequences)
+        print_davis_split(args.split, sequences, len(dataset), evaluation=True)
     dataloader = DataLoader(
         dataset,
         batch_size=args.batch_size,

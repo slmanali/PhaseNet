@@ -26,6 +26,11 @@ from train_complex_safe_baseline import (
     output_convert_complex,
     resolve_dataset_path,
 )
+from utils.davis import (davis_image_root, load_davis_train_val,
+                         print_davis_split, resolve_davis_root)
+from utils.metrics import (compute_l1 as shared_l1, compute_mse as shared_mse,
+                           compute_psnr as shared_psnr, compute_ssim as shared_ssim,
+                           compute_lpips as shared_lpips, compute_complex_pce)
 
 class UCF101Triplets(torch.utils.data.Dataset):
     """Dataset for ucf101_interp_ours structure from Deep Voxel Flow paper."""
@@ -224,6 +229,8 @@ def parse_args():
             "resolution logic as train_complex.py is used."
         ),
     )
+    parser.add_argument("--davis-root", type=str, default=None)
+    parser.add_argument("--split", choices=("train", "val"), default="val")
     parser.add_argument(
         "--batch-size",
         type=int,
@@ -499,10 +506,10 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
                 truth_imag = [tensor.float().to(device) for tensor in truth_imag]
 
                 pred_real, pred_imag = model(train_real, train_imag)
-                pce_channel = compute_pce(truth_real, truth_imag, pred_real, pred_imag)
+                pce_channel = compute_complex_pce(truth_real, truth_imag, pred_real, pred_imag)
                 pce_batch_sum += pce_channel
 
-                pred_coeff = output_convert_complex(pred_real, pred_imag)
+                pred_coeff = output_convert_complex(pred_real, pred_imag, highpass=hp_mid)
                 pred_img = pyr.reconstruct(pred_coeff, pyr_type=pyr_type)
                 recon_channels.append(pred_img.unsqueeze(1))
 
@@ -516,11 +523,11 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
                 truth_batch = truth_batch[:remaining]
                 batch = {key: value[:remaining] for key, value in batch.items()}
 
-            l1_batch = torch.mean(torch.abs(pred_batch - truth_batch)).item()
-            mse_batch = torch.mean((pred_batch - truth_batch) ** 2).item()
-            psnr_batch = compute_psnr(pred_batch, truth_batch)
-            ssim_batch = compute_ssim(pred_batch, truth_batch)
-            lpips_batch = loss_fn_lpips(pred_batch, truth_batch).mean().item()
+            l1_batch = shared_l1(pred_batch, truth_batch)
+            mse_batch = shared_mse(pred_batch, truth_batch)
+            psnr_batch = shared_psnr(pred_batch, truth_batch)
+            ssim_batch = shared_ssim(pred_batch, truth_batch)
+            lpips_batch = shared_lpips(pred_batch, truth_batch, loss_fn_lpips)
             pce_batch = pce_batch_sum / 3.0
 
             batch_count = pred_batch.shape[0]
@@ -586,7 +593,10 @@ def main():
     args = parse_args()
 
     device = resolve_device(args.device)
-    dataset_path = ensure_dataset_path(args.dataset_path)
+    davis_root = resolve_davis_root(args.davis_root, args.dataset_path)
+    dataset_path = davis_image_root(davis_root, args.dataset_path)
+    if not dataset_path.exists():
+        raise FileNotFoundError(f"Dataset path not found: {dataset_path}")
     model, checkpoint_epoch = load_model(args.model_path, device, args.feature_dim)
 
     transform = transforms.Compose([
@@ -604,7 +614,11 @@ def main():
         dataset = MiddleburyTriplets(dataset_path_str, transform)
     else:
         print("Using standard Triplets (DAVIS-style) dataset.")
-        dataset = Triplets(dataset_path_str, transform)
+        train_sequences, val_sequences = load_davis_train_val(davis_root)
+        assert set(train_sequences).isdisjoint(set(val_sequences))
+        sequences = train_sequences if args.split == "train" else val_sequences
+        dataset = Triplets(dataset_path_str, transform, allowed_sequences=sequences)
+        print_davis_split(args.split, sequences, len(dataset), evaluation=True)
 
     dataloader = DataLoader(
         dataset,
