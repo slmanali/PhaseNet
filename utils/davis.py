@@ -20,6 +20,16 @@ def resolve_davis_root(davis_root=None, dataset_path=None):
     return root
 
 
+def resolve_imageset_root(imageset_root):
+    """Resolve a metadata location from a DAVIS root or image directory."""
+    path = Path(imageset_root).expanduser().resolve()
+    if path.name == "480p" and path.parent.name == "JPEGImages":
+        return path.parent.parent
+    if path.name == "JPEGImages":
+        return path.parent
+    return path
+
+
 def davis_image_root(davis_root, dataset_path=None):
     return (Path(dataset_path).expanduser().resolve() if dataset_path else
             Path(davis_root) / "JPEGImages" / "480p")
@@ -35,7 +45,8 @@ def load_davis_split(davis_root, split="train", imageset_root=None):
     """Load an official DAVIS train/val sequence list; never fabricate one."""
     if split not in {"train", "val"}:
         raise ValueError(f"DAVIS split must be 'train' or 'val', got {split!r}")
-    root = Path(imageset_root or davis_root).expanduser().resolve()
+    root = (resolve_imageset_root(imageset_root) if imageset_root is not None
+            else Path(davis_root).expanduser().resolve())
     for path in _candidate_split_files(root, split):
         if path.is_file():
             names = [line.strip().split()[0] for line in path.read_text().splitlines()

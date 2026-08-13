@@ -279,6 +279,11 @@ python tools/audit_davis_split.py \
   --imageset-root /path/to/DAVIS-metadata
 ```
 
+`--imageset-root` may point to a DAVIS root, its `JPEGImages` directory, or its
+`JPEGImages/480p` directory; in every case, the corresponding DAVIS root must
+contain `ImageSets/2017/train.txt` and `ImageSets/2017/val.txt`. Pointing it at a
+JPEGImages-only download cannot supply the missing official split metadata.
+
 The tool intentionally does not infer or fabricate a split when `ImageSets` is
 missing, because that could silently contaminate train/validation evaluation.
 

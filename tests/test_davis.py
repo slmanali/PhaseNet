@@ -22,6 +22,20 @@ class DavisSplitTest(unittest.TestCase):
             self.assertEqual(train, ["bear", "blackswan"])
             self.assertEqual(val, ["breakdance"])
 
+    def test_imageset_root_accepts_image_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "DAVIS"
+            split_dir = root / "ImageSets" / "2017"
+            split_dir.mkdir(parents=True)
+            (split_dir / "train.txt").write_text("bear\n")
+            (split_dir / "val.txt").write_text("breakdance\n")
+
+            train, val = load_davis_train_val(
+                "/images/elsewhere", root / "JPEGImages" / "480p")
+
+            self.assertEqual(train, ["bear"])
+            self.assertEqual(val, ["breakdance"])
+
     def test_missing_metadata_explains_how_to_fix_it(self):
         with tempfile.TemporaryDirectory() as directory:
             with self.assertRaisesRegex(FileNotFoundError, "complete DAVIS trainval package"):

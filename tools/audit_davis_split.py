@@ -24,7 +24,8 @@ def main():
     )
     parser.add_argument(
         "--imageset-root",
-        help="Optional separate DAVIS root containing ImageSets/2017",
+        help=("Optional separate DAVIS root containing ImageSets/2017; a "
+              "JPEGImages or JPEGImages/480p path is also accepted"),
     )
     args = parser.parse_args()
 
