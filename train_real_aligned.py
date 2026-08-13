@@ -18,6 +18,8 @@ from tqdm import tqdm
 
 from steerable.SCFpyr_PyTorch import SCFpyr_PyTorch
 from net.phasenet import PhaseNet, Triplets, get_input, Total_loss, output_convert
+from utils.davis import (davis_image_root, load_davis_train_val,
+                         print_davis_split, resolve_davis_root)
 
 
 
@@ -149,6 +151,8 @@ def main():
 
     # Dataset path
     dataset_path = args.dataset_path or resolve_dataset_path()
+    davis_root = resolve_davis_root(dataset_path=dataset_path)
+    dataset_path = str(davis_image_root(davis_root, dataset_path))
 
     if not os.path.exists(dataset_path):
         print(f"WARNING: Dataset path not found: {dataset_path}")
@@ -164,7 +168,10 @@ def main():
     ])
 
     try:
-        dataset = Triplets(dataset_path, transform)
+        train_sequences, _ = load_davis_train_val(davis_root)
+        dataset = Triplets(dataset_path, transform,
+                           allowed_sequences=train_sequences)
+        print_davis_split("train", train_sequences, len(dataset))
         if args.overfit_samples > 0:
             overfit_count = min(args.overfit_samples, len(dataset))
             dataset = torch.utils.data.Subset(dataset, range(overfit_count))

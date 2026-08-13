@@ -20,6 +20,8 @@ from tqdm import tqdm
 import lpips
 from net.complex_phasenet import ComplexPhaseNet
 from net.phasenet import Triplets
+from utils.davis import (davis_image_root, load_davis_train_val,
+                         print_davis_split, resolve_davis_root)
 from steerable.SCFpyr_PyTorch import SCFpyr_PyTorch
 from train_complex import (
     get_complex_input,
@@ -224,6 +226,7 @@ def parse_args():
             "resolution logic as train_complex.py is used."
         ),
     )
+    parser.add_argument("--split", choices=("train", "val"), default="val")
     parser.add_argument(
         "--batch-size",
         type=int,
@@ -604,7 +607,13 @@ def main():
         dataset = MiddleburyTriplets(dataset_path_str, transform)
     else:
         print("Using standard Triplets (DAVIS-style) dataset.")
-        dataset = Triplets(dataset_path_str, transform)
+        davis_root = resolve_davis_root(dataset_path=dataset_path_str)
+        dataset_path_str = str(davis_image_root(davis_root, dataset_path_str))
+        train_sequences, val_sequences = load_davis_train_val(davis_root)
+        sequences = train_sequences if args.split == "train" else val_sequences
+        dataset = Triplets(dataset_path_str, transform,
+                           allowed_sequences=sequences)
+        print_davis_split(args.split, sequences, len(dataset), evaluation=True)
 
     dataloader = DataLoader(
         dataset,
