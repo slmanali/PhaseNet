@@ -62,7 +62,6 @@ __pycache__/train_complex.cpython-312.pyc
 ucf101_interp_ours.zipucf101_interp_ours.zip
 phasenet_test.png
 test_complex (Copy).txt
-.gitignore
 test (Copy).txt
 train (Copy).txt
 train_complex (Copy).txt
@@ -71,3 +70,7 @@ steerable/SCFpyr_PyTorch (Copy).txt
 net/complex_phasenet.txt
 __pycache__/test_complex_safe_baseline.cpython-312.pyc
 __pycache__/train_complex_safe_baseline.cpython-312.pyc
+utils/__pycache__/__init__.cpython-312.pyc
+utils/__pycache__/davis.cpython-312.pyc
+tests/__pycache__/test_davis.cpython-312.pyc
+tools/__pycache__/audit_davis_split.cpython-312.pyc
