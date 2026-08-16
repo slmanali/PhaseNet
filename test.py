@@ -482,7 +482,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
             psnr_batch = shared_psnr(pred_batch, truth_batch)
             ssim_batch = shared_ssim(pred_batch, truth_batch)
             lpips_batch = shared_lpips(pred_batch, truth_batch, loss_fn_lpips)
-            pce_batch = pce_batch_sum / 3.0
+            pce_batch = pce_batch_sum / 2.0
             
             batch_count = pred_batch.shape[0]
             l1_total += l1_batch * batch_count

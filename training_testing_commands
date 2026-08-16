@@ -1,0 +1,166 @@
+1. Full ComplexPhaseNet — proposed model
+training
+python train_complex_safe_baseline.py \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
+  --split train \
+  --epochs 40 \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --learning-rate 8e-5 \
+  --debug-save-dir debug_complex_safe_split \
+  --save-interval 200 \
+  --img-weight 0.08 \
+  --residual-weight 0.1 \
+  --residual-imag-weight 0.05 \
+  --phase-weight 0.25 \
+  --amp-weight 0.0 \
+  --amp-imag-loss-weight 0.0 \
+  --phase-unit-weight 0.01 \
+  --grad-weight 0.12 \
+  --phase-correction-scale 0.1 \
+  --residual-correction-scale 0.1
+testing
+python test_complex_safe_baseline.py \
+  --model-path ./model/2026-08-13_18-24-26_complex_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
+  --split val \
+  --save-dir ./best_complex_safe_metrics_davis_val \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --device cuda:0
+python test_complex_safe_baseline.py \
+  --model-path ./model/2026-08-13_18-24-26_complex_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/ucf101_interp_ours \
+  --save-dir ./best_complex_safe_metrics_ucf101 \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --device cuda:0
+python test_complex_safe_baseline.py \
+  --model-path ./model/2026-08-13_18-24-26_complex_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/eval-color-allframes/eval-data \
+  --save-dir ./best_complex_safe_metrics_middlebury \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --device cuda:0
+2. ComplexPhaseNet-Loss-Matched
+training
+python train_complex_safe_baseline.py \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
+  --split train \
+  --epochs 40 \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --learning-rate 8e-5 \
+  --debug-save-dir debug_complex_loss_matched_split \
+  --save-interval 200 \
+  --img-weight 0.05 \
+  --residual-weight 0.1 \
+  --residual-imag-weight 0.0 \
+  --phase-weight 0.2 \
+  --amp-weight 0.0 \
+  --amp-imag-loss-weight 0.0 \
+  --phase-unit-weight 0.0 \
+  --grad-weight 0.1 \
+  --phase-correction-scale 0.1 \
+  --residual-correction-scale 0.1
+testing
+python test_complex_safe_baseline.py \
+  --model-path ./model/2026-08-14_17-34-06_complex_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
+  --split val \
+  --save-dir ./matched_complex_safe_metrics_davis_val \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --device cuda:0
+python test_complex_safe_baseline.py \
+  --model-path ./model/2026-08-14_17-34-06_complex_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/ucf101_interp_ours \
+  --save-dir ./matched_complex_safe_metrics_ucf101 \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --device cuda:0
+python test_complex_safe_baseline.py \
+  --model-path ./model/2026-08-14_17-34-06_complex_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/eval-color-allframes/eval-data \
+  --save-dir ./matched_complex_safe_metrics_middlebury \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --device cuda:0
+3. Parameter-matched real PhaseNet-93
+training
+python train.py \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
+  --split train \
+  --epochs 40 \
+  --batch-size 2 \
+  --feature-dim 93 \
+  --learning-rate 8e-5 \
+  --debug-save-dir debug_real_aligned_93_split \
+  --save-interval 200 \
+  --img-weight 0.05 \
+  --residual-weight 0.1 \
+  --phase-weight 0.2 \
+  --amp-weight 0.0 \
+  --grad-weight 0.1
+testing
+python test.py \
+  --model-path ./model/2026-08-15_16-44-53_real_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
+  --split val \
+  --batch-size 2 \
+  --feature-dim 93 \
+  --device cuda:0 \
+  --save-dir ./big_real_safe_metrics_davis
+python test.py \
+  --model-path ./model/2026-08-15_16-44-53_real_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/ucf101_interp_ours \
+  --save-dir ./big_real_safe_metrics_ucf101 \
+  --batch-size 2 \
+  --feature-dim 93 \
+  --device cuda:0
+python test.py \
+  --model-path ./model/2026-08-15_16-44-53_real_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/eval-color-allframes/eval-data \
+  --save-dir ./big_real_safe_metrics_middlebury \
+  --batch-size 2 \
+  --feature-dim 93 \
+  --device cuda:0
+4. PhaseNet-64 default
+training
+python train.py \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
+  --split train \
+  --epochs 40 \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --learning-rate 8e-5 \
+  --debug-save-dir debug_real_64_split \
+  --save-interval 200 \
+  --img-weight 0.05 \
+  --residual-weight 0.1 \
+  --phase-weight 0.2 \
+  --amp-weight 0.0 \
+  --grad-weight 0.1
+testing
+python test.py \
+  --model-path ./model/2026-08-16_08-07-21_real_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p \
+  --split val \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --device cuda:0 \
+  --save-dir ./real_safe_metrics_davis
+python test.py \
+  --model-path ./model/2026-08-16_08-07-21_real_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/ucf101_interp_ours \
+  --save-dir ./real_safe_metrics_ucf101 \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --device cuda:0
+python test.py \
+  --model-path ./model/2026-08-16_08-07-21_real_safe_final.pth \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/eval-color-allframes/eval-data \
+  --save-dir ./real_safe_metrics_middlebury \
+  --batch-size 2 \
+  --feature-dim 64 \
+  --device cuda:0

@@ -75,3 +75,17 @@ utils/__pycache__/__init__.cpython-312.pyc
 utils/__pycache__/davis.cpython-312.pyc
 tests/__pycache__/test_davis.cpython-312.pyc
 tools/__pycache__/audit_davis_split.cpython-312.pyc
+/debug_complex_safe_split
+/best_complex_safe_metrics_davis_val
+/debug_complex_loss_matched_split
+/matched_complex_safe_metrics_davis_val
+/matched_complex_safe_metrics_middlebury
+/matched_complex_safe_metrics_ucf101
+/debug_real_aligned_93_split
+/big_real_safe_metrics_middlebury
+/big_real_safe_metrics_ucf101
+/big_real_safe_metrics_davis
+/debug_real_64_split
+/real_safe_metrics_davis
+/real_safe_metrics_middlebury
+/real_safe_metrics_ucf101
