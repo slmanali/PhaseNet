@@ -25,6 +25,8 @@ from utils.davis import (davis_image_root, load_davis_train_val,
 from utils.metrics import (compute_l1 as shared_l1, compute_mse as shared_mse,
                            compute_psnr as shared_psnr, compute_ssim as shared_ssim,
                            compute_lpips as shared_lpips, compute_real_pce)
+from utils.snufilm import (SNUFILMTriplets, SNU_MODES, snufilm_modes,
+                           write_snufilm_results)
 
 # ============================================================================
 # REUSABLE METRIC FUNCTIONS (Same as test_complex.py)
@@ -335,6 +337,14 @@ def parse_args():
     )
     parser.add_argument("--davis-root", type=str, default=None)
     parser.add_argument("--split", choices=("train", "val"), default="val")
+    parser.add_argument("--dataset-type", choices=("auto", "davis", "ucf101", "middlebury", "snufilm"), default="auto")
+    parser.add_argument("--snu-mode", choices=(*SNU_MODES, "all"), default="easy")
+    parser.add_argument("--image-size", choices=("native", "256"), default="256",
+                        help="SNU-FILM input resolution; native never resizes or tiles.")
+    parser.add_argument("--model-name", default=None,
+                        help="Paper CSV label (defaults to PhaseNet-default/big from feature_dim).")
+    parser.add_argument("--metrics-dir", type=Path, default=Path("."),
+                        help="Directory for metrics_snufilm.csv/json.")
     parser.add_argument(
         "--batch-size",
         type=int,
@@ -536,72 +546,66 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
 
 def main():
     args = parse_args()
-
     device = resolve_device(args.device)
+
+    if args.dataset_type == "snufilm":
+        if args.dataset_path is None:
+            raise ValueError("--dataset-path is required for --dataset-type snufilm")
+        if args.batch_size != 1:
+            raise ValueError("SNU-FILM publication evaluation requires --batch-size 1")
+        root = Path(args.dataset_path).expanduser().resolve()
+        if not root.is_dir():
+            raise FileNotFoundError(f"SNU-FILM root not found: {root}")
+        model, checkpoint_epoch = load_model(args.model_path, device, args.feature_dim)
+        results = {}
+        for mode in snufilm_modes(args.snu_mode):
+            dataset = SNUFILMTriplets(root, mode, args.image_size)
+            dataset.print_validation_summary()
+            dataloader = DataLoader(dataset, batch_size=1, shuffle=False,
+                                    num_workers=args.num_workers)
+            mode_save_dir = args.save_dir / mode if args.save_dir else None
+            try:
+                results[mode] = evaluate(model, dataloader, device, mode_save_dir,
+                                         args.max_samples)
+            except torch.cuda.OutOfMemoryError as error:
+                allocated = torch.cuda.memory_allocated(device) / 2**30
+                reserved = torch.cuda.memory_reserved(device) / 2**30
+                raise RuntimeError(
+                    f"CUDA out of memory at {dataset.input_resolution}; "
+                    f"allocated={allocated:.2f} GiB, reserved={reserved:.2f} GiB. "
+                    "Native SNU-FILM evaluation will not resize or tile automatically."
+                ) from error
+        model_name = args.model_name or ("PhaseNet-default" if args.feature_dim == 64 else
+                                         "PhaseNet-big" if args.feature_dim == 93 else
+                                         f"PhaseNet-feature-{args.feature_dim}")
+        write_snufilm_results(results, args.metrics_dir, model_name)
+        return
+
     davis_root = resolve_davis_root(args.davis_root, args.dataset_path)
     dataset_path = davis_image_root(davis_root, args.dataset_path)
-    
     if not dataset_path.exists():
         raise FileNotFoundError(f"Dataset path not found: {dataset_path}")
-
-    model, checkpoint_epoch = load_model(
-        args.model_path,
-        device,
-        args.feature_dim
-    )
-
-    transform = transforms.Compose([
-        transforms.Resize((256, 256)),
-        transforms.ToTensor(),
-    ])
-
+    model, checkpoint_epoch = load_model(args.model_path, device, args.feature_dim)
+    transform = transforms.Compose([transforms.Resize((256, 256)), transforms.ToTensor()])
     dataset_path_str = str(dataset_path)
-    if "ucf101_interp_ours" in dataset_path_str.lower() or "ucf101" in dataset_path_str.lower():
-        print("Using UCF101 (Deep Voxel Flow) dataset structure.")
+    dataset_type = args.dataset_type
+    if dataset_type == "ucf101" or (dataset_type == "auto" and "ucf101" in dataset_path_str.lower()):
         dataset = UCF101Triplets(dataset_path_str, transform)
-    elif "middlebury" in dataset_path_str.lower() or "eval-color-allframes" in dataset_path_str.lower():
-        print("Using Middlebury eval-color-allframes dataset structure.")
+    elif dataset_type == "middlebury" or (dataset_type == "auto" and ("middlebury" in dataset_path_str.lower() or "eval-color-allframes" in dataset_path_str.lower())):
         dataset = MiddleburyTriplets(dataset_path_str, transform)
     else:
-        print("Using standard Triplets (DAVIS-style) dataset.")
         train_sequences, val_sequences = load_davis_train_val(davis_root)
-        assert set(train_sequences).isdisjoint(set(val_sequences))
         sequences = train_sequences if args.split == "train" else val_sequences
         dataset = Triplets(dataset_path_str, transform, allowed_sequences=sequences)
         print_davis_split(args.split, sequences, len(dataset), evaluation=True)
-    dataloader = DataLoader(
-        dataset,
-        batch_size=args.batch_size,
-        shuffle=False,
-        num_workers=args.num_workers,
-    )
-
+    dataloader = DataLoader(dataset, batch_size=args.batch_size, shuffle=False,
+                            num_workers=args.num_workers)
     print(f"Using device: {device}")
-    print(f"Dataset path: {dataset_path}")
-    print(f"Dataset triplets: {len(dataset)}")
-    print(f"Model path: {args.model_path}")
-    if checkpoint_epoch is not None:
-        print(f"Checkpoint epoch: {checkpoint_epoch}")
-
-    metrics = evaluate(
-        model=model,
-        dataloader=dataloader,
-        device=device,
-        save_dir=args.save_dir,
-        max_samples=args.max_samples,
-    )
-
+    print("Input resolution: 256x256")
+    metrics = evaluate(model, dataloader, device, args.save_dir, args.max_samples)
     print("\nEvaluation complete")
-    print(f"Samples evaluated: {metrics['samples']}")
-    print(f"Mean L1:  {metrics['l1']:.6f}")
-    print(f"Mean MSE: {metrics['mse']:.6f}")
-    print(f"Mean PSNR: {metrics['psnr']:.2f} dB")
-    print(f"Mean SSIM: {metrics['ssim']:.4f}")
-    print(f"Mean LPIPS: {metrics['lpips']:.4f}")
-    print(f"Mean PCE:   {metrics['pce']:.4f} rad")
-    print(f"Mean PCE:   {metrics['pce'] * 180.0 / math.pi:.2f} deg")
-    if args.save_dir is not None:
-        print(f"Saved best metric images to: {args.save_dir}")
+    for name in ("samples", "l1", "mse", "psnr", "ssim", "lpips", "pce"):
+        print(f"{name.upper()}: {metrics[name]}")
 
 
 if __name__ == "__main__":
