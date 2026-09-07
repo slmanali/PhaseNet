@@ -96,7 +96,10 @@ class SCFpyr_PyTorch(object):
         assert im_batch.shape[1] == 1, 'Second dimension must be 1 encoding grayscale image'
         assert pyr_type==0 or pyr_type==1, 'pyr_type must be 0 or 1'
         im_batch = im_batch.squeeze(1)  # flatten channels dim
-        height, width = im_batch.shape[2], im_batch.shape[1] 
+        # After removing the channel axis the tensor layout is [N, H, W].
+        # Keep the spatial dimensions in that order so non-square inputs use
+        # masks with the same shape as their Fourier transforms.
+        height, width = im_batch.shape[1:3]
         
         # Check whether image size is sufficient for number of levels
         if self.height > int(np.floor(np.log2(min(width, height))/np.log2(self.scale_factor)) - 2):
@@ -204,7 +207,8 @@ class SCFpyr_PyTorch(object):
             raise Exception("Unmatched number of orientations")
         
         device = coeff[0].device
-        height, width = coeff[0].shape[2], coeff[0].shape[1] 
+        # The high-pass residual uses the [N, H, W] layout produced by build.
+        height, width = coeff[0].shape[1:3]
         log_rad, angle = math_utils.prepare_grid(height, width)
 
         Xrcos, Yrcos = math_utils.rcosFn(1, -0.5)
