@@ -115,10 +115,6 @@ class ComplexPhaseNetSafe(nn.Module):
         return norm_real, norm_imag, scale
 
     def forward(self, x_real, x_imag):
-        feature_map_real = []
-        feature_map_imag = []
-        pred_map_real = []
-        pred_map_imag = []
         output_real = []
         output_imag = []
 
@@ -130,10 +126,12 @@ class ComplexPhaseNetSafe(nn.Module):
         feat_r, feat_i = self.layer[0](residual_real, residual_imag)
         pred_r, pred_i = self.pred[0](feat_r, feat_i)
 
-        feature_map_real.append(feat_r)
-        feature_map_imag.append(feat_i)
-        pred_map_real.append(pred_r)
-        pred_map_imag.append(pred_i)
+        # Only the immediately preceding feature and prediction are consumed by
+        # the next level.  Keeping every level alive is particularly expensive
+        # for native-resolution evaluation, where the feature maps grow at each
+        # step through the pyramid.
+        previous_feat_r, previous_feat_i = feat_r, feat_i
+        previous_pred_r, previous_pred_i = pred_r, pred_i
 
         base_r = self.alpha * norm_real[:, 0:1] + (1.0 - self.alpha) * norm_real[:, 1:2]
         base_i = self.alpha * norm_imag[:, 0:1] + (1.0 - self.alpha) * norm_imag[:, 1:2]
@@ -149,10 +147,10 @@ class ComplexPhaseNetSafe(nn.Module):
             img_shape = (x_real[i].shape[2], x_real[i].shape[3])
             norm_real, norm_imag, amp_scale = self.normalize_band(x_real[i], x_imag[i])
 
-            feat_up_r = F.interpolate(feature_map_real[i - 1], img_shape, mode='bilinear', align_corners=False)
-            feat_up_i = F.interpolate(feature_map_imag[i - 1], img_shape, mode='bilinear', align_corners=False)
-            pred_up_r = F.interpolate(pred_map_real[i - 1], img_shape, mode='bilinear', align_corners=False)
-            pred_up_i = F.interpolate(pred_map_imag[i - 1], img_shape, mode='bilinear', align_corners=False)
+            feat_up_r = F.interpolate(previous_feat_r, img_shape, mode='bilinear', align_corners=False)
+            feat_up_i = F.interpolate(previous_feat_i, img_shape, mode='bilinear', align_corners=False)
+            pred_up_r = F.interpolate(previous_pred_r, img_shape, mode='bilinear', align_corners=False)
+            pred_up_i = F.interpolate(previous_pred_i, img_shape, mode='bilinear', align_corners=False)
 
             concat_real = torch.cat([norm_real, feat_up_r, pred_up_r], dim=1)
             concat_imag = torch.cat([norm_imag, feat_up_i, pred_up_i], dim=1)
@@ -160,10 +158,8 @@ class ComplexPhaseNetSafe(nn.Module):
             feat_r, feat_i = self.layer[i](concat_real, concat_imag)
             pred_r, pred_i = self.pred[i](feat_r, feat_i)
 
-            feature_map_real.append(feat_r)
-            feature_map_imag.append(feat_i)
-            pred_map_real.append(pred_r)
-            pred_map_imag.append(pred_i)
+            previous_feat_r, previous_feat_i = feat_r, feat_i
+            previous_pred_r, previous_pred_i = pred_r, pred_i
 
             # Pure amplitude interpolation only, like safe real baseline
             base_amp = self.beta * norm_real[:, 0:4] + (1.0 - self.beta) * norm_real[:, 8:12]
