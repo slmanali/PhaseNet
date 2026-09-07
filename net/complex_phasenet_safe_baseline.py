@@ -114,7 +114,40 @@ class ComplexPhaseNetSafe(nn.Module):
         norm_imag[:, amp_channels] = imag[:, amp_channels] / scale
         return norm_real, norm_imag, scale
 
-    def forward(self, x_real, x_imag):
+    @staticmethod
+    def _run_tiled(module, real, imag, tile_size, halo):
+        """Run a local complex module in spatial tiles without introducing seams."""
+        height, width = real.shape[-2:]
+        if not tile_size or (height <= tile_size and width <= tile_size):
+            return module(real, imag)
+
+        real_rows = []
+        imag_rows = []
+        for top in range(0, height, tile_size):
+            bottom = min(top + tile_size, height)
+            real_tiles = []
+            imag_tiles = []
+            for left in range(0, width, tile_size):
+                right = min(left + tile_size, width)
+                expanded_top = max(0, top - halo)
+                expanded_bottom = min(height, bottom + halo)
+                expanded_left = max(0, left - halo)
+                expanded_right = min(width, right + halo)
+                tile_real, tile_imag = module(
+                    real[..., expanded_top:expanded_bottom, expanded_left:expanded_right],
+                    imag[..., expanded_top:expanded_bottom, expanded_left:expanded_right],
+                )
+                crop_top = top - expanded_top
+                crop_left = left - expanded_left
+                real_tiles.append(tile_real[..., crop_top:crop_top + bottom - top,
+                                            crop_left:crop_left + right - left])
+                imag_tiles.append(tile_imag[..., crop_top:crop_top + bottom - top,
+                                            crop_left:crop_left + right - left])
+            real_rows.append(torch.cat(real_tiles, dim=-1))
+            imag_rows.append(torch.cat(imag_tiles, dim=-1))
+        return torch.cat(real_rows, dim=-2), torch.cat(imag_rows, dim=-2)
+
+    def forward(self, x_real, x_imag, tile_size=None):
         output_real = []
         output_imag = []
 
@@ -123,8 +156,10 @@ class ComplexPhaseNetSafe(nn.Module):
         residual_real = norm_real.mean(dim=1, keepdim=True)
         residual_imag = norm_imag.mean(dim=1, keepdim=True)
 
-        feat_r, feat_i = self.layer[0](residual_real, residual_imag)
-        pred_r, pred_i = self.pred[0](feat_r, feat_i)
+        feat_r, feat_i = self._run_tiled(
+            self.layer[0], residual_real, residual_imag, tile_size, halo=0
+        )
+        pred_r, pred_i = self._run_tiled(self.pred[0], feat_r, feat_i, tile_size, halo=0)
 
         # Only the immediately preceding feature and prediction are consumed by
         # the next level.  Keeping every level alive is particularly expensive
@@ -155,8 +190,15 @@ class ComplexPhaseNetSafe(nn.Module):
             concat_real = torch.cat([norm_real, feat_up_r, pred_up_r], dim=1)
             concat_imag = torch.cat([norm_imag, feat_up_i, pred_up_i], dim=1)
 
-            feat_r, feat_i = self.layer[i](concat_real, concat_imag)
-            pred_r, pred_i = self.pred[i](feat_r, feat_i)
+            # Levels 1 and 2 use 1x1 convolutions; later blocks contain two
+            # 3x3 convolutions and therefore need a two-pixel input halo.
+            feat_r, feat_i = self._run_tiled(
+                self.layer[i], concat_real, concat_imag, tile_size,
+                halo=0 if i <= 2 else 2,
+            )
+            pred_r, pred_i = self._run_tiled(
+                self.pred[i], feat_r, feat_i, tile_size, halo=0
+            )
 
             previous_feat_r, previous_feat_i = feat_r, feat_i
             previous_pred_r, previous_pred_i = pred_r, pred_i

@@ -236,7 +236,12 @@ def parse_args():
     parser.add_argument("--dataset-type", choices=("auto", "davis", "ucf101", "middlebury", "snufilm"), default="auto")
     parser.add_argument("--snu-mode", choices=(*SNU_MODES, "all"), default="easy")
     parser.add_argument("--image-size", choices=("native", "256"), default="256",
-                        help="SNU-FILM input resolution; native never resizes or tiles.")
+                        help="SNU-FILM input resolution; native is not resized.")
+    parser.add_argument(
+        "--tile-size", type=int, default=None,
+        help=("Model inference tile edge. Native SNU-FILM defaults to 256 to "
+              "reduce peak CUDA memory; pass 0 to disable tiling."),
+    )
     parser.add_argument("--model-name", default="ComplexPhaseNet-full",
                         help="Paper CSV model label.")
     parser.add_argument("--metrics-dir", type=Path, default=Path("."),
@@ -459,7 +464,7 @@ def save_batch_visualizations(batch, raw_predictions, clamped_predictions, save_
             save_dir / f"{sample_id:05d}_pred.png",
         )
 
-def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
+def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_size=None):
     pyr = SCFpyr_PyTorch(
         height=12,
         nbands=4,
@@ -515,7 +520,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
                 truth_real = [tensor.float().to(device) for tensor in truth_real]
                 truth_imag = [tensor.float().to(device) for tensor in truth_imag]
 
-                pred_real, pred_imag = model(train_real, train_imag)
+                pred_real, pred_imag = model(train_real, train_imag, tile_size=tile_size)
                 pce_channel = compute_complex_pce(truth_real, truth_imag, pred_real, pred_imag)
                 pce_batch_sum += pce_channel
 
@@ -601,6 +606,8 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
 
 def main():
     args = parse_args()
+    if args.tile_size is not None and args.tile_size < 0:
+        raise ValueError("--tile-size must be non-negative")
     device = resolve_device(args.device)
 
     if args.dataset_type == "snufilm":
@@ -612,6 +619,9 @@ def main():
         if not root.is_dir():
             raise FileNotFoundError(f"SNU-FILM root not found: {root}")
         model, checkpoint_epoch = load_model(args.model_path, device, args.feature_dim)
+        tile_size = 256 if args.tile_size is None and args.image_size == "native" else args.tile_size
+        if tile_size:
+            print(f"Model inference tile size: {tile_size}x{tile_size}")
         results = {}
         for mode in snufilm_modes(args.snu_mode):
             dataset = SNUFILMTriplets(root, mode, args.image_size)
@@ -621,14 +631,14 @@ def main():
             mode_save_dir = args.save_dir / mode if args.save_dir else None
             try:
                 results[mode] = evaluate(model, dataloader, device, mode_save_dir,
-                                         args.max_samples)
+                                         args.max_samples, tile_size)
             except torch.cuda.OutOfMemoryError as error:
                 allocated = torch.cuda.memory_allocated(device) / 2**30
                 reserved = torch.cuda.memory_reserved(device) / 2**30
                 raise RuntimeError(
                     f"CUDA out of memory at {dataset.input_resolution}; "
                     f"allocated={allocated:.2f} GiB, reserved={reserved:.2f} GiB. "
-                    "Native SNU-FILM evaluation will not resize or tile automatically."
+                    "Try a smaller --tile-size (for example, 128)."
                 ) from error
         model_name = args.model_name
         write_snufilm_results(results, args.metrics_dir, model_name)
