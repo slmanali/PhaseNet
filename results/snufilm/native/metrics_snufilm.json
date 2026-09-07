@@ -1,0 +1,186 @@
+{
+  "results": [
+    {
+      "model": "ComplexPhaseNet-full",
+      "mode": "easy",
+      "samples": "310",
+      "psnr": "32.02404758498224",
+      "ssim": "0.8573466002941131",
+      "lpips": "0.14710485511281032",
+      "pce": "0.8642511414735976"
+    },
+    {
+      "model": "ComplexPhaseNet-full",
+      "mode": "medium",
+      "samples": "310",
+      "psnr": "27.495004717131433",
+      "ssim": "0.7599414827362183",
+      "lpips": "0.2331583336750496",
+      "pce": "1.051354019188331"
+    },
+    {
+      "model": "ComplexPhaseNet-full",
+      "mode": "hard",
+      "samples": "310",
+      "psnr": "23.83160982509481",
+      "ssim": "0.6622415370518161",
+      "lpips": "0.3218206754284761",
+      "pce": "1.2036911492923998"
+    },
+    {
+      "model": "ComplexPhaseNet-full",
+      "mode": "extreme",
+      "samples": "310",
+      "psnr": "20.942251232708486",
+      "ssim": "0.5783576240462641",
+      "lpips": "0.40417164227054003",
+      "pce": "1.3046048465398383"
+    },
+    {
+      "model": "ComplexPhaseNet-Loss-Matched",
+      "mode": "easy",
+      "samples": "310",
+      "psnr": "32.01910067024661",
+      "ssim": "0.8573024642082953",
+      "lpips": "0.14718252229936152",
+      "pce": "0.8643320492413974"
+    },
+    {
+      "model": "ComplexPhaseNet-Loss-Matched",
+      "mode": "medium",
+      "samples": "310",
+      "psnr": "27.493283281983942",
+      "ssim": "0.7598853844788767",
+      "lpips": "0.23325542561754944",
+      "pce": "1.0514023012500602"
+    },
+    {
+      "model": "ComplexPhaseNet-Loss-Matched",
+      "mode": "hard",
+      "samples": "310",
+      "psnr": "23.831157765262233",
+      "ssim": "0.6621958149536964",
+      "lpips": "0.32192771384913116",
+      "pce": "1.2037126311830966"
+    },
+    {
+      "model": "ComplexPhaseNet-Loss-Matched",
+      "mode": "extreme",
+      "samples": "310",
+      "psnr": "20.941858296520504",
+      "ssim": "0.5783161599789897",
+      "lpips": "0.4042684800021591",
+      "pce": "1.3046344659326425"
+    },
+    {
+      "model": "PhaseNet-big",
+      "mode": "easy",
+      "samples": "310",
+      "psnr": "31.231732821919522",
+      "ssim": "0.8531425924070419",
+      "lpips": "0.17066660685644996",
+      "pce": "1.1819976783345274"
+    },
+    {
+      "model": "PhaseNet-big",
+      "mode": "medium",
+      "samples": "310",
+      "psnr": "27.186267070683325",
+      "ssim": "0.757249705445382",
+      "lpips": "0.25620890016096737",
+      "pce": "1.3895305898999086"
+    },
+    {
+      "model": "PhaseNet-big",
+      "mode": "hard",
+      "samples": "310",
+      "psnr": "23.722199857515132",
+      "ssim": "0.6609206481806693",
+      "lpips": "0.34397382197240667",
+      "pce": "1.5541741817784092"
+    },
+    {
+      "model": "PhaseNet-big",
+      "mode": "extreme",
+      "samples": "310",
+      "psnr": "20.907897074014546",
+      "ssim": "0.5781911134719848",
+      "lpips": "0.4246366749127065",
+      "pce": "1.6642507873030115"
+    },
+    {
+      "model": "PhaseNet-default",
+      "mode": "easy",
+      "samples": 310,
+      "psnr": 31.202369761184368,
+      "ssim": 0.8522123941490727,
+      "lpips": 0.17228372797910724,
+      "pce": 1.1829437982768534
+    },
+    {
+      "model": "PhaseNet-default",
+      "mode": "medium",
+      "samples": 310,
+      "psnr": 27.169534771464807,
+      "ssim": 0.7561195283166824,
+      "lpips": 0.2581909707386888,
+      "pce": 1.3900713765414328
+    },
+    {
+      "model": "PhaseNet-default",
+      "mode": "hard",
+      "samples": 310,
+      "psnr": 23.712641046981435,
+      "ssim": 0.6596946624017531,
+      "lpips": 0.3460264192533589,
+      "pce": 1.5543462630798548
+    },
+    {
+      "model": "PhaseNet-default",
+      "mode": "extreme",
+      "samples": 310,
+      "psnr": 20.90287394736342,
+      "ssim": 0.5769709176113529,
+      "lpips": 0.4267178574937486,
+      "pce": 1.6641633839419745
+    }
+  ],
+  "complex_over_phasenet_big": {
+    "ComplexPhaseNet-Loss-Matched": {
+      "easy": {
+        "lpips_reduction_percent": 13.760210617441546,
+        "pce_reduction_percent": 26.875317516759516
+      },
+      "medium": {
+        "lpips_reduction_percent": 8.958890393345833,
+        "pce_reduction_percent": 24.33399387588903
+      },
+      "hard": {
+        "lpips_reduction_percent": 6.409240097650231,
+        "pce_reduction_percent": 22.54969582587498
+      },
+      "extreme": {
+        "lpips_reduction_percent": 4.79661699374755,
+        "pce_reduction_percent": 21.608301111465437
+      }
+    },
+    "ComplexPhaseNet-full": {
+      "easy": {
+        "lpips_reduction_percent": 13.805718750509731,
+        "pce_reduction_percent": 26.882162519019904
+      },
+      "medium": {
+        "lpips_reduction_percent": 8.996786009945744,
+        "pce_reduction_percent": 24.337468578934796
+      },
+      "hard": {
+        "lpips_reduction_percent": 6.4403582856685215,
+        "pce_reduction_percent": 22.5510780319976
+      },
+      "extreme": {
+        "lpips_reduction_percent": 4.819421837827249,
+        "pce_reduction_percent": 21.610080854820836
+      }
+    }
+  }
+}

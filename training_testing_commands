@@ -52,6 +52,7 @@ python test_complex_safe_baseline.py \
   --model-name ComplexPhaseNet-full \
   --batch-size 1 \
   --metrics-dir results/snufilm/native
+---------------------------------------------------------
 2. ComplexPhaseNet-Loss-Matched
 training
 python train_complex_safe_baseline.py \
@@ -106,6 +107,7 @@ python test_complex_safe_baseline.py \
   --model-name ComplexPhaseNet-Loss-Matched \
   --batch-size 1 \
   --metrics-dir results/snufilm/native
+---------------------------------------------------------
 3. Parameter-matched real PhaseNet-93
 training
 python train.py \
@@ -145,6 +147,17 @@ python test.py \
   --batch-size 2 \
   --feature-dim 93 \
   --device cuda:0
+python test.py \
+  --model-path ./model/2026-08-15_16-44-53_real_safe_final.pth \
+  --dataset-type snufilm \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/SNU-FILM \
+  --snu-mode all \
+  --image-size native \
+  --feature-dim 93 \
+  --model-name PhaseNet-big \
+  --batch-size 1 \
+  --metrics-dir results/snufilm/native
+---------------------------------------------------------
 4. PhaseNet-64 default
 training
 python train.py \
@@ -184,3 +197,13 @@ python test.py \
   --batch-size 2 \
   --feature-dim 64 \
   --device cuda:0
+python test.py \
+  --model-path ./model/2026-08-16_08-07-21_real_safe_final.pth \
+  --dataset-type snufilm \
+  --dataset-path /home/salman/Documents/GitHub/PhaseNet/SNU-FILM \
+  --snu-mode all \
+  --image-size native \
+  --feature-dim 64 \
+  --model-name PhaseNet-default \
+  --batch-size 1 \
+  --metrics-dir results/snufilm/native
