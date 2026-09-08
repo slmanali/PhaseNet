@@ -233,3 +233,56 @@ python tools/make_snufilm_qualitative_figure.py \
   --kind external \
   --methods gt ifrnet rife cain complex_full \
   --output fig_snufilm_external_qualitative
+
+  -------------------------
+  python tools/export_snufilm_qualitative.py \
+  --snu-root /home/salman/Documents/GitHub/PhaseNet/SNU-FILM \
+  --checkpoint phasenet_default=./model/2026-08-16_08-07-21_real_safe_final.pth \
+  --checkpoint phasenet_big=./model/2026-08-15_16-44-53_real_safe_final.pth \
+  --checkpoint complex_loss_matched=./model/2026-08-14_17-34-06_complex_safe_final.pth \
+  --checkpoint complex_full=./model/2026-08-13_18-24-26_complex_safe_final.pth \
+  --mode hard \
+  --sample-indices 36,38,39,139 \
+  --output-dir ./qualitative_snufilm_selected \
+  --image-size 256 \
+  --device cuda:0
+
+  python tools/make_snufilm_cross_model_comparison.py \
+  --mode hard \
+  --sample-indices 36,38,39,139 \
+  --source-dir ./qualitative_snufilm_selected \
+  --output-dir ./qualitative_comparisons
+
+-------------------------------------------
+python tools/export_snufilm_qualitative.py \
+  --snu-root /home/salman/Documents/GitHub/PhaseNet/SNU-FILM \
+  --checkpoint phasenet_default=./model/2026-08-16_08-07-21_real_safe_final.pth \
+  --checkpoint phasenet_big=./model/2026-08-15_16-44-53_real_safe_final.pth \
+  --checkpoint complex_loss_matched=./model/2026-08-14_17-34-06_complex_safe_final.pth \
+  --checkpoint complex_full=./model/2026-08-13_18-24-26_complex_safe_final.pth \
+  --mode all \
+  --worst-k 1 \
+  --output-dir ./qualitative_snufilm_worst \
+  --image-size 256 \
+  --device cuda:0
+
+python tools/export_snufilm_qualitative.py \
+  --snu-root /home/salman/Documents/GitHub/PhaseNet/SNU-FILM \
+  --checkpoint phasenet_default=./model/2026-08-16_08-07-21_real_safe_final.pth \
+  --checkpoint phasenet_big=./model/2026-08-15_16-44-53_real_safe_final.pth \
+  --checkpoint complex_loss_matched=./model/2026-08-14_17-34-06_complex_safe_final.pth \
+  --checkpoint complex_full=./model/2026-08-13_18-24-26_complex_safe_final.pth \
+  --mode hard \
+  --sample-indices 15,83,192 \
+  --output-dir ./qualitative_snufilm_failures_common \
+  --image-size 256 \
+  --device cuda:0
+
+python tools/make_snufilm_cross_model_comparison.py \
+  --source-dir ./qualitative_snufilm_failures_common \
+  --output-dir ./qualitative_snufilm_failure_comparisons \
+  --mode hard \
+  --sample-indices 15,83,192 \
+  --crop-strategy blur \
+  --crop-count 2 \
+  --layout both
