@@ -215,8 +215,10 @@ python tools/export_snufilm_qualitative.py \
   --checkpoint phasenet_big=./model/2026-08-15_16-44-53_real_safe_final.pth \
   --checkpoint complex_loss_matched=./model/2026-08-14_17-34-06_complex_safe_final.pth \
   --checkpoint complex_full=./model/2026-08-13_18-24-26_complex_safe_final.pth \
-  --selection-metric lpips \
-  --metrics-json per_sample_metrics.json
+  --output-dir ./qualitative_snufilm_best \
+  --best-k 1 \
+  --image-size 256 \
+  --device cuda:0
 
 Create the Figures
 Internal comparison:
@@ -224,7 +226,7 @@ python tools/make_snufilm_qualitative_figure.py \
   --metadata qualitative_snufilm/metadata.json \
   --kind internal \
   --output fig_snufilm_internal_qualitative
-  
+
 Optional external comparison:
 python tools/make_snufilm_qualitative_figure.py \
   --metadata qualitative_snufilm/metadata.json \
