@@ -89,14 +89,44 @@ def suggest_crops(case, count=2):
     return boxes
 
 
-def crop_config(output_dir, case, mode, index, count):
+def suggest_blur_crops(case, count=2, error_weight=.25):
+    """Score shared crops using edge loss averaged over every model."""
+    gt = case[MODELS[0]]["ground_truth"].astype(np.float32) / 255
+    gt_gray = np.mean(gt, axis=2)
+    gy, gx = np.gradient(gt_gray)
+    gt_edges = np.hypot(gx, gy)
+    deficits, errors = [], []
+    for model in MODELS:
+        prediction = case[model]["prediction"].astype(np.float32) / 255
+        py, px = np.gradient(np.mean(prediction, axis=2))
+        deficits.append(np.maximum(0, gt_edges - np.hypot(px, py)))
+        errors.append(np.mean(np.abs(prediction - gt), axis=2))
+    score = gt_edges * np.mean(deficits, axis=0)
+    score += error_weight * np.mean(errors, axis=0)
+    height, width = score.shape
+    side = max(24, min(height, width) // 4)
+    integral = np.pad(score, ((1, 0), (1, 0))).cumsum(0).cumsum(1)
+    window = (integral[side:, side:] - integral[:-side, side:]
+              - integral[side:, :-side] + integral[:-side, :-side])
+    boxes = []
+    for _ in range(count):
+        y, x = np.unravel_index(np.argmax(window), window.shape)
+        boxes.append([int(x), int(y), int(x + side), int(y + side)])
+        window[max(0, y - side):min(window.shape[0], y + side),
+               max(0, x - side):min(window.shape[1], x + side)] = -np.inf
+    return boxes
+
+
+def crop_config(output_dir, case, mode, index, count, strategy="default"):
     path = output_dir / "crop_coordinates.json"
     if path.is_file():
         payload = json.loads(path.read_text(encoding="utf-8"))
         boxes = payload["crops"]
     else:
-        boxes = suggest_crops(case, count)
+        boxes = (suggest_blur_crops(case, count) if strategy == "blur"
+                 else suggest_crops(case, count))
         payload = {"mode": mode, "sample_index": index,
+                   "crop_strategy": strategy,
                    "coordinate_format": "[x0, y0, x1, y1]", "crops": boxes,
                    "note": "Edit these coordinates and rerun to override automatic suggestions."}
         path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
@@ -121,11 +151,13 @@ def save_case_files(case, output_dir):
 
 
 def make_figure(case, boxes, mode, index, layout, output_dir):
-    keys = (["ground_truth", "phasenet_big", "complex_full"] if layout == "compact" else
-            ["ground_truth", *MODELS])
-    frames = {"ground_truth": case[MODELS[0]]["ground_truth"]}
+    keys = (["phasenet_big", "complex_full", "ground_truth"] if layout == "compact" else
+            ["input_1", *MODELS, "ground_truth", "input_2"])
+    frames = {key: case[MODELS[0]][key]
+              for key in ("input_1", "ground_truth", "input_2")}
     frames.update({model: case[model]["prediction"] for model in MODELS})
-    titles = {"ground_truth": "Ground Truth", **LABELS}
+    titles = {"input_1": "Input I0", "ground_truth": "Ground Truth",
+              "input_2": "Input I1", **LABELS}
     rows = 1 + len(boxes)
     fig, axes = plt.subplots(rows, len(keys), figsize=(3.0 * len(keys), 2.45 * rows),
                              squeeze=False)
@@ -190,6 +222,7 @@ def main():
     parser.add_argument("--sample-indices")
     parser.add_argument("--layout", choices=("compact", "full", "both"), default="both")
     parser.add_argument("--crop-count", type=int, choices=(1, 2), default=2)
+    parser.add_argument("--crop-strategy", choices=("default", "blur"), default="default")
     parser.add_argument("--source-dir", type=Path, default=Path("qualitative_snufilm_best"))
     parser.add_argument("--output-dir", type=Path, default=Path("qualitative_comparisons"))
     args = parser.parse_args()
@@ -200,7 +233,8 @@ def main():
         case = load_case(args.source_dir, args.mode, index)
         directory = args.output_dir / f"{args.mode}_{index}"
         directory.mkdir(parents=True, exist_ok=True)
-        boxes = crop_config(directory, case, args.mode, index, args.crop_count)
+        boxes = crop_config(directory, case, args.mode, index, args.crop_count,
+                            args.crop_strategy)
         save_case_files(case, directory)
         layouts = ("compact", "full") if args.layout == "both" else (args.layout,)
         for layout in layouts:

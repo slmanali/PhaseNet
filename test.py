@@ -25,7 +25,8 @@ from utils.davis import (davis_image_root, load_davis_train_val,
 from utils.metrics import (compute_l1 as shared_l1, compute_mse as shared_mse,
                            compute_psnr as shared_psnr, compute_ssim as shared_ssim,
                            compute_lpips as shared_lpips, compute_real_pce)
-from utils.best_metrics import BestMetricsTracker, merge_best_summaries
+from utils.best_metrics import (BestMetricsTracker, WorstMetricsTracker,
+                                merge_best_summaries, merge_worst_summaries)
 from utils.snufilm import (SNUFILMTriplets, SNU_MODES, snufilm_modes,
                            write_snufilm_results)
 
@@ -303,6 +304,8 @@ def parse_args():
     )
     parser.add_argument("--best-k", type=int, default=1,
                         help="Number of best SNU-FILM samples retained per metric.")
+    parser.add_argument("--worst-k", type=int, default=None,
+                        help="Retain maximum-LPIPS/PCE failure candidates instead of best samples.")
     parser.add_argument("--sample-indices",
                         help="Comma-separated zero-based official SNU-FILM indices to evaluate.")
     parser.add_argument("--save-all", action="store_true",
@@ -343,7 +346,7 @@ def load_model(model_path, device, feature_dim):
 # ============================================================================
 
 def evaluate(model, dataloader, device, save_dir=None, max_samples=None, save_all=False,
-             best_k=1, model_name="model", mode="mode"):
+             best_k=1, model_name="model", mode="mode", worst_k=None):
 
     """Evaluate model on dataloader and optionally save best metric images."""
     pyr = SCFpyr_PyTorch(
@@ -363,7 +366,9 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, save_al
     loss_fn_lpips = lpips.LPIPS(net='alex').to(device) 
     processed = 0
 
-    tracker = BestMetricsTracker(save_dir, model_name, mode, best_k) if save_dir else None
+    tracker = (WorstMetricsTracker(save_dir, model_name, mode, worst_k)
+               if save_dir and worst_k is not None else
+               BestMetricsTracker(save_dir, model_name, mode, best_k) if save_dir else None)
     progress = tqdm(dataloader, desc="Evaluating", unit="batch")
 
     with torch.no_grad():
@@ -480,14 +485,24 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, save_al
         raise RuntimeError("No samples evaluated.")
 
     if tracker is not None:
+        label = "WORST" if worst_k is not None else "BEST"
         print("\n" + "="*70)
-        print("BEST METRIC IMAGES")
+        print(f"{label} METRIC IMAGES")
         print("="*70)
-        best_rows, best_records = tracker.save_best()
-        merge_best_summaries(Path(save_dir).parents[1], best_rows, best_records)
+        if worst_k is not None:
+            rows, records = tracker.save_worst()
+            merge_worst_summaries(Path(save_dir).parents[1], rows, records)
+        else:
+            rows, records = tracker.save_best()
+            merge_best_summaries(Path(save_dir).parents[1], rows, records)
         for metric, entries in tracker.selections().items():
             for rank, entry in enumerate(entries, 1):
-                print(f"Best {metric} rank {rank}: sample {entry['sample_index']} = {entry['metrics'][metric]:.6f}")
+                if worst_k is not None:
+                    print(f"Worst {metric.upper()} sample: {entry['sample_index']}")
+                    print(f"Worst {metric.upper()} value: {entry['metrics'][metric]:.6f}")
+                else:
+                    print(f"Best {metric} rank {rank}: sample {entry['sample_index']} = "
+                          f"{entry['metrics'][metric]:.6f}")
 
     return {
         "samples": processed,
@@ -515,6 +530,8 @@ def main():
         if args.max_samples is not None:
             raise ValueError("--sample-indices cannot be combined with --max-samples")
         args.best_k = len(sample_indices)
+    if args.worst_k is not None and args.worst_k < 1:
+        raise ValueError("--worst-k must be at least 1")
     device = resolve_device(args.device)
 
     if args.dataset_type == "snufilm":
@@ -539,10 +556,11 @@ def main():
                 print(f"Mode: {mode}")
                 print(f"Resolution: {dataset.input_resolution}")
                 print(f"Samples evaluated: {min(len(dataset), args.max_samples or len(dataset))}")
-                print(f"Saving only best-k: {args.best_k}")
+                print(f"Saving only {'worst' if args.worst_k is not None else 'best'}-k: "
+                      f"{args.worst_k if args.worst_k is not None else args.best_k}")
                 results[mode] = evaluate(model, dataloader, device, mode_save_dir,
                                          args.max_samples, args.save_all, args.best_k,
-                                         args.model_name or "phasenet", mode)
+                                         args.model_name or "phasenet", mode, args.worst_k)
             except torch.cuda.OutOfMemoryError as error:
                 allocated = torch.cuda.memory_allocated(device) / 2**30
                 reserved = torch.cuda.memory_reserved(device) / 2**30
