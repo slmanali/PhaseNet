@@ -66,6 +66,36 @@ python tools/make_snufilm_qualitative_figure.py \
 Each command writes PNG, PDF, and SVG. The layout is an original full-frame plus
 fixed-crop grid; IFRNet Figure 6 is a presentation reference only.
 
+## Fair cross-model selected cases
+
+Evaluate only the four official Hard triplets (rather than all 310) for every
+checkpoint:
+
+```bash
+python tools/export_snufilm_qualitative.py --snu-root /data/SNU-FILM \
+  --checkpoint phasenet_default=/checkpoints/default.pth \
+  --checkpoint phasenet_big=/checkpoints/big.pth \
+  --checkpoint complex_loss_matched=/checkpoints/complex-matched.pth \
+  --checkpoint complex_full=/checkpoints/complex-full.pth \
+  --mode hard --sample-indices 36,38,39,139 --image-size 256
+```
+
+Then generate compact and full figures, identical zooms, per-case assets, and
+the merged `selected_samples_metrics.csv` verification table:
+
+```bash
+python tools/make_snufilm_cross_model_comparison.py \
+  --mode extreme --sample-index 131
+python tools/make_snufilm_cross_model_comparison.py \
+  --mode hard --sample-indices 36,38,39,139
+```
+
+Each case's `crop_coordinates.json` is created once. Edit its `[x0,y0,x1,y1]`
+boxes and rerun the figure command to apply the manual override identically to
+the ground truth and every prediction. The generator rejects missing model
+outputs, mismatched input triplets, and inconsistent resolutions instead of
+silently producing an unfair comparison.
+
 ## Draft captions
 
 **Internal.** Qualitative comparison on SNU-FILM. As motion difficulty increases,

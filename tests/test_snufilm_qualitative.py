@@ -69,3 +69,13 @@ def test_generated_command_never_uses_save_all(tmp_path):
     command = tool.build_command(args, "phasenet_default", tmp_path / "model.pth")
     assert "--save-all" not in command
     assert command[command.index("--best-k") + 1] == "1"
+
+
+def test_generated_command_selects_only_requested_official_indices(tmp_path):
+    tool = _load_tool()
+    args = Namespace(snu_root=tmp_path / "SNU", output_dir=tmp_path / "out",
+                     image_size="256", best_k=1, device=None, mode="hard",
+                     sample_indices="36,38,39,139")
+    command = tool.build_command(args, "phasenet_big", tmp_path / "model.pth")
+    assert command[command.index("--snu-mode") + 1] == "hard"
+    assert command[command.index("--sample-indices") + 1] == "36,38,39,139"

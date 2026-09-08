@@ -303,6 +303,8 @@ def parse_args():
     )
     parser.add_argument("--best-k", type=int, default=1,
                         help="Number of best SNU-FILM samples retained per metric.")
+    parser.add_argument("--sample-indices",
+                        help="Comma-separated zero-based official SNU-FILM indices to evaluate.")
     parser.add_argument("--save-all", action="store_true",
                         help="Save every input/target/prediction (for qualitative analysis).")
     parser.add_argument(
@@ -447,11 +449,14 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, save_al
                     save_image(pred_batch[local_idx], save_dir / f"{sample_id:05d}_pred.png")
 
             if tracker is not None:
-                sample_index = processed - batch_count
+                local_index = processed - batch_count
                 source_paths = {}
                 dataset = getattr(dataloader, "dataset", None)
+                sample_index = (dataset.sample_indices[local_index]
+                                if dataset is not None and hasattr(dataset, "sample_indices")
+                                else local_index)
                 if dataset is not None and hasattr(dataset, "triplets"):
-                    triplet = dataset.triplets[sample_index]
+                    triplet = dataset.triplets[local_index]
                     source_paths = {"input_1": str(triplet[0]),
                                     "ground_truth": str(triplet[1]),
                                     "input_2": str(triplet[2])}
@@ -497,6 +502,19 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, save_al
 
 def main():
     args = parse_args()
+    sample_indices = None
+    if args.sample_indices:
+        try:
+            sample_indices = [int(value) for value in args.sample_indices.split(",")]
+        except ValueError as error:
+            raise ValueError("--sample-indices must be comma-separated integers") from error
+        if not sample_indices or len(sample_indices) != len(set(sample_indices)):
+            raise ValueError("--sample-indices must contain unique indices")
+        if args.snu_mode == "all":
+            raise ValueError("--sample-indices requires one --snu-mode, not 'all'")
+        if args.max_samples is not None:
+            raise ValueError("--sample-indices cannot be combined with --max-samples")
+        args.best_k = len(sample_indices)
     device = resolve_device(args.device)
 
     if args.dataset_type == "snufilm":
@@ -510,7 +528,7 @@ def main():
         model, checkpoint_epoch = load_model(args.model_path, device, args.feature_dim)
         results = {}
         for mode in snufilm_modes(args.snu_mode):
-            dataset = SNUFILMTriplets(root, mode, args.image_size)
+            dataset = SNUFILMTriplets(root, mode, args.image_size, sample_indices)
             dataset.print_validation_summary()
             dataloader = DataLoader(dataset, batch_size=1, shuffle=False,
                                     num_workers=args.num_workers)

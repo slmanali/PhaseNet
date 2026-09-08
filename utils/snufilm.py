@@ -16,7 +16,7 @@ SNU_MODES = ("easy", "medium", "hard", "extreme")
 class SNUFILMTriplets(Dataset):
     """Load exactly the triplets specified by an official SNU-FILM list."""
 
-    def __init__(self, root, mode, image_size="native"):
+    def __init__(self, root, mode, image_size="native", sample_indices=None):
         if mode not in SNU_MODES:
             raise ValueError(f"mode must be one of {SNU_MODES}, got {mode!r}")
         if image_size not in ("native", "256"):
@@ -25,7 +25,19 @@ class SNUFILMTriplets(Dataset):
         self.mode = mode
         self.image_size = image_size
         self.list_file = self._find_list()
-        self.triplets = self._read_and_validate()
+        all_triplets = self._read_and_validate()
+        if sample_indices is None:
+            self.sample_indices = list(range(len(all_triplets)))
+        else:
+            self.sample_indices = list(sample_indices)
+            invalid = [index for index in self.sample_indices
+                       if index < 0 or index >= len(all_triplets)]
+            if invalid:
+                raise IndexError(
+                    f"SNU-FILM {mode} sample indices out of range: {invalid}; "
+                    f"valid range is 0..{len(all_triplets) - 1}"
+                )
+        self.triplets = [all_triplets[index] for index in self.sample_indices]
 
     def _find_list(self):
         candidates = (

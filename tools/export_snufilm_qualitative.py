@@ -34,12 +34,14 @@ def build_command(args, name, checkpoint):
     script, feature_dim = MODELS[name]
     command = [sys.executable, str(ROOT / script),
                "--dataset-type", "snufilm", "--dataset-path", str(args.snu_root),
-               "--snu-mode", "all", "--image-size", args.image_size,
+               "--snu-mode", getattr(args, "mode", "all"), "--image-size", args.image_size,
                "--batch-size", "1", "--model-path", str(checkpoint),
                "--feature-dim", str(feature_dim), "--model-name", name,
                "--save-dir", str(args.output_dir / name),
                "--metrics-dir", str(args.output_dir / "quantitative_metrics"),
                "--best-k", str(args.best_k)]
+    if getattr(args, "sample_indices", None):
+        command.extend(("--sample-indices", args.sample_indices))
     if args.device:
         command.extend(("--device", args.device))
     return command
@@ -53,12 +55,18 @@ def main():
     parser.add_argument("--output-dir", type=Path,
                         default=Path("qualitative_snufilm_best"))
     parser.add_argument("--best-k", type=int, default=1)
+    parser.add_argument("--mode", choices=("easy", "medium", "hard", "extreme", "all"),
+                        default="all")
+    parser.add_argument("--sample-indices",
+                        help="Comma-separated official indices; requires a single --mode.")
     parser.add_argument("--image-size", choices=("native", "256"), default="256",
                         help="Use the paper protocol (256) unless native is explicitly requested.")
     parser.add_argument("--device")
     args = parser.parse_args()
     if args.best_k < 1:
         parser.error("--best-k must be at least 1")
+    if args.sample_indices and args.mode == "all":
+        parser.error("--sample-indices requires a single --mode")
     args.snu_root = args.snu_root.expanduser().resolve()
     args.output_dir = args.output_dir.expanduser().resolve()
     checkpoints = parse_pairs(args.checkpoint)
