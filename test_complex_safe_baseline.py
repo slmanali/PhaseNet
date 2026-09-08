@@ -276,6 +276,8 @@ def parse_args():
         default=None,
         help="Optional directory where predicted/ground-truth/start/end frames are saved.",
     )
+    parser.add_argument("--save-all", action="store_true",
+                        help="Save every input/target/prediction (for qualitative analysis).")
     parser.add_argument(
         "--feature-dim",
         type=int,
@@ -456,15 +458,16 @@ def save_batch_visualizations(batch, raw_predictions, clamped_predictions, save_
         save_image(batch["end"][batch_idx], save_dir / f"{sample_id:05d}_end.png")
         save_image(batch["inter"][batch_idx], save_dir / f"{sample_id:05d}_truth.png")
         save_image(
-            clamped_predictions[batch_idx],
+            raw_predictions[batch_idx],
             save_dir / f"{sample_id:05d}_pred_raw.png",
         )
         save_image(
-            normalize_for_visualization(raw_predictions[batch_idx]),
+            clamped_predictions[batch_idx],
             save_dir / f"{sample_id:05d}_pred.png",
         )
 
-def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_size=None):
+def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_size=None,
+             save_all=False):
     pyr = SCFpyr_PyTorch(
         height=12,
         nbands=4,
@@ -554,6 +557,13 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_si
             pce_total += pce_batch * batch_count
             processed += batch_count
 
+            if save_all:
+                if save_dir is None:
+                    raise ValueError("--save-all requires --save-dir")
+                save_batch_visualizations(batch, raw_pred_batch[:batch_count].cpu(),
+                                          pred_batch.cpu(), save_dir,
+                                          processed - batch_count)
+
             # ✓ Update tracker
             if tracker is not None:
                 tracker.update(
@@ -631,7 +641,7 @@ def main():
             mode_save_dir = args.save_dir / mode if args.save_dir else None
             try:
                 results[mode] = evaluate(model, dataloader, device, mode_save_dir,
-                                         args.max_samples, tile_size)
+                                         args.max_samples, tile_size, args.save_all)
             except torch.cuda.OutOfMemoryError as error:
                 allocated = torch.cuda.memory_allocated(device) / 2**30
                 reserved = torch.cuda.memory_reserved(device) / 2**30
@@ -665,7 +675,8 @@ def main():
                             num_workers=args.num_workers)
     print(f"Using device: {device}")
     print("Input resolution: 256x256")
-    metrics = evaluate(model, dataloader, device, args.save_dir, args.max_samples)
+    metrics = evaluate(model, dataloader, device, args.save_dir, args.max_samples,
+                       save_all=args.save_all)
     print("\nEvaluation complete")
     for name in ("samples", "l1", "mse", "psnr", "ssim", "lpips", "pce"):
         print(f"{name.upper()}: {metrics[name]}")

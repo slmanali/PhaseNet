@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "resolution": "native",
+  "selection_metric": "lpips",
+  "samples": []
+}

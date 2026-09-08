@@ -21,6 +21,7 @@ scipy>=1.10.0
 
 # Visualization
 matplotlib>=3.7.0
+lpips>=0.1.4
 
 # Utilities
 tqdm>=4.65.0

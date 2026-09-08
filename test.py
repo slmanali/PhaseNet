@@ -375,6 +375,8 @@ def parse_args():
         default=None,
         help="Directory where best metric images are saved.",
     )
+    parser.add_argument("--save-all", action="store_true",
+                        help="Save every input/target/prediction (for qualitative analysis).")
     parser.add_argument(
         "--feature-dim",
         type=int,
@@ -410,7 +412,7 @@ def load_model(model_path, device, feature_dim):
 # EVALUATION LOOP
 # ============================================================================
 
-def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
+def evaluate(model, dataloader, device, save_dir=None, max_samples=None, save_all=False):
     """Evaluate model on dataloader and optionally save best metric images."""
     pyr = SCFpyr_PyTorch(
         height=12,
@@ -503,6 +505,17 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None):
             pce_total += pce_batch * batch_count
             processed += batch_count
 
+            if save_all:
+                if save_dir is None:
+                    raise ValueError("--save-all requires --save-dir")
+                save_dir.mkdir(parents=True, exist_ok=True)
+                for local_idx in range(batch_count):
+                    sample_id = processed - batch_count + local_idx
+                    save_image(batch["start"][local_idx], save_dir / f"{sample_id:05d}_start.png")
+                    save_image(batch["inter"][local_idx], save_dir / f"{sample_id:05d}_truth.png")
+                    save_image(batch["end"][local_idx], save_dir / f"{sample_id:05d}_end.png")
+                    save_image(pred_batch[local_idx], save_dir / f"{sample_id:05d}_pred.png")
+
             if tracker is not None:
                 tracker.update(
                     processed,
@@ -566,7 +579,7 @@ def main():
             mode_save_dir = args.save_dir / mode if args.save_dir else None
             try:
                 results[mode] = evaluate(model, dataloader, device, mode_save_dir,
-                                         args.max_samples)
+                                         args.max_samples, args.save_all)
             except torch.cuda.OutOfMemoryError as error:
                 allocated = torch.cuda.memory_allocated(device) / 2**30
                 reserved = torch.cuda.memory_reserved(device) / 2**30
@@ -602,7 +615,8 @@ def main():
                             num_workers=args.num_workers)
     print(f"Using device: {device}")
     print("Input resolution: 256x256")
-    metrics = evaluate(model, dataloader, device, args.save_dir, args.max_samples)
+    metrics = evaluate(model, dataloader, device, args.save_dir, args.max_samples,
+                       args.save_all)
     print("\nEvaluation complete")
     for name in ("samples", "l1", "mse", "psnr", "ssim", "lpips", "pce"):
         print(f"{name.upper()}: {metrics[name]}")
