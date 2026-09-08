@@ -1,0 +1,20 @@
+{
+  "mode": "hard",
+  "sample_index": 36,
+  "coordinate_format": "[x0, y0, x1, y1]",
+  "crops": [
+    [
+      22,
+      0,
+      86,
+      64
+    ],
+    [
+      142,
+      41,
+      206,
+      105
+    ]
+  ],
+  "note": "Edit these coordinates and rerun to override automatic suggestions."
+}
