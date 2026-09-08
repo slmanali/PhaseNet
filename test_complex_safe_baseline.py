@@ -31,6 +31,7 @@ from utils.davis import (davis_image_root, load_davis_train_val,
 from utils.metrics import (compute_l1 as shared_l1, compute_mse as shared_mse,
                            compute_psnr as shared_psnr, compute_ssim as shared_ssim,
                            compute_lpips as shared_lpips, compute_complex_pce)
+from utils.best_metrics import BestMetricsTracker, merge_best_summaries
 from utils.snufilm import (SNUFILMTriplets, SNU_MODES, snufilm_modes,
                            write_snufilm_results)
 
@@ -141,77 +142,6 @@ class MiddleburyTriplets(torch.utils.data.Dataset):
         }
 
 
-class BestMetricsTracker:
-    """Track and save images with best metrics."""
-    def __init__(self, save_dir):
-        self.save_dir = Path(save_dir)
-        self.save_dir.mkdir(parents=True, exist_ok=True)
-        
-        self.best = {
-            "psnr": {"value": -float("inf"), "idx": None, "pred": None, "truth": None},
-            "ssim": {"value": -float("inf"), "idx": None, "pred": None, "truth": None},
-            "lpips": {"value": float("inf"), "idx": None, "pred": None, "truth": None},
-            "pce": {"value": float("inf"), "idx": None, "pred": None, "truth": None},
-        }
-    def update(self, batch_idx, psnr, ssim, lpips_val, pce_val, pred, truth):
-        """Update best metrics if current is better."""
-        if psnr > self.best["psnr"]["value"]:
-            self.best["psnr"]["value"] = psnr
-            self.best["psnr"]["idx"] = batch_idx
-            self.best["psnr"]["pred"] = pred.clone().detach().cpu()
-            self.best["psnr"]["truth"] = truth.clone().detach().cpu()
-        if ssim > self.best["ssim"]["value"]:
-            self.best["ssim"]["value"] = ssim
-            self.best["ssim"]["idx"] = batch_idx
-            self.best["ssim"]["pred"] = pred.clone().detach().cpu()
-            self.best["ssim"]["truth"] = truth.clone().detach().cpu()
-        if lpips_val < self.best["lpips"]["value"]:
-            self.best["lpips"]["value"] = lpips_val
-            self.best["lpips"]["idx"] = batch_idx
-            self.best["lpips"]["pred"] = pred.clone().detach().cpu()
-            self.best["lpips"]["truth"] = truth.clone().detach().cpu()
-        if pce_val < self.best["pce"]["value"]:
-            self.best["pce"]["value"] = pce_val
-            self.best["pce"]["idx"] = batch_idx
-            self.best["pce"]["pred"] = pred.clone().detach().cpu()
-            self.best["pce"]["truth"] = truth.clone().detach().cpu()
-
-    def save_best(self):
-        """Save best images for each metric."""
-        for metric_name, data in self.best.items():
-            if data["pred"] is None:
-                print(f"⚠ No data for {metric_name}")
-                continue
-            
-            metric_dir = self.save_dir / metric_name
-            metric_dir.mkdir(exist_ok=True)
-            
-            # Prepare pred (normalized for visualization)
-            pred_normalized = normalize_for_visualization(
-                data["pred"].squeeze(0) if data["pred"].dim() == 4 else data["pred"]
-            )
-            
-            # Prepare truth
-            truth_normalized = data["truth"].squeeze(0) if data["truth"].dim() == 4 else data["truth"]
-            
-            # Concatenate side-by-side (Truth on left, Prediction on right)
-            comparison = torch.cat([truth_normalized, pred_normalized], dim=2)
-            
-            # Save the combined image
-            save_image(comparison, metric_dir / f"best_{metric_name}_comparison.png")
-            
-            # Save metric value
-            with open(metric_dir / "metric_value.txt", "w") as f:
-                f.write(f"{data['value']:.6f}\n")
-                f.write(f"Batch index: {data['idx']}\n")
-            
-            # Determine unit
-            if metric_name == "pce":
-                unit = f"{data['value']:.4f} rad ({data['value'] * 180.0 / math.pi:.2f}°)"
-            else:
-                unit = f"{data['value']:.6f}"
-            print(f"✓ Saved best {metric_name:6s}: {data['value']:.6f} (batch {data['idx']})")
-        
 def parse_args():
     parser = argparse.ArgumentParser(
         description="Evaluate a trained Complex PhaseNet model on triplet data."
@@ -276,6 +206,8 @@ def parse_args():
         default=None,
         help="Optional directory where predicted/ground-truth/start/end frames are saved.",
     )
+    parser.add_argument("--best-k", type=int, default=1,
+                        help="Number of best SNU-FILM samples retained per metric.")
     parser.add_argument("--save-all", action="store_true",
                         help="Save every input/target/prediction (for qualitative analysis).")
     parser.add_argument(
@@ -467,7 +399,8 @@ def save_batch_visualizations(batch, raw_predictions, clamped_predictions, save_
         )
 
 def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_size=None,
-             save_all=False):
+             save_all=False, best_k=1, model_name="model", mode="mode"):
+
     pyr = SCFpyr_PyTorch(
         height=12,
         nbands=4,
@@ -485,7 +418,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_si
     loss_fn_lpips = lpips.LPIPS(net='alex').to(device) 
     processed = 0
 
-    tracker = BestMetricsTracker(save_dir) if save_dir else None
+    tracker = BestMetricsTracker(save_dir, model_name, mode, best_k) if save_dir else None
     progress = tqdm(dataloader, desc="Evaluating", unit="batch")
 
     with torch.no_grad():
@@ -566,24 +499,19 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_si
 
             # ✓ Update tracker
             if tracker is not None:
-                tracker.update(
-                    batch_size,
-                    psnr_batch,
-                    ssim_batch,
-                    lpips_batch,
-                    pce_batch,
-                    pred_batch,
-                    truth_batch
-                )
+                sample_index = processed - batch_count
+                source_paths = {}
+                dataset = getattr(dataloader, "dataset", None)
+                if dataset is not None and hasattr(dataset, "triplets"):
+                    triplet = dataset.triplets[sample_index]
+                    source_paths = {"input_1": str(triplet[0]),
+                                    "ground_truth": str(triplet[1]),
+                                    "input_2": str(triplet[2])}
+                tracker.update(sample_index, psnr_batch, ssim_batch, lpips_batch,
+                               pce_batch, pred_batch, truth_batch,
+                               batch["start"][:batch_count], batch["end"][:batch_count],
+                               source_paths)
 
-            # if save_dir is not None:
-            #     save_batch_visualizations(
-            #         batch,
-            #         raw_pred_batch.cpu(),
-            #         pred_batch.cpu(),
-            #         save_dir,
-            #         processed - batch_count,
-            #     )
 
             progress.set_postfix(
                 samples=processed,
@@ -602,7 +530,11 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_si
         print("\n" + "="*70)
         print("BEST METRIC IMAGES")
         print("="*70)
-        tracker.save_best()
+        best_rows, best_records = tracker.save_best()
+        merge_best_summaries(Path(save_dir).parents[1], best_rows, best_records)
+        for metric, entries in tracker.selections().items():
+            for rank, entry in enumerate(entries, 1):
+                print(f"Best {metric} rank {rank}: sample {entry['sample_index']} = {entry['metrics'][metric]:.6f}")
     return {
         "samples": processed,
         "l1": l1_total / processed,
@@ -640,8 +572,15 @@ def main():
                                     num_workers=args.num_workers)
             mode_save_dir = args.save_dir / mode if args.save_dir else None
             try:
+                print("SNU-FILM qualitative evaluation")
+                print(f"Model: {args.model_name}")
+                print(f"Mode: {mode}")
+                print(f"Resolution: {dataset.input_resolution}")
+                print(f"Samples evaluated: {min(len(dataset), args.max_samples or len(dataset))}")
+                print(f"Saving only best-k: {args.best_k}")
                 results[mode] = evaluate(model, dataloader, device, mode_save_dir,
-                                         args.max_samples, tile_size, args.save_all)
+                                         args.max_samples, tile_size, args.save_all,
+                                         args.best_k, args.model_name, mode)
             except torch.cuda.OutOfMemoryError as error:
                 allocated = torch.cuda.memory_allocated(device) / 2**30
                 reserved = torch.cuda.memory_reserved(device) / 2**30
