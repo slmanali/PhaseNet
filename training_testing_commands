@@ -207,3 +207,27 @@ python test.py \
   --model-name PhaseNet-default \
   --batch-size 1 \
   --metrics-dir results/snufilm/native
+-----------------------------------------------------------------------------------------------------------------
+Generate and Select Predictions
+python tools/export_snufilm_qualitative.py \
+  --snu-root /home/salman/Documents/GitHub/PhaseNet/SNU-FILM \
+  --checkpoint phasenet_default=./model/2026-08-16_08-07-21_real_safe_final.pth \
+  --checkpoint phasenet_big=./model/2026-08-15_16-44-53_real_safe_final.pth \
+  --checkpoint complex_loss_matched=./model/2026-08-14_17-34-06_complex_safe_final.pth \
+  --checkpoint complex_full=./model/2026-08-13_18-24-26_complex_safe_final.pth \
+  --selection-metric lpips \
+  --metrics-json per_sample_metrics.json
+
+Create the Figures
+Internal comparison:
+python tools/make_snufilm_qualitative_figure.py \
+  --metadata qualitative_snufilm/metadata.json \
+  --kind internal \
+  --output fig_snufilm_internal_qualitative
+  
+Optional external comparison:
+python tools/make_snufilm_qualitative_figure.py \
+  --metadata qualitative_snufilm/metadata.json \
+  --kind external \
+  --methods gt ifrnet rife cain complex_full \
+  --output fig_snufilm_external_qualitative
