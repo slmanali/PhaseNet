@@ -1,0 +1,10 @@
+{
+  "coordinate_format": "[x0, y0, x1, y1], pixels, right/bottom exclusive",
+  "selection_policy": "One official sample and one shared crop per difficulty; never independently selected by model.",
+  "selections": {
+    "easy": {"sample_index": 240, "crop": [54, 49, 118, 113]},
+    "medium": {"sample_index": 240, "crop": [55, 48, 119, 112]},
+    "hard": {"sample_index": 298, "crop": [18, 101, 82, 165]},
+    "extreme": {"sample_index": 68, "crop": [99, 56, 163, 120]}
+  }
+}
