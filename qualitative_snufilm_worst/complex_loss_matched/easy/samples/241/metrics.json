@@ -1,0 +1,21 @@
+{
+  "model": "complex_loss_matched",
+  "mode": "easy",
+  "sample_index": 241,
+  "selected_by": [
+    "worst_lpips"
+  ],
+  "psnr": 30.100836038439063,
+  "ssim": 0.8812634348869324,
+  "lpips": 0.29597437381744385,
+  "pce": 1.2098807469556834,
+  "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/easy/samples/241/input_1.png",
+  "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/easy/samples/241/ground_truth.png",
+  "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/easy/samples/241/input_2.png",
+  "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/easy/samples/241/prediction.png",
+  "source_paths": {
+    "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00078.png",
+    "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00079.png",
+    "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00080.png"
+  }
+}

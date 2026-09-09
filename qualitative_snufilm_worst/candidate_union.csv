@@ -1,0 +1,12 @@
+mode,sample_index,selected_by_model,selected_by_metric
+easy,240,complex_full;complex_loss_matched;phasenet_big;phasenet_default,worst_pce
+easy,241,complex_full;complex_loss_matched,worst_lpips
+easy,298,phasenet_big;phasenet_default,worst_lpips
+medium,240,complex_full;complex_loss_matched;phasenet_big;phasenet_default,worst_pce
+medium,293,phasenet_big;phasenet_default,worst_lpips
+medium,298,complex_full;complex_loss_matched,worst_lpips
+hard,245,complex_full;complex_loss_matched;phasenet_big;phasenet_default,worst_pce
+hard,298,complex_full;complex_loss_matched;phasenet_big;phasenet_default,worst_lpips
+extreme,68,complex_full;complex_loss_matched;phasenet_big;phasenet_default,worst_pce
+extreme,293,complex_full;complex_loss_matched,worst_lpips
+extreme,299,phasenet_big;phasenet_default,worst_lpips

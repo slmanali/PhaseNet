@@ -1,0 +1,676 @@
+{
+  "samples": [
+    {
+      "model": "complex_full",
+      "mode": "easy",
+      "sample_index": 240,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 30.336452356716528,
+      "ssim": 0.8525587916374207,
+      "lpips": 0.244395911693573,
+      "pce": 1.4949792075439257,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/easy/samples/240/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/easy/samples/240/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/easy/samples/240/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/easy/samples/240/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00058.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00059.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00060.png"
+      }
+    },
+    {
+      "model": "complex_full",
+      "mode": "easy",
+      "sample_index": 241,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 30.104322540865198,
+      "ssim": 0.8812719583511353,
+      "lpips": 0.29588502645492554,
+      "pce": 1.2098122553966528,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/easy/samples/241/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/easy/samples/241/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/easy/samples/241/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/easy/samples/241/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00078.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00079.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00080.png"
+      }
+    },
+    {
+      "model": "complex_full",
+      "mode": "extreme",
+      "sample_index": 68,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 14.559689815586982,
+      "ssim": 0.1865866631269455,
+      "lpips": 0.32439547777175903,
+      "pce": 1.5744970362198716,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/extreme/samples/68/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/extreme/samples/68/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/extreme/samples/68/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/extreme/samples/68/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0862_11_00/000733.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0862_11_00/000741.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0862_11_00/000749.png"
+      }
+    },
+    {
+      "model": "complex_full",
+      "mode": "extreme",
+      "sample_index": 293,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 15.281299564999344,
+      "ssim": 0.29358190298080444,
+      "lpips": 0.5561867952346802,
+      "pce": 1.5552739778218256,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/extreme/samples/293/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/extreme/samples/293/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/extreme/samples/293/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/extreme/samples/293/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01159.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01167.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01175.png"
+      }
+    },
+    {
+      "model": "complex_full",
+      "mode": "hard",
+      "sample_index": 245,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 21.426458275773047,
+      "ssim": 0.7314772605895996,
+      "lpips": 0.45483821630477905,
+      "pce": 1.6137044089143011,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/hard/samples/245/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/hard/samples/245/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/hard/samples/245/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/hard/samples/245/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00158.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00162.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00166.png"
+      }
+    },
+    {
+      "model": "complex_full",
+      "mode": "hard",
+      "sample_index": 298,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 16.13585547707843,
+      "ssim": 0.3320296108722687,
+      "lpips": 0.49800023436546326,
+      "pce": 1.549324761498083,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/hard/samples/298/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/hard/samples/298/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/hard/samples/298/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/hard/samples/298/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01309.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01313.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01317.png"
+      }
+    },
+    {
+      "model": "complex_full",
+      "mode": "medium",
+      "sample_index": 240,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 25.43620901984813,
+      "ssim": 0.7552326917648315,
+      "lpips": 0.3544659912586212,
+      "pce": 1.6441581182995815,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/medium/samples/240/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/medium/samples/240/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/medium/samples/240/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/medium/samples/240/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00057.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00059.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00061.png"
+      }
+    },
+    {
+      "model": "complex_full",
+      "mode": "medium",
+      "sample_index": 298,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 19.327902913055453,
+      "ssim": 0.4400399923324585,
+      "lpips": 0.37659400701522827,
+      "pce": 1.5171088921526434,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/medium/samples/298/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/medium/samples/298/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/medium/samples/298/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_full/medium/samples/298/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01311.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01313.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01315.png"
+      }
+    },
+    {
+      "model": "complex_loss_matched",
+      "mode": "easy",
+      "sample_index": 240,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 30.339563617591466,
+      "ssim": 0.8525667190551758,
+      "lpips": 0.2443784922361374,
+      "pce": 1.494989095042942,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/easy/samples/240/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/easy/samples/240/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/easy/samples/240/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/easy/samples/240/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00058.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00059.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00060.png"
+      }
+    },
+    {
+      "model": "complex_loss_matched",
+      "mode": "easy",
+      "sample_index": 241,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 30.100836038439063,
+      "ssim": 0.8812634348869324,
+      "lpips": 0.29597437381744385,
+      "pce": 1.2098807469556834,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/easy/samples/241/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/easy/samples/241/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/easy/samples/241/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/easy/samples/241/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00078.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00079.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00080.png"
+      }
+    },
+    {
+      "model": "complex_loss_matched",
+      "mode": "extreme",
+      "sample_index": 68,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 14.563504911481896,
+      "ssim": 0.18681061267852783,
+      "lpips": 0.32435208559036255,
+      "pce": 1.574516938435463,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/extreme/samples/68/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/extreme/samples/68/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/extreme/samples/68/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/extreme/samples/68/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0862_11_00/000733.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0862_11_00/000741.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0862_11_00/000749.png"
+      }
+    },
+    {
+      "model": "complex_loss_matched",
+      "mode": "extreme",
+      "sample_index": 293,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 15.280364895146485,
+      "ssim": 0.2935076951980591,
+      "lpips": 0.5563901662826538,
+      "pce": 1.5552391394300369,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/extreme/samples/293/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/extreme/samples/293/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/extreme/samples/293/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/extreme/samples/293/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01159.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01167.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01175.png"
+      }
+    },
+    {
+      "model": "complex_loss_matched",
+      "mode": "hard",
+      "sample_index": 245,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 21.4256297979936,
+      "ssim": 0.7314728498458862,
+      "lpips": 0.45484471321105957,
+      "pce": 1.613702682110307,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/hard/samples/245/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/hard/samples/245/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/hard/samples/245/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/hard/samples/245/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00158.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00162.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00166.png"
+      }
+    },
+    {
+      "model": "complex_loss_matched",
+      "mode": "hard",
+      "sample_index": 298,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 16.135769085976573,
+      "ssim": 0.3319752514362335,
+      "lpips": 0.49816831946372986,
+      "pce": 1.5493414066478683,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/hard/samples/298/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/hard/samples/298/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/hard/samples/298/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/hard/samples/298/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01309.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01313.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01317.png"
+      }
+    },
+    {
+      "model": "complex_loss_matched",
+      "mode": "medium",
+      "sample_index": 240,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 25.436691282728038,
+      "ssim": 0.7552230358123779,
+      "lpips": 0.3545340895652771,
+      "pce": 1.6440887563991897,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/medium/samples/240/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/medium/samples/240/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/medium/samples/240/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/medium/samples/240/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00057.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00059.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00061.png"
+      }
+    },
+    {
+      "model": "complex_loss_matched",
+      "mode": "medium",
+      "sample_index": 298,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 19.327721362767477,
+      "ssim": 0.44004303216934204,
+      "lpips": 0.3766174018383026,
+      "pce": 1.5171543005999208,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/medium/samples/298/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/medium/samples/298/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/medium/samples/298/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/complex_loss_matched/medium/samples/298/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01311.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01313.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01315.png"
+      }
+    },
+    {
+      "model": "phasenet_big",
+      "mode": "easy",
+      "sample_index": 240,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 30.53733118426878,
+      "ssim": 0.8566523790359497,
+      "lpips": 0.2545309066772461,
+      "pce": 1.7570675645462699,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/easy/samples/240/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/easy/samples/240/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/easy/samples/240/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/easy/samples/240/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00058.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00059.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00060.png"
+      }
+    },
+    {
+      "model": "phasenet_big",
+      "mode": "easy",
+      "sample_index": 298,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 24.444038498142724,
+      "ssim": 0.662635326385498,
+      "lpips": 0.31524354219436646,
+      "pce": 1.6402480431020419,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/easy/samples/298/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/easy/samples/298/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/easy/samples/298/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/easy/samples/298/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01312.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01313.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01314.png"
+      }
+    },
+    {
+      "model": "phasenet_big",
+      "mode": "extreme",
+      "sample_index": 68,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 14.648526991924147,
+      "ssim": 0.19208550453186035,
+      "lpips": 0.37076863646507263,
+      "pce": 1.940385381552689,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/extreme/samples/68/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/extreme/samples/68/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/extreme/samples/68/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/extreme/samples/68/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0862_11_00/000733.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0862_11_00/000741.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0862_11_00/000749.png"
+      }
+    },
+    {
+      "model": "phasenet_big",
+      "mode": "extreme",
+      "sample_index": 299,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 15.214572209006922,
+      "ssim": 0.2836759686470032,
+      "lpips": 0.5991020202636719,
+      "pce": 1.9068039853070962,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/extreme/samples/299/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/extreme/samples/299/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/extreme/samples/299/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/extreme/samples/299/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01335.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01343.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01351.png"
+      }
+    },
+    {
+      "model": "phasenet_big",
+      "mode": "hard",
+      "sample_index": 245,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 21.44818279238998,
+      "ssim": 0.7336532473564148,
+      "lpips": 0.4572865962982178,
+      "pce": 1.961914792199558,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/hard/samples/245/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/hard/samples/245/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/hard/samples/245/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/hard/samples/245/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00158.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00162.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00166.png"
+      }
+    },
+    {
+      "model": "phasenet_big",
+      "mode": "hard",
+      "sample_index": 298,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 16.234943135689207,
+      "ssim": 0.3384968638420105,
+      "lpips": 0.5476175546646118,
+      "pce": 1.9160646109562687,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/hard/samples/298/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/hard/samples/298/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/hard/samples/298/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/hard/samples/298/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01309.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01313.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01317.png"
+      }
+    },
+    {
+      "model": "phasenet_big",
+      "mode": "medium",
+      "sample_index": 240,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 25.532894770670968,
+      "ssim": 0.7591535449028015,
+      "lpips": 0.36416786909103394,
+      "pce": 1.9394242636806016,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/medium/samples/240/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/medium/samples/240/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/medium/samples/240/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/medium/samples/240/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00057.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00059.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00061.png"
+      }
+    },
+    {
+      "model": "phasenet_big",
+      "mode": "medium",
+      "sample_index": 293,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 20.48417150777471,
+      "ssim": 0.48267433047294617,
+      "lpips": 0.4167076349258423,
+      "pce": 1.7291551046658333,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/medium/samples/293/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/medium/samples/293/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/medium/samples/293/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_big/medium/samples/293/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01165.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01167.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01169.png"
+      }
+    },
+    {
+      "model": "phasenet_default",
+      "mode": "easy",
+      "sample_index": 240,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 30.509320278061477,
+      "ssim": 0.8551676273345947,
+      "lpips": 0.2567450702190399,
+      "pce": 1.7566125065220892,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/easy/samples/240/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/easy/samples/240/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/easy/samples/240/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/easy/samples/240/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00058.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00059.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00060.png"
+      }
+    },
+    {
+      "model": "phasenet_default",
+      "mode": "easy",
+      "sample_index": 298,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 24.395470816450707,
+      "ssim": 0.6599737405776978,
+      "lpips": 0.3175784945487976,
+      "pce": 1.6392490867093903,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/easy/samples/298/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/easy/samples/298/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/easy/samples/298/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/easy/samples/298/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01312.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01313.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01314.png"
+      }
+    },
+    {
+      "model": "phasenet_default",
+      "mode": "extreme",
+      "sample_index": 68,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 14.652647187799253,
+      "ssim": 0.1915132999420166,
+      "lpips": 0.37113434076309204,
+      "pce": 1.939248930687011,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/extreme/samples/68/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/extreme/samples/68/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/extreme/samples/68/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/extreme/samples/68/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0862_11_00/000733.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0862_11_00/000741.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0862_11_00/000749.png"
+      }
+    },
+    {
+      "model": "phasenet_default",
+      "mode": "extreme",
+      "sample_index": 299,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 15.183788183489257,
+      "ssim": 0.27914947271347046,
+      "lpips": 0.6022534370422363,
+      "pce": 1.9071854399802022,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/extreme/samples/299/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/extreme/samples/299/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/extreme/samples/299/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/extreme/samples/299/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01335.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01343.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01351.png"
+      }
+    },
+    {
+      "model": "phasenet_default",
+      "mode": "hard",
+      "sample_index": 245,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 21.456168638664476,
+      "ssim": 0.732369601726532,
+      "lpips": 0.45922285318374634,
+      "pce": 1.961431776951431,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/hard/samples/245/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/hard/samples/245/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/hard/samples/245/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/hard/samples/245/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00158.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00162.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00166.png"
+      }
+    },
+    {
+      "model": "phasenet_default",
+      "mode": "hard",
+      "sample_index": 298,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 16.24166939577584,
+      "ssim": 0.337260365486145,
+      "lpips": 0.5500982403755188,
+      "pce": 1.9161277828443808,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/hard/samples/298/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/hard/samples/298/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/hard/samples/298/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/hard/samples/298/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01309.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01313.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01317.png"
+      }
+    },
+    {
+      "model": "phasenet_default",
+      "mode": "medium",
+      "sample_index": 240,
+      "selected_by": [
+        "worst_pce"
+      ],
+      "psnr": 25.51527935482271,
+      "ssim": 0.7567459344863892,
+      "lpips": 0.36766284704208374,
+      "pce": 1.9387191568846198,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/medium/samples/240/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/medium/samples/240/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/medium/samples/240/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/medium/samples/240/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00057.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00059.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0013/00061.png"
+      }
+    },
+    {
+      "model": "phasenet_default",
+      "mode": "medium",
+      "sample_index": 293,
+      "selected_by": [
+        "worst_lpips"
+      ],
+      "psnr": 20.44338707586029,
+      "ssim": 0.4786331057548523,
+      "lpips": 0.420773446559906,
+      "pce": 1.7292479826357576,
+      "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/medium/samples/293/input_1.png",
+      "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/medium/samples/293/ground_truth.png",
+      "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/medium/samples/293/input_2.png",
+      "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_worst/phasenet_default/medium/samples/293/prediction.png",
+      "source_paths": {
+        "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01165.png",
+        "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01167.png",
+        "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/YouTube_test/0018/01169.png"
+      }
+    }
+  ]
+}
