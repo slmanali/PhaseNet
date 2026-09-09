@@ -1,0 +1,76 @@
+{
+  "selection_policy": "Joint representative sample closest to the 310-sample mean metric profile across all four models and all four metrics.",
+  "resolution": "native",
+  "selections": {
+    "easy": {
+      "sample_index": 115,
+      "representative_score": 0.12669984205533408,
+      "crop": [
+        243,
+        153,
+        387,
+        297
+      ],
+      "crop_manually_overridden": false,
+      "automatic_crop": [
+        243,
+        153,
+        387,
+        297
+      ]
+    },
+    "medium": {
+      "sample_index": 64,
+      "representative_score": 0.1301278315940916,
+      "crop": [
+        0,
+        576,
+        144,
+        720
+      ],
+      "crop_manually_overridden": false,
+      "automatic_crop": [
+        0,
+        576,
+        144,
+        720
+      ]
+    },
+    "hard": {
+      "sample_index": 17,
+      "representative_score": 0.12109752851262723,
+      "crop": [
+        1016,
+        257,
+        1160,
+        401
+      ],
+      "crop_manually_overridden": false,
+      "automatic_crop": [
+        1016,
+        257,
+        1160,
+        401
+      ]
+    },
+    "extreme": {
+      "sample_index": 16,
+      "representative_score": 0.14913259242311339,
+      "crop": [
+        119,
+        164,
+        263,
+        308
+      ],
+      "crop_manually_overridden": false,
+      "automatic_crop": [
+        119,
+        164,
+        263,
+        308
+      ]
+    }
+  },
+  "crop_policy": "GT gradient strength times four-model average gradient deficit plus 0.25 times four-model average absolute error.",
+  "caption_draft": "Representative qualitative comparison on SNU-FILM. For each difficulty level, the displayed triplet is the common sample whose metric profile is closest to the 310-sample average across all four evaluated models. The same ground truth and crop coordinates are used for every method. Enlarged regions show local reconstruction behavior as motion difficulty increases from Easy to Extreme."
+}

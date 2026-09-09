@@ -1,0 +1,27 @@
+{
+  "model": "phasenet_default",
+  "mode": "extreme",
+  "sample_index": 16,
+  "selected_by": [
+    "psnr",
+    "ssim",
+    "lpips",
+    "pce"
+  ],
+  "psnr": 21.452538788900043,
+  "ssim": 0.583695650100708,
+  "lpips": 0.40011972188949585,
+  "pce": 1.7640265683200222,
+  "input_1": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_average_selected/phasenet_default/extreme/samples/16/input_1.png",
+  "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_average_selected/phasenet_default/extreme/samples/16/ground_truth.png",
+  "input_2": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_average_selected/phasenet_default/extreme/samples/16/input_2.png",
+  "prediction": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_average_selected/phasenet_default/extreme/samples/16/prediction.png",
+  "source_paths": {
+    "input_1": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0384_11_05/044721.png",
+    "ground_truth": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0384_11_05/044729.png",
+    "input_2": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0384_11_05/044737.png"
+  },
+  "selection_metric": "pce",
+  "rank": 1,
+  "sample_directory": "/home/salman/Documents/GitHub/PhaseNet/qualitative_snufilm_average_selected/phasenet_default/extreme/samples/16"
+}
