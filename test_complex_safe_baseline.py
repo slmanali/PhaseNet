@@ -31,6 +31,7 @@ from utils.davis import (davis_image_root, load_davis_train_val,
 from utils.metrics import (compute_l1 as shared_l1, compute_mse as shared_mse,
                            compute_psnr as shared_psnr, compute_ssim as shared_ssim,
                            compute_lpips as shared_lpips, compute_complex_pce)
+from utils.average_metrics import ScalarMetricsTracker
 from utils.best_metrics import (BestMetricsTracker, WorstMetricsTracker,
                                 merge_best_summaries, merge_worst_summaries)
 from utils.snufilm import (SNUFILMTriplets, SNU_MODES, snufilm_modes,
@@ -213,6 +214,8 @@ def parse_args():
                         help="Retain maximum-LPIPS/PCE failure candidates instead of best samples.")
     parser.add_argument("--sample-indices",
                         help="Comma-separated zero-based official SNU-FILM indices to evaluate.")
+    parser.add_argument("--per-sample-metrics", type=Path,
+                        help="Write scalar-only per-sample SNU-FILM metrics to CSV.")
     parser.add_argument("--save-all", action="store_true",
                         help="Save every input/target/prediction (for qualitative analysis).")
     parser.add_argument(
@@ -404,7 +407,8 @@ def save_batch_visualizations(batch, raw_predictions, clamped_predictions, save_
         )
 
 def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_size=None,
-             save_all=False, best_k=1, model_name="model", mode="mode", worst_k=None):
+             save_all=False, best_k=1, model_name="model", mode="mode", worst_k=None,
+             scalar_metrics_path=None):
 
     pyr = SCFpyr_PyTorch(
         height=12,
@@ -426,6 +430,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_si
     tracker = (WorstMetricsTracker(save_dir, model_name, mode, worst_k)
                if save_dir and worst_k is not None else
                BestMetricsTracker(save_dir, model_name, mode, best_k) if save_dir else None)
+    scalar_tracker = ScalarMetricsTracker(model_name, mode) if scalar_metrics_path else None
     progress = tqdm(dataloader, desc="Evaluating", unit="batch")
 
     with torch.no_grad():
@@ -489,6 +494,14 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_si
             pce_batch = pce_batch_sum / 3.0
 
             batch_count = pred_batch.shape[0]
+            if scalar_tracker is not None:
+                dataset = getattr(dataloader, "dataset", None)
+                local_index = processed
+                sample_index = (dataset.sample_indices[local_index]
+                                if dataset is not None and hasattr(dataset, "sample_indices")
+                                else local_index)
+                scalar_tracker.update(sample_index, psnr_batch, ssim_batch,
+                                      lpips_batch, pce_batch)
             l1_total += l1_batch * batch_count
             mse_total += mse_batch * batch_count
             psnr_total += psnr_batch * batch_count
@@ -555,6 +568,9 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_si
                 else:
                     print(f"Best {metric} rank {rank}: sample {entry['sample_index']} = "
                           f"{entry['metrics'][metric]:.6f}")
+    if scalar_tracker is not None:
+        scalar_tracker.save(scalar_metrics_path)
+
     return {
         "samples": processed,
         "l1": l1_total / processed,
@@ -616,7 +632,7 @@ def main():
                       f"{args.worst_k if args.worst_k is not None else args.best_k}")
                 results[mode] = evaluate(model, dataloader, device, mode_save_dir,
                                          args.max_samples, tile_size, args.save_all,
-                                         args.best_k, args.model_name, mode, args.worst_k)
+                                         args.best_k, args.model_name, mode, args.worst_k, args.per_sample_metrics)
             except torch.cuda.OutOfMemoryError as error:
                 allocated = torch.cuda.memory_allocated(device) / 2**30
                 reserved = torch.cuda.memory_reserved(device) / 2**30

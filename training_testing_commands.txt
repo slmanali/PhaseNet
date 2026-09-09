@@ -286,3 +286,25 @@ python tools/make_snufilm_cross_model_comparison.py \
   --crop-strategy blur \
   --crop-count 2 \
   --layout both
+-----------------------------------------------------------------------------------------------------------------
+Representative average-case SNU-FILM qualitative figure (native publication protocol)
+python tools/export_snufilm_qualitative.py \
+  --snu-root /home/salman/Documents/GitHub/PhaseNet/SNU-FILM \
+  --checkpoint phasenet_default=./model/2026-08-16_08-07-21_real_safe_final.pth \
+  --checkpoint phasenet_big=./model/2026-08-15_16-44-53_real_safe_final.pth \
+  --checkpoint complex_loss_matched=./model/2026-08-14_17-34-06_complex_safe_final.pth \
+  --checkpoint complex_full=./model/2026-08-13_18-24-26_complex_safe_final.pth \
+  --mode all \
+  --average-k 5 \
+  --output-dir ./qualitative_snufilm_average \
+  --selected-output-dir ./qualitative_snufilm_average_selected \
+  --figure-dir ./figures/snufilm_average \
+  --image-size native \
+  --device cuda:0
+
+# Recreate figures from already-exported rank-1 samples (also rechecks triplet SHA256).
+python tools/make_snufilm_average_paper_figure.py \
+  --config figures/snufilm_average/selections.json \
+  --source-dir qualitative_snufilm_average_selected \
+  --metrics-dir qualitative_snufilm_average \
+  --output-dir figures/snufilm_average
