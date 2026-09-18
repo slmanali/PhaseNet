@@ -129,8 +129,8 @@ git clone https://github.com/google-research/frame-interpolation.git "opt/FILM"
 python tools/run_pretrained_snufilm.py --model film \
   --repo "opt/FILM" \
   --checkpoint "checkpoints/film/film_net/Style/saved_model" \
-  --snu-root "SNU-FILM" --snu-mode all\
-  --device cuda
+  --snu-root "SNU-FILM" --snu-mode all \
+  --device cpu
 ```
 
 Before launching a long evaluation, verify all three input directories:
@@ -150,6 +150,12 @@ not prevent inference. Pass `--device cuda` or `--device cuda:N` to opt into FIL
 GPU inference, or `--device cpu` to force CPU inference for either model. Both
 adapters preserve native SNU-FILM resolution; RIFE
 pads only for inference and crops the result back to the input dimensions.
+
+FILM prints a `Processing` line before every inference and a `Saved` line after
+every output, so a long run visibly reports progress. If TensorFlow reports that
+the loaded runtime cuDNN is older than the version it was compiled against, use
+`--device cpu`, or upgrade cuDNN to a version compatible with the installed
+TensorFlow package. The `gpu` spelling is also accepted as an alias for `cuda`.
 
 ## Fair cross-model selected cases
 

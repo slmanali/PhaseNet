@@ -266,6 +266,47 @@ def test_film_backend_selects_requested_cuda_device_before_import(tmp_path, monk
     assert observed_devices == ["2"]
 
 
+def test_film_backend_accepts_gpu_alias(tmp_path, monkeypatch):
+    observed_devices = []
+
+    class Interpolator:
+        def __init__(self, checkpoint):
+            observed_devices.append(run_pretrained_snufilm.os.environ.get(
+                "CUDA_VISIBLE_DEVICES"))
+
+    class Module:
+        pass
+
+    Module.Interpolator = Interpolator
+    monkeypatch.setattr(run_pretrained_snufilm, "_import_from_repo",
+                        lambda repo, module_name: Module)
+
+    backend = FILMBackend(tmp_path / "FILM", tmp_path / "saved_model", "gpu")
+
+    assert backend.device.type == "cuda"
+    assert observed_devices == [None]
+
+
+def test_film_backend_explains_cudnn_failure(tmp_path, monkeypatch):
+    class Interpolator:
+        def __init__(self, checkpoint):
+            pass
+
+        def __call__(self, first, second, time):
+            raise RuntimeError("No DNN support for stream; loaded runtime CuDNN 9.1")
+
+    class Module:
+        pass
+
+    Module.Interpolator = Interpolator
+    monkeypatch.setattr(run_pretrained_snufilm, "_import_from_repo",
+                        lambda repo, module_name: Module)
+    backend = FILMBackend(tmp_path / "FILM", tmp_path / "saved_model", "cuda")
+
+    with pytest.raises(RuntimeError, match=r"Rerun with `--device cpu`"):
+        backend(Image.new("RGB", (7, 5)), Image.new("RGB", (7, 5)))
+
+
 def test_film_backend_rejects_unsupported_device(tmp_path):
     with pytest.raises(ValueError, match="FILM --device"):
         FILMBackend(tmp_path / "FILM", tmp_path / "saved_model", "mps")

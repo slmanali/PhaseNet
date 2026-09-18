@@ -99,6 +99,11 @@ class FILMBackend:
     """Adapter around google-research/frame-interpolation's FILM interpolator."""
 
     def __init__(self, repo, checkpoint, device="cpu"):
+        # PyTorch calls this backend "cuda", while TensorFlow commonly calls
+        # the same device a GPU. Accept the latter spelling as a convenience,
+        # especially because the exception emitted by TensorFlow says "GPU".
+        if device == "gpu":
+            device = "cuda"
         device = torch.device(device)
         if device.type not in ("cpu", "cuda"):
             raise ValueError("FILM --device must be cpu, cuda, or cuda:<index>")
@@ -123,6 +128,7 @@ class FILMBackend:
                 "command."
             ) from error
         self.model = module.Interpolator(str(Path(checkpoint).expanduser().resolve()))
+        self.device = device
 
     def __call__(self, first, second):
         # FILM's exported SavedModel signature is batched: both endpoints must
@@ -131,7 +137,21 @@ class FILMBackend:
         # here rather than passing bare HWC images to TensorFlow.
         first = np.asarray(first, dtype=np.float32)[None, ...] / 255.0
         second = np.asarray(second, dtype=np.float32)[None, ...] / 255.0
-        prediction = np.asarray(self.model(first, second, np.array([0.5], np.float32)))
+        try:
+            prediction = np.asarray(self.model(first, second, np.array([0.5], np.float32)))
+        except Exception as error:
+            message = str(error).lower()
+            if self.device.type == "cuda" and (
+                "no dnn" in message or "cudnn" in message
+            ):
+                raise RuntimeError(
+                    "FILM GPU inference could not initialize cuDNN. The installed "
+                    "TensorFlow build and runtime cuDNN must be compatible. Rerun "
+                    "with `--device cpu` (the safe default), or install the cuDNN "
+                    "version required by your TensorFlow build. Any predictions "
+                    "saved before this error are still on disk."
+                ) from error
+            raise
         if prediction.ndim == 4:
             prediction = prediction[0]
         return (np.clip(prediction, 0, 1) * 255).round().astype(np.uint8)
@@ -177,11 +197,14 @@ def run(args, backend):
         for position, paths in zip(dataset.sample_indices, dataset.triplets):
             destination = args.output_dir / args.model / mode / f"{position:05d}_pred.png"
             if destination.is_file() and not args.overwrite:
+                print(f"Skipping existing {mode}:{position} ({destination})", flush=True)
                 continue
             with Image.open(paths[0]) as image:
                 first = image.convert("RGB").copy()
             with Image.open(paths[2]) as image:
                 second = image.convert("RGB").copy()
+            print(f"Processing {args.model.upper()} {mode}:{position} -> {destination}",
+                  flush=True)
             prediction = backend(first, second)
             if prediction.shape[:2] != (first.height, first.width):
                 raise ValueError(f"model returned {prediction.shape[:2]}, expected "
@@ -190,6 +213,7 @@ def run(args, backend):
             Image.fromarray(prediction).save(destination)
             completed.append({"mode": mode, "sample_index": position,
                               "prediction": str(destination)})
+            print(f"Saved {destination}", flush=True)
     manifest = args.output_dir / args.model / "manifest.json"
     manifest.parent.mkdir(parents=True, exist_ok=True)
     manifest.write_text(json.dumps({"model": args.model, "predictions": completed}, indent=2)
@@ -211,7 +235,8 @@ def main():
     parser.add_argument(
         "--device",
         help=("Inference device. Defaults to CUDA when available for RIFE and CPU for "
-              "FILM; use cuda or cuda:<index> to opt into TensorFlow GPU inference."),
+              "FILM; use cuda (or its gpu alias) or cuda:<index> to opt into "
+              "TensorFlow GPU inference."),
     )
     parser.add_argument("--scale", type=float, default=1.0,
                         help="RIFE inference scale (use 0.5 for very large motion).")
