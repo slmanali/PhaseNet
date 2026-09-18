@@ -129,7 +129,8 @@ git clone https://github.com/google-research/frame-interpolation.git "opt/FILM"
 python tools/run_pretrained_snufilm.py --model film \
   --repo "opt/FILM" \
   --checkpoint "checkpoints/film/film_net/Style/saved_model" \
-  --snu-root "SNU-FILM" --snu-mode all
+  --snu-root "SNU-FILM" --snu-mode all\
+  --device cuda
 ```
 
 Before launching a long evaluation, verify all three input directories:
