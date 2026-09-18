@@ -19,14 +19,16 @@ if str(ROOT) not in sys.path:
 from utils.snufilm import SNUFILMTriplets, SNU_MODES, snufilm_modes
 
 
-def _import_from_repo(repo, module_name):
-    """Import an upstream module while leaving the user's checkout untouched."""
-    repo = str(Path(repo).expanduser().resolve())
-    sys.path.insert(0, repo)
+def _import_from_repo(repo, module_name, dependency_paths=()):
+    """Import an upstream module with its repository dependencies available."""
+    paths = [repo, *dependency_paths]
+    paths = [str(Path(path).expanduser().resolve()) for path in paths]
+    sys.path[:0] = paths
     try:
         return importlib.import_module(module_name)
     finally:
-        sys.path.remove(repo)
+        for path in paths:
+            sys.path.remove(path)
 
 
 class RIFEBackend:
@@ -46,7 +48,10 @@ class RIFEBackend:
         except ModuleNotFoundError as error:
             if error.name not in ("model", "model.RIFE_HDv3"):
                 raise
-            rife = _import_from_repo(checkpoint, "RIFE_HDv3")
+            # Archive copies of RIFE_HDv3.py still import helpers such as
+            # model.warplayer from the checkout, so both locations must remain
+            # importable while Python executes the checkpoint module.
+            rife = _import_from_repo(checkpoint, "RIFE_HDv3", (repo,))
         self.model = rife.Model()
         checkpoint = str(Path(checkpoint).expanduser().resolve())
         try:

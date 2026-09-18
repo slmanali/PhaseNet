@@ -99,8 +99,8 @@ def test_rife_backend_supports_model_code_in_checkpoint(tmp_path, monkeypatch):
 
     Module.Model = Model
 
-    def fake_import(path, module_name):
-        imported.append((path, module_name))
+    def fake_import(path, module_name, dependency_paths=()):
+        imported.append((path, module_name, dependency_paths))
         if module_name == "model.RIFE_HDv3":
             error = ModuleNotFoundError("No module named 'model.RIFE_HDv3'")
             error.name = "model.RIFE_HDv3"
@@ -112,10 +112,32 @@ def test_rife_backend_supports_model_code_in_checkpoint(tmp_path, monkeypatch):
     backend = RIFEBackend(tmp_path / "RIFE", checkpoint, "cpu")
 
     assert imported == [
-        (tmp_path / "RIFE", "model.RIFE_HDv3"),
-        (checkpoint, "RIFE_HDv3"),
+        (tmp_path / "RIFE", "model.RIFE_HDv3", ()),
+        (checkpoint, "RIFE_HDv3", (tmp_path / "RIFE",)),
     ]
     assert backend.model.loaded == (str(checkpoint.resolve()), -1)
+
+
+def test_rife_checkpoint_module_can_import_checkout_dependencies(tmp_path):
+    repo = tmp_path / "RIFE"
+    model_package = repo / "model"
+    model_package.mkdir(parents=True)
+    (model_package / "__init__.py").write_text("", encoding="utf-8")
+    (model_package / "warplayer.py").write_text("warp = object()\n", encoding="utf-8")
+    checkpoint = tmp_path / "train_log"
+    checkpoint.mkdir()
+    (checkpoint / "RIFE_HDv3.py").write_text(
+        "from model.warplayer import warp\n"
+        "class Model:\n"
+        "    def load_model(self, checkpoint, rank): pass\n"
+        "    def eval(self): pass\n"
+        "    def device(self): pass\n",
+        encoding="utf-8",
+    )
+
+    backend = RIFEBackend(repo, checkpoint, "cpu")
+
+    assert backend.model is not None
 
 
 def test_rife_backend_explains_checkpoint_version_mismatch(tmp_path, monkeypatch):
