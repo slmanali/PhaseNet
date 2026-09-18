@@ -38,7 +38,15 @@ class RIFEBackend:
         # different (older) IFNet layout; it imports successfully, but loading
         # current flownet.pkl files into it produces a very long and misleading
         # missing/unexpected-keys error.
-        rife = _import_from_repo(repo, "model.RIFE_HDv3")
+        # Depending on the release, RIFE_HDv3 is shipped either in the Git
+        # checkout's model package or alongside flownet.pkl in train_log.
+        # Prefer the checkout, but support the latter official archive layout.
+        try:
+            rife = _import_from_repo(repo, "model.RIFE_HDv3")
+        except ModuleNotFoundError as error:
+            if error.name not in ("model", "model.RIFE_HDv3"):
+                raise
+            rife = _import_from_repo(checkpoint, "RIFE_HDv3")
         self.model = rife.Model()
         checkpoint = str(Path(checkpoint).expanduser().resolve())
         try:

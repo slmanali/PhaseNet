@@ -81,6 +81,43 @@ def test_rife_backend_uses_upstream_inference_model(tmp_path, monkeypatch):
     assert backend.model.flownet.device.type == "cpu"
 
 
+def test_rife_backend_supports_model_code_in_checkpoint(tmp_path, monkeypatch):
+    imported = []
+
+    class Model:
+        def load_model(self, checkpoint, rank):
+            self.loaded = (checkpoint, rank)
+
+        def eval(self):
+            pass
+
+        def device(self):
+            pass
+
+    class Module:
+        pass
+
+    Module.Model = Model
+
+    def fake_import(path, module_name):
+        imported.append((path, module_name))
+        if module_name == "model.RIFE_HDv3":
+            error = ModuleNotFoundError("No module named 'model.RIFE_HDv3'")
+            error.name = "model.RIFE_HDv3"
+            raise error
+        return Module
+
+    monkeypatch.setattr(run_pretrained_snufilm, "_import_from_repo", fake_import)
+    checkpoint = tmp_path / "train_log"
+    backend = RIFEBackend(tmp_path / "RIFE", checkpoint, "cpu")
+
+    assert imported == [
+        (tmp_path / "RIFE", "model.RIFE_HDv3"),
+        (checkpoint, "RIFE_HDv3"),
+    ]
+    assert backend.model.loaded == (str(checkpoint.resolve()), -1)
+
+
 def test_rife_backend_explains_checkpoint_version_mismatch(tmp_path, monkeypatch):
     class Model:
         def load_model(self, checkpoint, rank):

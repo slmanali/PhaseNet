@@ -79,10 +79,11 @@ the weights and extract the archive so that the directory passed to
 PhaseNet repository root.
 
 For RIFE, `--checkpoint` is the extracted `train_log` directory (RIFE 4.6 or a
-newer release with the same `model.RIFE_HDv3.Model` API). The runner follows
-the upstream inference entry point, `model.RIFE_HDv3`; the similarly named
-`model.RIFE` is an older training architecture and is not compatible with the
-published inference checkpoints:
+newer release with the same `RIFE_HDv3.Model` API). Depending on the official
+release, `RIFE_HDv3.py` may be in the checkout's `model` package or directly in
+the extracted `train_log` beside `IFNet_HDv3.py` and `flownet.pkl`; the runner
+supports both layouts. The similarly named `model.RIFE` is an older training
+architecture and is not compatible with the published inference checkpoints:
 
 First, clone the code. Then follow the upstream
 [RIFE model download instructions](https://github.com/hzwer/ECCV2022-RIFE#model-list)
