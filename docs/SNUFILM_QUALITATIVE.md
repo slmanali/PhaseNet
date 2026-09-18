@@ -71,14 +71,23 @@ fixed-crop grid; IFRNet Figure 6 is a presentation reference only.
 Clone the upstream RIFE or FILM repository and download/extract its official
 pretrained checkpoint. The runner imports the upstream implementation directly,
 so this repository does not vendor model code or silently substitute weights.
+Cloning either upstream repository downloads its code **but not its pretrained
+weights**. In the commands below, `/checkpoints/...` and `/data/SNU-FILM` are
+example paths: replace them with directories that actually exist on your
+machine. You can clone into a user-owned directory such as `$HOME/opt` rather
+than using `sudo` for `/opt`.
+
 For RIFE, `--checkpoint` is the extracted `train_log` directory (RIFE 4.6 or a
 newer release with the same `model.RIFE.Model` API):
 
 ```bash
-git clone https://github.com/hzwer/ECCV2022-RIFE.git /opt/RIFE
+mkdir -p "$HOME/opt"
+git clone https://github.com/hzwer/ECCV2022-RIFE.git "$HOME/opt/RIFE"
+# Download an official RIFE release archive as directed by its README, extract
+# it, and locate the resulting train_log directory before running this command.
 python tools/run_pretrained_snufilm.py --model rife \
-  --repo /opt/RIFE --checkpoint /checkpoints/rife/train_log \
-  --snu-root /data/SNU-FILM --snu-mode all
+  --repo "$HOME/opt/RIFE" --checkpoint "$HOME/checkpoints/rife/train_log" \
+  --snu-root "$HOME/data/SNU-FILM" --snu-mode all
 ```
 
 For FILM, install the dependencies specified by the upstream
@@ -86,10 +95,21 @@ For FILM, install the dependencies specified by the upstream
 SavedModel directory:
 
 ```bash
-git clone https://github.com/google-research/frame-interpolation.git /opt/FILM
+mkdir -p "$HOME/opt"
+git clone https://github.com/google-research/frame-interpolation.git "$HOME/opt/FILM"
+# Download and extract FILM's pretrained model as directed by its README.
 python tools/run_pretrained_snufilm.py --model film \
-  --repo /opt/FILM --checkpoint /checkpoints/film/film_net/Style/saved_model \
-  --snu-root /data/SNU-FILM --snu-mode all
+  --repo "$HOME/opt/FILM" \
+  --checkpoint "$HOME/checkpoints/film/film_net/Style/saved_model" \
+  --snu-root "$HOME/data/SNU-FILM" --snu-mode all
+```
+
+Before launching a long evaluation, verify all three input directories:
+
+```bash
+test -d "$HOME/opt/RIFE" && \
+test -d "$HOME/checkpoints/rife/train_log" && \
+test -d "$HOME/data/SNU-FILM"
 ```
 
 Outputs are written as

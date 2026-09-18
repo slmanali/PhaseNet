@@ -90,6 +90,26 @@ def parse_indices(value):
     return indices
 
 
+def validate_paths(parser, args):
+    """Resolve user paths and report every missing input with an actionable hint."""
+    for name in ("repo", "checkpoint", "snu_root", "output_dir"):
+        value = getattr(args, name)
+        setattr(args, name, value.expanduser().resolve())
+
+    missing = []
+    if not args.repo.is_dir():
+        missing.append(f"--repo directory not found: {args.repo}")
+    if not args.checkpoint.is_dir():
+        missing.append(f"--checkpoint directory not found: {args.checkpoint}")
+    if not args.snu_root.is_dir():
+        missing.append(f"--snu-root directory not found: {args.snu_root}")
+    if missing:
+        parser.error("\n".join(missing) +
+                     "\nRepository clones do not include pretrained weights; download and "
+                     "extract the model checkpoint separately. Paths such as /checkpoints/... "
+                     "and /data/... in the documentation are examples, not created directories.")
+
+
 def run(args, backend):
     completed = []
     for mode in snufilm_modes(args.snu_mode):
@@ -135,8 +155,7 @@ def main():
     args = parser.parse_args()
     if args.scale <= 0:
         parser.error("--scale must be positive")
-    if not args.repo.is_dir() or not args.checkpoint.exists():
-        parser.error("--repo and --checkpoint must exist")
+    validate_paths(parser, args)
     backend = (RIFEBackend(args.repo, args.checkpoint, args.device, args.scale)
                if args.model == "rife" else FILMBackend(args.repo, args.checkpoint))
     completed = run(args, backend)
