@@ -5,7 +5,8 @@ import numpy as np
 import pytest
 from PIL import Image
 
-from tools.run_pretrained_snufilm import parse_indices, run, validate_paths
+from tools import run_pretrained_snufilm
+from tools.run_pretrained_snufilm import RIFEBackend, parse_indices, run, validate_paths
 
 
 def _make_dataset(root):
@@ -41,6 +42,61 @@ def test_parse_indices_validates_input():
     assert parse_indices("0,4,12") == [0, 4, 12]
     with pytest.raises(Exception, match="unique non-negative"):
         parse_indices("2,2")
+
+
+def test_rife_backend_uses_upstream_inference_model(tmp_path, monkeypatch):
+    imported = []
+
+    class FlowNet:
+        def to(self, device):
+            self.device = device
+
+    class Model:
+        def __init__(self):
+            self.flownet = FlowNet()
+
+        def load_model(self, checkpoint, rank):
+            self.loaded = (checkpoint, rank)
+
+        def eval(self):
+            pass
+
+        def device(self):
+            pass
+
+    class Module:
+        pass
+
+    Module.Model = Model
+
+    def fake_import(repo, module_name):
+        imported.append((repo, module_name))
+        return Module
+
+    monkeypatch.setattr(run_pretrained_snufilm, "_import_from_repo", fake_import)
+    backend = RIFEBackend(tmp_path / "RIFE", tmp_path / "train_log", "cpu")
+
+    assert imported == [(tmp_path / "RIFE", "model.RIFE_HDv3")]
+    assert backend.model.loaded == (str((tmp_path / "train_log").resolve()), -1)
+    assert backend.model.flownet.device.type == "cpu"
+
+
+def test_rife_backend_explains_checkpoint_version_mismatch(tmp_path, monkeypatch):
+    class Model:
+        def load_model(self, checkpoint, rank):
+            raise RuntimeError("missing and unexpected keys")
+
+    class Module:
+        pass
+
+    Module.Model = Model
+    monkeypatch.setattr(run_pretrained_snufilm, "_import_from_repo",
+                        lambda repo, module_name: Module)
+
+    with pytest.raises(RuntimeError, match="checkpoint is incompatible") as error:
+        RIFEBackend(tmp_path / "RIFE", tmp_path / "train_log", "cpu")
+
+    assert "revision matching the downloaded weights" in str(error.value)
 
 
 def test_validate_paths_reports_each_missing_input(tmp_path):

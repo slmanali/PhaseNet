@@ -33,9 +33,23 @@ class RIFEBackend:
     """Thin adapter around the API shared by official RIFE 4.6+ releases."""
 
     def __init__(self, repo, checkpoint, device, scale=1.0):
-        rife = _import_from_repo(repo, "model.RIFE")
+        # This is the entry point used by upstream's own inference scripts for
+        # released RIFE checkpoints.  model.RIFE is the training wrapper for a
+        # different (older) IFNet layout; it imports successfully, but loading
+        # current flownet.pkl files into it produces a very long and misleading
+        # missing/unexpected-keys error.
+        rife = _import_from_repo(repo, "model.RIFE_HDv3")
         self.model = rife.Model()
-        self.model.load_model(str(Path(checkpoint).expanduser().resolve()), -1)
+        checkpoint = str(Path(checkpoint).expanduser().resolve())
+        try:
+            self.model.load_model(checkpoint, -1)
+        except RuntimeError as error:
+            raise RuntimeError(
+                "The RIFE checkpoint is incompatible with model.RIFE_HDv3 in "
+                f"{Path(repo).expanduser().resolve()}. Download the checkpoint "
+                "release recommended by that RIFE checkout (or check out the "
+                "RIFE revision matching the downloaded weights)."
+            ) from error
         self.model.eval()
         self.model.device()
         self.device = torch.device(device)
