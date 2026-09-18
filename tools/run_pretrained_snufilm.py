@@ -105,9 +105,10 @@ def validate_paths(parser, args):
         missing.append(f"--snu-root directory not found: {args.snu_root}")
     if missing:
         parser.error("\n".join(missing) +
-                     "\nRepository clones do not include pretrained weights; download and "
-                     "extract the model checkpoint separately. Paths such as /checkpoints/... "
-                     "and /data/... in the documentation are examples, not created directories.")
+                     "\nRepository clones do not include pretrained weights, and creating an "
+                     "empty checkpoint directory is not sufficient. Download and extract the "
+                     "model checkpoint separately, then pass the extracted train_log directory "
+                     "for RIFE or SavedModel directory for FILM.")
 
 
 def run(args, backend):

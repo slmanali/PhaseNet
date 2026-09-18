@@ -94,4 +94,6 @@ eval_modes.zip
 snufilm-test.zip
 utils/__pycache__/snufilm.cpython-312.pyc
 /tests/__pycache__
-
+/tools/__pycache__/
+/opt/
+/checkpoints/

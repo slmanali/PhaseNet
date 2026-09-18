@@ -57,6 +57,8 @@ def test_validate_paths_reports_each_missing_input(tmp_path):
     assert f"--checkpoint directory not found: {args.checkpoint}" in message
     assert f"--snu-root directory not found: {args.snu_root}" in message
     assert "Repository clones do not include pretrained weights" in message
+    assert "creating an empty checkpoint directory is not sufficient" in message
+    assert "extracted train_log directory" in message
 
 
 def test_validate_paths_expands_and_resolves_paths(tmp_path, monkeypatch):

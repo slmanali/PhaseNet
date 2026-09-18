@@ -72,20 +72,24 @@ Clone the upstream RIFE or FILM repository and download/extract its official
 pretrained checkpoint. The runner imports the upstream implementation directly,
 so this repository does not vendor model code or silently substitute weights.
 Cloning either upstream repository downloads its code **but not its pretrained
-weights**. In the commands below, `/checkpoints/...` and `/data/SNU-FILM` are
-example paths: replace them with directories that actually exist on your
-machine. You can clone into a user-owned directory such as `~/Documents/GitHub/PhaseNet/opt` rather
-than using `sudo` for `/opt`.
+weights**. Creating an empty checkpoint directory is not sufficient: download
+the weights and extract the archive so that the directory passed to
+`--checkpoint` is the archive's actual `train_log` (RIFE) or `saved_model`
+(FILM) directory. The relative paths below assume the commands are run from the
+PhaseNet repository root.
 
 For RIFE, `--checkpoint` is the extracted `train_log` directory (RIFE 4.6 or a
 newer release with the same `model.RIFE.Model` API):
 
 ```bash
-mkdir -p "opt"
-mkdir -p "checkpoint"
+mkdir -p opt checkpoints/rife
 git clone https://github.com/hzwer/ECCV2022-RIFE.git "opt/RIFE"
 # Download an official RIFE release archive as directed by its README, extract
-# it, and locate the resulting train_log directory before running this command.
+# it under checkpoints/rife, and confirm that train_log contains the weights.
+test -d checkpoints/rife/train_log || {
+  echo "Extract the RIFE checkpoint archive into checkpoints/rife first" >&2
+  exit 1
+}
 python tools/run_pretrained_snufilm.py --model rife \
   --repo "opt/RIFE" --checkpoint "checkpoints/rife/train_log" \
   --snu-root "SNU-FILM" --snu-mode all
@@ -96,20 +100,21 @@ For FILM, install the dependencies specified by the upstream
 SavedModel directory:
 
 ```bash
+mkdir -p opt checkpoints/film
 git clone https://github.com/google-research/frame-interpolation.git "opt/FILM"
 # Download and extract FILM's pretrained model as directed by its README.
 python tools/run_pretrained_snufilm.py --model film \
   --repo "opt/FILM" \
   --checkpoint "checkpoints/film/film_net/Style/saved_model" \
-  --snu-root "~/Documents/GitHub/PhaseNet/data/SNU-FILM" --snu-mode all
+  --snu-root "SNU-FILM" --snu-mode all
 ```
 
 Before launching a long evaluation, verify all three input directories:
 
 ```bash
-test -d "~/Documents/GitHub/PhaseNet/opt/RIFE" && \
-test -d "~/Documents/GitHub/PhaseNet/checkpoints/rife/train_log" && \
-test -d "~/Documents/GitHub/PhaseNet/data/SNU-FILM"
+test -d "opt/RIFE" && \
+test -d "checkpoints/rife/train_log" && \
+test -d "SNU-FILM"
 ```
 
 Outputs are written as
