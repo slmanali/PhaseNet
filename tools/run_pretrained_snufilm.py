@@ -4,6 +4,7 @@
 import argparse
 import importlib
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -97,7 +98,19 @@ class RIFEBackend:
 class FILMBackend:
     """Adapter around google-research/frame-interpolation's FILM interpolator."""
 
-    def __init__(self, repo, checkpoint):
+    def __init__(self, repo, checkpoint, device="cpu"):
+        device = torch.device(device)
+        if device.type not in ("cpu", "cuda"):
+            raise ValueError("FILM --device must be cpu, cuda, or cuda:<index>")
+
+        # TensorFlow probes CUDA when it is first imported. Select (or hide) the
+        # GPU before importing the upstream interpolator so an incompatible host
+        # cuDNN installation cannot make the default CPU execution fail. An
+        # indexed CUDA device becomes TensorFlow's sole visible GPU.
+        if device.type == "cpu":
+            os.environ["CUDA_VISIBLE_DEVICES"] = ""
+        elif device.index is not None:
+            os.environ["CUDA_VISIBLE_DEVICES"] = str(device.index)
         try:
             module = _import_from_repo(repo, "eval.interpolator")
         except ModuleNotFoundError as error:
@@ -195,7 +208,11 @@ def main():
     parser.add_argument("--snu-mode", choices=(*SNU_MODES, "all"), default="all")
     parser.add_argument("--sample-indices", type=parse_indices)
     parser.add_argument("--output-dir", type=Path, default=Path("outputs/external_snufilm"))
-    parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    parser.add_argument(
+        "--device",
+        help=("Inference device. Defaults to CUDA when available for RIFE and CPU for "
+              "FILM; use cuda or cuda:<index> to opt into TensorFlow GPU inference."),
+    )
     parser.add_argument("--scale", type=float, default=1.0,
                         help="RIFE inference scale (use 0.5 for very large motion).")
     parser.add_argument("--overwrite", action="store_true")
@@ -203,8 +220,11 @@ def main():
     if args.scale <= 0:
         parser.error("--scale must be positive")
     validate_paths(parser, args)
-    backend = (RIFEBackend(args.repo, args.checkpoint, args.device, args.scale)
-               if args.model == "rife" else FILMBackend(args.repo, args.checkpoint))
+    device = args.device or (
+        "cuda" if args.model == "rife" and torch.cuda.is_available() else "cpu"
+    )
+    backend = (RIFEBackend(args.repo, args.checkpoint, device, args.scale)
+               if args.model == "rife" else FILMBackend(args.repo, args.checkpoint, device))
     completed = run(args, backend)
     print(f"Wrote {len(completed)} {args.model.upper()} prediction(s) to "
           f"{args.output_dir / args.model}")

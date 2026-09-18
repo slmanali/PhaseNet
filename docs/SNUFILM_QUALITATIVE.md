@@ -143,8 +143,11 @@ test -d "SNU-FILM"
 Outputs are written as
 `outputs/external_snufilm/{rife,film}/<mode>/00000_pred.png`, ready for the
 external qualitative figure command above. Use `--sample-indices 36,38,39` for
-a quick subset, `--overwrite` to replace existing images, and `--device cpu`
-for RIFE without CUDA. Both adapters preserve native SNU-FILM resolution; RIFE
+a quick subset and `--overwrite` to replace existing images. RIFE uses CUDA when
+available, while FILM defaults to CPU so a host TensorFlow/cuDNN mismatch does
+not prevent inference. Pass `--device cuda` or `--device cuda:N` to opt into FILM
+GPU inference, or `--device cpu` to force CPU inference for either model. Both
+adapters preserve native SNU-FILM resolution; RIFE
 pads only for inference and crops the result back to the input dimensions.
 
 ## Fair cross-model selected cases

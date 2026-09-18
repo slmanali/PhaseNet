@@ -219,6 +219,58 @@ def test_film_backend_adds_saved_model_batch_dimension(tmp_path, monkeypatch):
     assert np.all(result == 128)
 
 
+def test_film_backend_hides_cuda_before_import_by_default(tmp_path, monkeypatch):
+    observed_devices = []
+
+    class Interpolator:
+        def __init__(self, checkpoint):
+            pass
+
+    class Module:
+        pass
+
+    Module.Interpolator = Interpolator
+    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "0,1")
+
+    def fake_import(repo, module_name):
+        observed_devices.append(run_pretrained_snufilm.os.environ["CUDA_VISIBLE_DEVICES"])
+        return Module
+
+    monkeypatch.setattr(run_pretrained_snufilm, "_import_from_repo", fake_import)
+
+    FILMBackend(tmp_path / "FILM", tmp_path / "saved_model")
+
+    assert observed_devices == [""]
+
+
+def test_film_backend_selects_requested_cuda_device_before_import(tmp_path, monkeypatch):
+    observed_devices = []
+
+    class Interpolator:
+        def __init__(self, checkpoint):
+            pass
+
+    class Module:
+        pass
+
+    Module.Interpolator = Interpolator
+
+    def fake_import(repo, module_name):
+        observed_devices.append(run_pretrained_snufilm.os.environ["CUDA_VISIBLE_DEVICES"])
+        return Module
+
+    monkeypatch.setattr(run_pretrained_snufilm, "_import_from_repo", fake_import)
+
+    FILMBackend(tmp_path / "FILM", tmp_path / "saved_model", "cuda:2")
+
+    assert observed_devices == ["2"]
+
+
+def test_film_backend_rejects_unsupported_device(tmp_path):
+    with pytest.raises(ValueError, match="FILM --device"):
+        FILMBackend(tmp_path / "FILM", tmp_path / "saved_model", "mps")
+
+
 def test_validate_paths_reports_each_missing_input(tmp_path):
     class Parser:
         def error(self, message):
