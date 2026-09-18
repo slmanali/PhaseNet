@@ -66,6 +66,39 @@ python tools/make_snufilm_qualitative_figure.py \
 Each command writes PNG, PDF, and SVG. The layout is an original full-frame plus
 fixed-crop grid; IFRNet Figure 6 is a presentation reference only.
 
+## Pretrained RIFE and FILM
+
+Clone the upstream RIFE or FILM repository and download/extract its official
+pretrained checkpoint. The runner imports the upstream implementation directly,
+so this repository does not vendor model code or silently substitute weights.
+For RIFE, `--checkpoint` is the extracted `train_log` directory (RIFE 4.6 or a
+newer release with the same `model.RIFE.Model` API):
+
+```bash
+git clone https://github.com/hzwer/ECCV2022-RIFE.git /opt/RIFE
+python tools/run_pretrained_snufilm.py --model rife \
+  --repo /opt/RIFE --checkpoint /checkpoints/rife/train_log \
+  --snu-root /data/SNU-FILM --snu-mode all
+```
+
+For FILM, install the dependencies specified by the upstream
+`google-research/frame-interpolation` checkout and point at the extracted FILM
+SavedModel directory:
+
+```bash
+git clone https://github.com/google-research/frame-interpolation.git /opt/FILM
+python tools/run_pretrained_snufilm.py --model film \
+  --repo /opt/FILM --checkpoint /checkpoints/film/film_net/Style/saved_model \
+  --snu-root /data/SNU-FILM --snu-mode all
+```
+
+Outputs are written as
+`outputs/external_snufilm/{rife,film}/<mode>/00000_pred.png`, ready for the
+external qualitative figure command above. Use `--sample-indices 36,38,39` for
+a quick subset, `--overwrite` to replace existing images, and `--device cpu`
+for RIFE without CUDA. Both adapters preserve native SNU-FILM resolution; RIFE
+pads only for inference and crops the result back to the input dimensions.
+
 ## Fair cross-model selected cases
 
 Evaluate only the four official Hard triplets (rather than all 310) for every
