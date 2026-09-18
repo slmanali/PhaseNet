@@ -116,11 +116,13 @@ python tools/run_pretrained_snufilm.py --model rife \
   --snu-root "SNU-FILM" --snu-mode all
 ```
 
-For FILM, install the dependencies specified by the upstream
-`google-research/frame-interpolation` checkout and point at the extracted FILM
-SavedModel directory:
+For FILM, install this repository's optional TensorFlow dependency in the same
+Python environment that runs the evaluation script, then point at the extracted
+FILM SavedModel directory. In particular, cloning the upstream repository does
+not install TensorFlow:
 
 ```bash
+python -m pip install -r requirements-film.txt
 mkdir -p opt checkpoints/film
 git clone https://github.com/google-research/frame-interpolation.git "opt/FILM"
 # Download and extract FILM's pretrained model as directed by its README.

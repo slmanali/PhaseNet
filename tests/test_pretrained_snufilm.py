@@ -6,7 +6,8 @@ import pytest
 from PIL import Image
 
 from tools import run_pretrained_snufilm
-from tools.run_pretrained_snufilm import RIFEBackend, parse_indices, run, validate_paths
+from tools.run_pretrained_snufilm import (FILMBackend, RIFEBackend, parse_indices, run,
+                                          validate_paths)
 
 
 def _make_dataset(root):
@@ -158,6 +159,33 @@ def test_rife_backend_explains_checkpoint_version_mismatch(tmp_path, monkeypatch
         RIFEBackend(tmp_path / "RIFE", tmp_path / "train_log", "cpu")
 
     assert "revision matching the downloaded weights" in str(error.value)
+
+
+def test_film_backend_explains_missing_tensorflow(tmp_path, monkeypatch):
+    def missing_tensorflow(*args):
+        error = ModuleNotFoundError("No module named 'tensorflow'")
+        error.name = "tensorflow"
+        raise error
+
+    monkeypatch.setattr(run_pretrained_snufilm, "_import_from_repo", missing_tensorflow)
+
+    with pytest.raises(RuntimeError, match="requirements-film.txt") as error:
+        FILMBackend(tmp_path / "FILM", tmp_path / "saved_model")
+
+    assert "requires TensorFlow" in str(error.value)
+
+
+def test_film_backend_does_not_mask_other_missing_modules(tmp_path, monkeypatch):
+    def missing_upstream_module(*args):
+        error = ModuleNotFoundError("No module named 'eval'")
+        error.name = "eval"
+        raise error
+
+    monkeypatch.setattr(run_pretrained_snufilm, "_import_from_repo",
+                        missing_upstream_module)
+
+    with pytest.raises(ModuleNotFoundError, match="No module named 'eval'"):
+        FILMBackend(tmp_path / "FILM", tmp_path / "saved_model")
 
 
 def test_validate_paths_reports_each_missing_input(tmp_path):

@@ -98,7 +98,17 @@ class FILMBackend:
     """Adapter around google-research/frame-interpolation's FILM interpolator."""
 
     def __init__(self, repo, checkpoint):
-        module = _import_from_repo(repo, "eval.interpolator")
+        try:
+            module = _import_from_repo(repo, "eval.interpolator")
+        except ModuleNotFoundError as error:
+            if error.name != "tensorflow":
+                raise
+            raise RuntimeError(
+                "FILM requires TensorFlow, but it is not installed in this Python "
+                "environment. Install the optional inference dependencies with "
+                "`python -m pip install -r requirements-film.txt`, then rerun the "
+                "command."
+            ) from error
         self.model = module.Interpolator(str(Path(checkpoint).expanduser().resolve()))
 
     def __call__(self, first, second):
