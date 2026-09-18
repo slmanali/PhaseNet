@@ -81,15 +81,32 @@ PhaseNet repository root.
 For RIFE, `--checkpoint` is the extracted `train_log` directory (RIFE 4.6 or a
 newer release with the same `model.RIFE.Model` API):
 
+First, clone the code. Then follow the upstream
+[RIFE model download instructions](https://github.com/hzwer/ECCV2022-RIFE#model-list)
+and extract the downloaded archive into `checkpoints/rife`. These are two
+separate downloads: `git clone` does not create `train_log`.
+
 ```bash
 mkdir -p opt checkpoints/rife
 git clone https://github.com/hzwer/ECCV2022-RIFE.git "opt/RIFE"
-# Download an official RIFE release archive as directed by its README, extract
-# it under checkpoints/rife, and confirm that train_log contains the weights.
-test -d checkpoints/rife/train_log || {
-  echo "Extract the RIFE checkpoint archive into checkpoints/rife first" >&2
-  exit 1
-}
+```
+
+After extracting the model archive, check its location without terminating the
+current shell. The earlier `test ... || { exit 1; }` form was only a check; it
+did not download the checkpoint, and `exit 1` can close terminals launched as a
+task by an editor.
+
+```bash
+if test -d checkpoints/rife/train_log; then
+  echo "RIFE checkpoint is ready"
+else
+  echo "RIFE checkpoint is missing: download and extract it into checkpoints/rife"
+fi
+```
+
+Only run the evaluation after the check prints `RIFE checkpoint is ready`:
+
+```bash
 python tools/run_pretrained_snufilm.py --model rife \
   --repo "opt/RIFE" --checkpoint "checkpoints/rife/train_log" \
   --snu-root "SNU-FILM" --snu-mode all
