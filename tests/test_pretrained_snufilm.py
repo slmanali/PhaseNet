@@ -188,6 +188,37 @@ def test_film_backend_does_not_mask_other_missing_modules(tmp_path, monkeypatch)
         FILMBackend(tmp_path / "FILM", tmp_path / "saved_model")
 
 
+def test_film_backend_adds_saved_model_batch_dimension(tmp_path, monkeypatch):
+    calls = []
+
+    class Interpolator:
+        def __init__(self, checkpoint):
+            self.checkpoint = checkpoint
+
+        def __call__(self, first, second, time):
+            calls.append((first, second, time))
+            return np.full((1, 5, 7, 3), 0.5, dtype=np.float32)
+
+    class Module:
+        pass
+
+    Module.Interpolator = Interpolator
+    monkeypatch.setattr(run_pretrained_snufilm, "_import_from_repo",
+                        lambda repo, module_name: Module)
+    backend = FILMBackend(tmp_path / "FILM", tmp_path / "saved_model")
+
+    result = backend(Image.new("RGB", (7, 5), (0, 127, 255)),
+                     Image.new("RGB", (7, 5), (255, 127, 0)))
+
+    first, second, time = calls[0]
+    assert first.shape == second.shape == (1, 5, 7, 3)
+    assert first.dtype == second.dtype == time.dtype == np.float32
+    assert time.shape == (1,)
+    assert result.shape == (5, 7, 3)
+    assert result.dtype == np.uint8
+    assert np.all(result == 128)
+
+
 def test_validate_paths_reports_each_missing_input(tmp_path):
     class Parser:
         def error(self, message):

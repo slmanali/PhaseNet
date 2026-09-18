@@ -112,8 +112,12 @@ class FILMBackend:
         self.model = module.Interpolator(str(Path(checkpoint).expanduser().resolve()))
 
     def __call__(self, first, second):
-        first = np.asarray(first, dtype=np.float32) / 255.0
-        second = np.asarray(second, dtype=np.float32) / 255.0
+        # FILM's exported SavedModel signature is batched: both endpoints must
+        # have shape [batch, height, width, channels].  The upstream adapter
+        # forwards its inputs unchanged, so add the singleton inference batch
+        # here rather than passing bare HWC images to TensorFlow.
+        first = np.asarray(first, dtype=np.float32)[None, ...] / 255.0
+        second = np.asarray(second, dtype=np.float32)[None, ...] / 255.0
         prediction = np.asarray(self.model(first, second, np.array([0.5], np.float32)))
         if prediction.ndim == 4:
             prediction = prediction[0]
