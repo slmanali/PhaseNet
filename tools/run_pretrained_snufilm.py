@@ -48,10 +48,15 @@ class RIFEBackend:
         except ModuleNotFoundError as error:
             if error.name not in ("model", "model.RIFE_HDv3"):
                 raise
-            # Archive copies of RIFE_HDv3.py still import helpers such as
-            # model.warplayer from the checkout, so both locations must remain
-            # importable while Python executes the checkpoint module.
-            rife = _import_from_repo(checkpoint, "RIFE_HDv3", (repo,))
+            # Archive copies use package-qualified imports such as
+            # ``from train_log.IFNet_HDv3 import *`` while still importing
+            # helpers such as model.warplayer from the checkout.  Import the
+            # checkpoint directory as a package from its parent so both forms
+            # resolve while Python executes the module.
+            checkpoint = Path(checkpoint).expanduser().resolve()
+            rife = _import_from_repo(
+                checkpoint.parent, f"{checkpoint.name}.RIFE_HDv3", (repo,)
+            )
         self.model = rife.Model()
         checkpoint = str(Path(checkpoint).expanduser().resolve())
         try:

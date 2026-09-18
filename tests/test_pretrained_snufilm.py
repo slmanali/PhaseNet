@@ -113,7 +113,7 @@ def test_rife_backend_supports_model_code_in_checkpoint(tmp_path, monkeypatch):
 
     assert imported == [
         (tmp_path / "RIFE", "model.RIFE_HDv3", ()),
-        (checkpoint, "RIFE_HDv3", (tmp_path / "RIFE",)),
+        (tmp_path, "train_log.RIFE_HDv3", (tmp_path / "RIFE",)),
     ]
     assert backend.model.loaded == (str(checkpoint.resolve()), -1)
 
@@ -127,6 +127,7 @@ def test_rife_checkpoint_module_can_import_checkout_dependencies(tmp_path):
     checkpoint = tmp_path / "train_log"
     checkpoint.mkdir()
     (checkpoint / "RIFE_HDv3.py").write_text(
+        "from train_log.IFNet_HDv3 import IFNet\n"
         "from model.warplayer import warp\n"
         "class Model:\n"
         "    def load_model(self, checkpoint, rank): pass\n"
@@ -134,6 +135,7 @@ def test_rife_checkpoint_module_can_import_checkout_dependencies(tmp_path):
         "    def device(self): pass\n",
         encoding="utf-8",
     )
+    (checkpoint / "IFNet_HDv3.py").write_text("IFNet = object()\n", encoding="utf-8")
 
     backend = RIFEBackend(repo, checkpoint, "cpu")
 
