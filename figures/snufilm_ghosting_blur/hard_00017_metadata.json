@@ -7,15 +7,20 @@
     720
   ],
   "crop_xyxy": [
-    1016,
-    257,
-    1160,
-    401
+    80,
+    355,
+    340,
+    705
   ],
-  "line_xyxy": null,
+  "line_xyxy": [
+    95.0,
+    475.0,
+    205.0,
+    475.0
+  ],
   "phenomenon_to_inspect": "inspection",
-  "roi_note": "",
-  "selection_policy": "existing internal-model representative selection",
+  "roi_note": "Moving pedestrian with black shirt and green-banded cap; inspect head boundary",
+  "selection_policy": "explicit user index",
   "note": "Crop MAE/gradients are descriptive, not a validated ghosting or blur detector; annotate artifacts only after visual verification.",
   "inputs_sha256": {
     "input_0": {
