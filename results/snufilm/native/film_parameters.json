@@ -1,0 +1,18 @@
+{
+  "model": "FILM",
+  "count_definition": "unique tf.Variable elements in exact loaded SavedModel",
+  "total_parameters": 34436667,
+  "trainable_parameters": 34436667,
+  "nontrainable_state_elements": 0,
+  "variable_tensors": 82,
+  "checkpoint_dir": "/home/salman/Documents/GitHub/PhaseNet/checkpoints/film/film_net/Style/saved_model",
+  "checkpoint_file_sha256": {
+    "/home/salman/Documents/GitHub/PhaseNet/checkpoints/film/film_net/Style/saved_model/saved_model.pb": "4df311e80e9a7282b362a7e93bef22a1ce4f84e7cdeda01f246894545eaaf985",
+    "/home/salman/Documents/GitHub/PhaseNet/checkpoints/film/film_net/Style/saved_model/variables/variables.index": "d19bb117eb9abe6121b5711649bb7d5d1c4fe1912b9deabbdafa2be3f5a273e5",
+    "/home/salman/Documents/GitHub/PhaseNet/checkpoints/film/film_net/Style/saved_model/variables/variables.data-00000-of-00001": "8c47323923bc4826b730dd882c8c7700761aa3ac03b2c8180d3ffc82d18111f9"
+  },
+  "upstream_repo": "/home/salman/Documents/GitHub/PhaseNet/opt/FILM",
+  "upstream_commit": "69f8708f08e62c2edf46a27616a4bfcf083e2076",
+  "backend": "tools.run_pretrained_snufilm.FILMBackend._model",
+  "tensorflow_version": "2.21.0"
+}

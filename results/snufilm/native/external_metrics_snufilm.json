@@ -1,0 +1,88 @@
+{
+  "results": [
+    {
+      "model": "RIFE",
+      "mode": "easy",
+      "samples": 310,
+      "psnr": 39.68067176198006,
+      "ssim": 0.9816348783431514,
+      "lpips": 0.013015829158323486
+    },
+    {
+      "model": "RIFE",
+      "mode": "medium",
+      "samples": 310,
+      "psnr": 35.41634056002294,
+      "ssim": 0.9621698585248762,
+      "lpips": 0.02337583544450031
+    },
+    {
+      "model": "RIFE",
+      "mode": "hard",
+      "samples": 310,
+      "psnr": 29.92455957415042,
+      "ssim": 0.89407673160876,
+      "lpips": 0.047813452811415996
+    },
+    {
+      "model": "RIFE",
+      "mode": "extreme",
+      "samples": 310,
+      "psnr": 24.85997808929481,
+      "ssim": 0.7891125395413368,
+      "lpips": 0.09777555140937047
+    },
+    {
+      "model": "FILM",
+      "mode": "easy",
+      "samples": 310,
+      "psnr": 40.09605656802641,
+      "ssim": 0.9831583574894935,
+      "lpips": 0.011786629585924769
+    },
+    {
+      "model": "FILM",
+      "mode": "medium",
+      "samples": 310,
+      "psnr": 35.87402190074662,
+      "ssim": 0.964612441870474,
+      "lpips": 0.021245006034563807
+    },
+    {
+      "model": "FILM",
+      "mode": "hard",
+      "samples": 310,
+      "psnr": 30.165703767749843,
+      "ssim": 0.8967052381846212,
+      "lpips": 0.0439592182433473
+    },
+    {
+      "model": "FILM",
+      "mode": "extreme",
+      "samples": 310,
+      "psnr": 24.892490185047368,
+      "ssim": 0.7882012186511871,
+      "lpips": 0.09241247333120554
+    }
+  ],
+  "metadata": {
+    "resolution": "native",
+    "metrics": {
+      "psnr": "utils.metrics.compute_psnr",
+      "ssim": "utils.metrics.compute_ssim",
+      "lpips": "utils.metrics.compute_lpips (lpips.LPIPS net='alex')"
+    },
+    "aggregation": "arithmetic mean of per-sample metrics",
+    "pce": "not computed: PCE requires internal complex pyramid coefficients",
+    "per_sample_csv": "results/snufilm/native/external_metrics_per_sample.csv",
+    "dataset_root": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM",
+    "predictions_dir": "/home/salman/Documents/GitHub/PhaseNet/outputs/external_snufilm",
+    "device": "cuda",
+    "triplet_lists": {
+      "easy": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/eval_modes/test-easy.txt",
+      "medium": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/eval_modes/test-medium.txt",
+      "hard": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/eval_modes/test-hard.txt",
+      "extreme": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/eval_modes/test-extreme.txt"
+    }
+  }
+}

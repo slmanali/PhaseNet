@@ -1,0 +1,46 @@
+{
+  "mode": "hard",
+  "sample_index": 17,
+  "official_list": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/eval_modes/test-hard.txt",
+  "native_dimensions_wh": [
+    1280,
+    720
+  ],
+  "crop_xyxy": [
+    1016,
+    257,
+    1160,
+    401
+  ],
+  "line_xyxy": null,
+  "phenomenon_to_inspect": "inspection",
+  "roi_note": "",
+  "selection_policy": "existing internal-model representative selection",
+  "note": "Crop MAE/gradients are descriptive, not a validated ghosting or blur detector; annotate artifacts only after visual verification.",
+  "inputs_sha256": {
+    "input_0": {
+      "path": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0384_11_05/044843.png",
+      "sha256": "cbe949a3bcce9e757b6ba7ae7a850b8755a2d449d43b8c043855731f26023ab7"
+    },
+    "gt": {
+      "path": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0384_11_05/044847.png",
+      "sha256": "f9f967bf477293fd5f23763644a72357a2c8fc52fea3e752aa175cffaa1766b8"
+    },
+    "input_1": {
+      "path": "/home/salman/Documents/GitHub/PhaseNet/SNU-FILM/test/GOPRO_test/GOPR0384_11_05/044851.png",
+      "sha256": "b6a69e150c85ce885130d07e22d40d9c44dc66e4333f44b3b15ab0b5a9ea126b"
+    },
+    "complex": {
+      "path": "qualitative_snufilm_average_selected/complex_full/hard/samples/17/prediction.png",
+      "sha256": "a216f8c0cf35f0b68756eca7484c82975d82c67ad38081085d4b68bc34f7f95c"
+    },
+    "rife": {
+      "path": "outputs/external_snufilm/rife/hard/00017_pred.png",
+      "sha256": "6cb2618e1edc1bed2671cfb31832f7b3dc2e8480e96449d8c1a0396c3ceb1c2e"
+    },
+    "film": {
+      "path": "outputs/external_snufilm/film/hard/00017_pred.png",
+      "sha256": "8d8eb39f1134d5029fb6118563b923d18df20a4c0a99060d80c9c4cd66c1f735"
+    }
+  }
+}

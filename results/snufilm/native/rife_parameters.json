@@ -1,0 +1,13 @@
+{
+  "model": "RIFE",
+  "count_definition": "unique registered torch.nn.Parameter elements in loaded flownet",
+  "total_parameters": 3038015,
+  "trainable_parameters": 3038015,
+  "parameter_tensors": 160,
+  "checkpoint_file": "/home/salman/Documents/GitHub/PhaseNet/checkpoints/rife/train_log/flownet.pkl",
+  "checkpoint_sha256": "fe854fc8996547c953f732aaa3b78cae76cc0a12833ae856ea0749c4c570d7d8",
+  "upstream_repo": "/home/salman/Documents/GitHub/PhaseNet/opt/RIFE",
+  "upstream_commit": "5d8adbdd40e12c2c8f91930eff838aebe561c086",
+  "backend": "tools.run_pretrained_snufilm.RIFEBackend",
+  "torch_version": "2.6.0+cu124"
+}
