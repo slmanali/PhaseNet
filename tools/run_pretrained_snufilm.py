@@ -127,7 +127,11 @@ class FILMBackend:
                 "`python -m pip install -r requirements-film.txt`, then rerun the "
                 "command."
             ) from error
-        self.model = module.Interpolator(str(Path(checkpoint).expanduser().resolve()))
+        self.model = module.Interpolator(
+            str(Path(checkpoint).expanduser().resolve()),
+            align=64,
+            block_shape=[2, 2],
+        )
         self.device = device
 
     def __call__(self, first, second):

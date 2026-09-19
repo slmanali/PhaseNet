@@ -126,11 +126,16 @@ python -m pip install -r requirements-film.txt
 mkdir -p opt checkpoints/film
 git clone https://github.com/google-research/frame-interpolation.git "opt/FILM"
 # Download and extract FILM's pretrained model as directed by its README.
-python tools/run_pretrained_snufilm.py --model film \
-  --repo "opt/FILM" \
-  --checkpoint "checkpoints/film/film_net/Style/saved_model" \
-  --snu-root "SNU-FILM" --snu-mode all \
-  --device cpu
+source venv_film/bin/activate
+TF_GPU_ALLOCATOR=cuda_malloc_async \
+TF_FORCE_GPU_ALLOW_GROWTH=true \
+python tools/run_pretrained_snufilm.py \
+  --model film \
+  --repo opt/FILM \
+  --checkpoint checkpoints/film/film_net/Style/saved_model \
+  --snu-root SNU-FILM \
+  --snu-mode all \
+  --device cuda
 ```
 
 Before launching a long evaluation, verify all three input directories:
