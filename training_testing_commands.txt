@@ -303,7 +303,7 @@ python tools/export_snufilm_qualitative.py \
   --device cuda:0
 
 # Recreate figures from already-exported rank-1 samples (also rechecks triplet SHA256).
-python tools/make_snufilm_average_paper_figure.py \
+python tools/make_snufilm_average_paper_figure_ru.py \
   --config figures/snufilm_average/selections.json \
   --source-dir qualitative_snufilm_average_selected \
   --metrics-dir qualitative_snufilm_average \
