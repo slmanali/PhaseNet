@@ -224,6 +224,9 @@ def parse_args():
         default=32,
         help="Feature dimension used when the model was trained.",
     )
+    parser.add_argument("--convolution",
+                        choices=("complex", "separate_real", "unrestricted_real"),
+                        default="complex")
     return parser.parse_args()
 
 
@@ -233,9 +236,13 @@ def resolve_device(device_arg):
     return torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-def load_model(model_path, device, feature_dim):
-    checkpoint = torch.load(model_path, map_location=device)
-    model = ComplexPhaseNetSafe(feature_dim=feature_dim).to(device)
+def load_model(model_path, device, feature_dim, convolution="complex"):
+    try:
+        checkpoint = torch.load(model_path, map_location=device, weights_only=False)
+    except TypeError:
+        checkpoint = torch.load(model_path, map_location=device)
+    model = ComplexPhaseNetSafe(feature_dim=feature_dim,
+                                convolution=convolution).to(device)
 
     if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
         model.load_state_dict(checkpoint["model_state_dict"])
@@ -611,7 +618,8 @@ def main():
         root = Path(args.dataset_path).expanduser().resolve()
         if not root.is_dir():
             raise FileNotFoundError(f"SNU-FILM root not found: {root}")
-        model, checkpoint_epoch = load_model(args.model_path, device, args.feature_dim)
+        model, checkpoint_epoch = load_model(args.model_path, device, args.feature_dim,
+                                             args.convolution)
         tile_size = 256 if args.tile_size is None and args.image_size == "native" else args.tile_size
         if tile_size:
             print(f"Model inference tile size: {tile_size}x{tile_size}")
@@ -649,7 +657,8 @@ def main():
     dataset_path = davis_image_root(davis_root, args.dataset_path)
     if not dataset_path.exists():
         raise FileNotFoundError(f"Dataset path not found: {dataset_path}")
-    model, checkpoint_epoch = load_model(args.model_path, device, args.feature_dim)
+    model, checkpoint_epoch = load_model(args.model_path, device, args.feature_dim,
+                                         args.convolution)
     transform = transforms.Compose([transforms.Resize((256, 256)), transforms.ToTensor()])
     dataset_path_str = str(dataset_path)
     dataset_type = args.dataset_type

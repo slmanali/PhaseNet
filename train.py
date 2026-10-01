@@ -20,6 +20,9 @@ from tqdm import tqdm
 
 from steerable.SCFpyr_PyTorch import SCFpyr_PyTorch
 from net.phasenet import PhaseNet, Triplets, get_input, Total_loss, output_convert
+from utils.reproducibility import (configure_reproducibility, create_run_directory,
+    dataset_sample_ids, environment_metadata, load_checkpoint, make_data_generator,
+    ordered_hash, save_training_checkpoint, seed_worker, write_metadata)
 from utils.davis import (davis_image_root, load_davis_train_val,
                          print_davis_split, resolve_davis_root)
 
@@ -40,6 +43,12 @@ def parse_args():
     parser.add_argument("--debug-save-dir", type=Path, default=Path("./debug_real_safe"))
     parser.add_argument("--device", type=str, default=None)
     parser.add_argument("--num-workers", type=int, default=2)
+    parser.add_argument("--seed", type=int, default=11)
+    parser.add_argument("--deterministic", choices=("strict", "warn", "off"), default="strict")
+    parser.add_argument("--run-root", type=Path, default=Path("./runs_seeded"))
+    parser.add_argument("--config-name", default=None)
+    parser.add_argument("--resume", type=Path, default=None,
+                        help="Resume a full checkpoint at a completed epoch boundary.")
 
     parser.add_argument("--img-weight", type=float, default=1.0)
     parser.add_argument("--phase-weight", type=float, default=0.1)
@@ -75,6 +84,7 @@ def resolve_device(device_arg):
 
 def main():
     args = parse_args()
+    configure_reproducibility(args.seed, args.deterministic)
     torch.autograd.set_detect_anomaly(True)
 
     log_dir = Path('./log')
@@ -107,6 +117,11 @@ def main():
         dataset = torch.utils.data.Subset(dataset, range(min(args.overfit_samples, len(dataset))))
         print(f"Overfit/debug mode enabled: using first {len(dataset)} triplets")
     print(f"Dataset loaded: {len(dataset)} triplets")
+    config_name = args.config_name or "phasenet-{args.feature_dim}"
+    run_dir = create_run_directory(args.run_root, config_name, args.seed, resume=args.resume is not None)
+    data_generator = make_data_generator(args.seed)
+    split_hash = ordered_hash(dataset_sample_ids(dataset))
+
 
     pyr = SCFpyr_PyTorch(height=12, nbands=4, scale_factor=2 ** (1 / 2), device=device)
     pyr_type = 1
@@ -137,19 +152,41 @@ def main():
         optimizer, mode='min', factor=0.5, patience=2, verbose=True
     )
 
+    start_epoch = 0
+    total_step = 0
+    if args.resume is not None:
+        resumed = load_checkpoint(args.resume, model, optimizer, scheduler, data_generator, map_location=device)
+        if resumed.get("legacy"):
+            raise ValueError("training resume requires a full checkpoint, not a legacy state_dict")
+        start_epoch, total_step = resumed["epoch"], resumed["global_step"]
+    metadata = {
+        "status": "running", "seed": args.seed, "configuration": config_name,
+        "arguments": vars(args), "split_sample_sha256": split_hash,
+        "sample_count": len(dataset), "environment": environment_metadata(),
+        "checkpoint_selection": "final_completed_epoch", "completed_epochs": start_epoch,
+        "completed_steps": total_step, "resume_boundary": "completed_epoch",
+        "optimizer": {"name": "Adam", "lr": args.learning_rate,
+                      "betas": [0.9, 0.999], "weight_decay": 1e-5},
+        "scheduler": {"name": "ReduceLROnPlateau", "factor": 0.5,
+                      "patience": 2, "mode": "min"},
+        "input_size": [256, 256], "precision": "fp32",
+    }
+    write_metadata(run_dir / "metadata.json", metadata)
+
     if args.debug_save_dir is not None:
         args.debug_save_dir.mkdir(parents=True, exist_ok=True)
 
-    total_step = 0
     print("\nStarting training...")
 
-    for epoch in range(args.epochs):
+    for epoch in range(start_epoch, args.epochs):
         model.train()
         trainloader = torch.utils.data.DataLoader(
             dataset,
             batch_size=args.batch_size,
             shuffle=args.overfit_samples <= 0,
             num_workers=args.num_workers,
+            generator=data_generator,
+            worker_init_fn=seed_worker,
         )
 
         epoch_loss = 0.0
@@ -190,10 +227,14 @@ def main():
                     vis_pred_channels.append(pred_img_ch.detach().cpu().clamp(0, 1))
 
                 loss = sum(channel_losses) / len(channel_losses)
+                if not torch.isfinite(loss):
+                    raise FloatingPointError(f"nonfinite loss at epoch {epoch + 1}, batch {batch_idx}: {loss}")
 
                 optimizer.zero_grad()
                 loss.backward()
-                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=0.5)
+                grad_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=0.5)
+                if not torch.isfinite(grad_norm):
+                    raise FloatingPointError(f"nonfinite gradient norm at epoch {epoch + 1}, batch {batch_idx}")
                 optimizer.step()
 
                 epoch_loss += loss.item()
@@ -232,17 +273,22 @@ def main():
                     break
 
             except Exception as e:
-                print(f"\nError in batch {batch_idx}: {e}")
-                import traceback
-                traceback.print_exc()
-                continue
+                raise RuntimeError(f"training failed at epoch {epoch + 1}, batch {batch_idx}") from e
 
-        avg_epoch_loss = epoch_loss / max(num_batches, 1)
+        if num_batches == 0:
+            raise RuntimeError(f"epoch {epoch + 1} completed with zero successful batches")
+        avg_epoch_loss = epoch_loss / num_batches
         print(f'\nEpoch {epoch + 1} completed. Average Loss: {avg_epoch_loss:.4f}')
         scheduler.step(avg_epoch_loss)
+        checkpoint_path = run_dir / "checkpoint_last.pth"
+        save_training_checkpoint(checkpoint_path, model, optimizer, scheduler, epoch + 1,
+                                 total_step, vars(args), data_generator)
+        metadata.update(status="running", completed_epochs=epoch + 1,
+                        completed_steps=total_step, checkpoint=str(checkpoint_path))
+        write_metadata(run_dir / "metadata.json", metadata)
 
         if (epoch + 1) % 2 == 0:
-            checkpoint_path = Path('./model') / f'{now}_real_safe_epoch{epoch + 1}.pth'
+            checkpoint_path = run_dir / f'legacy_epoch{epoch + 1}.pth'
             checkpoint_path.parent.mkdir(exist_ok=True)
             torch.save({
                 'epoch': epoch + 1,
@@ -252,9 +298,11 @@ def main():
             }, checkpoint_path)
             print(f'Checkpoint saved: {checkpoint_path}')
 
-    model_path = Path('./model') / f'{now}_real_safe_final.pth'
+    model_path = run_dir / 'model_final_state_dict.pth'
     model_path.parent.mkdir(exist_ok=True)
     torch.save(model.state_dict(), model_path)
+    metadata.update(status="completed", checkpoint=str(run_dir / "checkpoint_last.pth"))
+    write_metadata(run_dir / "metadata.json", metadata)
     print(f'\nTraining completed! Final model saved: {model_path}')
 
 
@@ -263,7 +311,6 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt:
         print("\n\nTraining interrupted by user.")
-    except Exception as e:
-        print(f"\n\nError during training: {e}")
-        import traceback
-        traceback.print_exc()
+    except Exception:
+        # Research runs must terminate nonzero; metadata/checkpoint remain inspectable.
+        raise
