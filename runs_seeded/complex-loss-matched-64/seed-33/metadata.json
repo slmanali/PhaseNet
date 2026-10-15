@@ -1,0 +1,81 @@
+{
+  "arguments": {
+    "amp_imag_loss_weight": 0.0,
+    "amp_weight": 0.0,
+    "batch_size": 2,
+    "config_name": "complex-loss-matched-64",
+    "convolution": "complex",
+    "dataset_path": "/home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p",
+    "davis_root": null,
+    "debug_save_dir": "debug_complex_safe",
+    "deterministic": "strict",
+    "device": null,
+    "epochs": 40,
+    "feature_dim": 64,
+    "grad_weight": 0.1,
+    "img_weight": 0.05,
+    "learning_rate": 8e-05,
+    "log_interval": 10,
+    "max_steps_per_epoch": 0,
+    "num_workers": 2,
+    "overfit_samples": 0,
+    "phase_correction_scale": 0.1,
+    "phase_unit_weight": 0.0,
+    "phase_weight": 0.2,
+    "residual_correction_scale": 0.1,
+    "residual_imag_weight": 0.0,
+    "residual_weight": 0.1,
+    "resume": null,
+    "run_root": "runs_seeded",
+    "save_interval": 200,
+    "seed": 33,
+    "split": "train"
+  },
+  "checkpoint": "runs_seeded/complex-loss-matched-64/seed-33/checkpoint_last.pth",
+  "checkpoint_selection": "final_completed_epoch",
+  "completed_epochs": 21,
+  "completed_steps": 21210,
+  "configuration": "complex-loss-matched-64",
+  "convolution_replacement_scope": "feature and prediction-head convolutions",
+  "environment": {
+    "cuda_runtime": "12.4",
+    "cudnn": 90100,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "git_commit": "946fee1dcd11373ccede2166d86d632b798bea1d",
+    "git_dirty": true,
+    "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+    "gpu_count": 1,
+    "nvidia_driver": "565.77",
+    "platform": "Linux-6.11.0-29-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "tf32_matmul": false,
+    "torch": "2.6.0+cu124"
+  },
+  "initialization": "native_complex",
+  "input_size": [
+    256,
+    256
+  ],
+  "optimizer": {
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "lr": 8e-05,
+    "name": "Adam",
+    "weight_decay": 1e-05
+  },
+  "precision": "fp32",
+  "resume_boundary": "completed_epoch",
+  "sample_count": 2019,
+  "scheduler": {
+    "factor": 0.5,
+    "mode": "min",
+    "name": "ReduceLROnPlateau",
+    "patience": 2
+  },
+  "seed": 33,
+  "split_sample_sha256": "e927ecd588ab477f9c71333f67d6ea20a13d6f8dc4c17ebb93e9e9841c563853",
+  "status": "running"
+}
