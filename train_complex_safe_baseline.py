@@ -256,10 +256,17 @@ def main():
     start_epoch = 0
     total_step = 0
     if args.resume is not None:
-        resumed = load_checkpoint(args.resume, model, optimizer, scheduler, data_generator, map_location=device)
+        resumed = load_checkpoint(args.resume, model, optimizer, scheduler, data_generator, map_location="cpu")
         if resumed.get("legacy"):
             raise ValueError("training resume requires a full checkpoint, not a legacy state_dict")
         start_epoch, total_step = resumed["epoch"], resumed["global_step"]
+        print(f"RESUME {config_name} seed={args.seed}: "
+              f"{start_epoch}/{args.epochs} epochs completed, "
+              f"{max(args.epochs - start_epoch, 0)} epochs remaining; "
+              f"global_step={total_step}. Checkpoint: {args.resume}", flush=True)
+    else:
+        print(f"FRESH TRAINING {config_name} seed={args.seed}: "
+              f"{args.epochs} epochs requested.", flush=True)
     metadata = {
         "status": "running", "seed": args.seed, "configuration": config_name,
         "arguments": vars(args), "split_sample_sha256": split_hash,

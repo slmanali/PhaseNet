@@ -80,11 +80,13 @@ def capture_rng_state(data_generator=None):
 def restore_rng_state(state, data_generator=None):
     random.setstate(state["python"])
     np.random.set_state(state["numpy"])
-    torch.set_rng_state(state["torch_cpu"])
+    # torch.load(map_location="cuda") also relocates RNG byte tensors, but
+    # the RNG APIs require CPU state tensors even for CUDA generators.
+    torch.set_rng_state(state["torch_cpu"].cpu())
     if state.get("torch_cuda") is not None and torch.cuda.is_available():
-        torch.cuda.set_rng_state_all(state["torch_cuda"])
+        torch.cuda.set_rng_state_all([value.cpu() for value in state["torch_cuda"]])
     if data_generator is not None and state.get("data_loader_generator") is not None:
-        data_generator.set_state(state["data_loader_generator"])
+        data_generator.set_state(state["data_loader_generator"].cpu())
 
 
 def save_training_checkpoint(path, model, optimizer, scheduler, epoch, step,
@@ -100,12 +102,15 @@ def save_training_checkpoint(path, model, optimizer, scheduler, epoch, step,
         "rng_state": capture_rng_state(data_generator),
         "scaler_state_dict": scaler.state_dict() if scaler else None,
     }
-    torch.save(payload, path)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    torch.save(payload, temporary)
+    temporary.replace(path)
     return path
 
 
 def load_checkpoint(path, model, optimizer=None, scheduler=None,
-                    data_generator=None, scaler=None, map_location="cpu"):
+                    data_generator=None, scaler=None, map_location="cpu",
+                    restore_rng=True):
     """Load new resumable checkpoints or historical bare state dictionaries."""
     # Full checkpoints deliberately contain Python/NumPy RNG tuples. PyTorch
     # 2.6+ therefore needs the explicit trusted-checkpoint opt-out below.
@@ -123,7 +128,7 @@ def load_checkpoint(path, model, optimizer=None, scheduler=None,
         scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
     if scaler is not None and checkpoint.get("scaler_state_dict") is not None:
         scaler.load_state_dict(checkpoint["scaler_state_dict"])
-    if checkpoint.get("rng_state"):
+    if restore_rng and checkpoint.get("rng_state"):
         restore_rng_state(checkpoint["rng_state"], data_generator)
     checkpoint["legacy"] = False
     return checkpoint
