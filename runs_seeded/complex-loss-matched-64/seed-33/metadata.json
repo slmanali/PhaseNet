@@ -33,8 +33,8 @@
   },
   "checkpoint": "runs_seeded/complex-loss-matched-64/seed-33/checkpoint_last.pth",
   "checkpoint_selection": "final_completed_epoch",
-  "completed_epochs": 21,
-  "completed_steps": 21210,
+  "completed_epochs": 40,
+  "completed_steps": 40400,
   "configuration": "complex-loss-matched-64",
   "convolution_replacement_scope": "feature and prediction-head convolutions",
   "environment": {
@@ -42,7 +42,7 @@
     "cudnn": 90100,
     "cudnn_benchmark": false,
     "cudnn_deterministic": true,
-    "git_commit": "946fee1dcd11373ccede2166d86d632b798bea1d",
+    "git_commit": "6003b69e21294fa7d69d088c9040d03b20f4cd90",
     "git_dirty": true,
     "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
     "gpu_count": 1,
@@ -77,5 +77,5 @@
   },
   "seed": 33,
   "split_sample_sha256": "e927ecd588ab477f9c71333f67d6ea20a13d6f8dc4c17ebb93e9e9841c563853",
-  "status": "running"
+  "status": "completed"
 }
