@@ -17,6 +17,10 @@ def command(entry, common, config, name, seed, args):
         if previous.get("status") == "completed":
             if not checkpoint.exists() and not (checkpoint.parent / "model_final_state_dict.pth").exists():
                 raise FileNotFoundError(f"completed run has no checkpoint or final weights: {checkpoint.parent}")
+            # A completed folder is not evidence that the requested protocol ran.
+            for key, value in merged.items():
+                if key not in {"run_root", "dataset_path"} and previous.get("arguments", {}).get(key) != value:
+                    raise ValueError(f"completed configuration differs for {key}; use a NEW --run-root")
             return None
         if not checkpoint.exists():
             raise FileNotFoundError(
@@ -47,13 +51,20 @@ def command(entry, common, config, name, seed, args):
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--plan", type=Path, default=Path("experiments/article_seeded.json"))
-    p.add_argument("--run-root", type=Path, default=Path("runs_seeded"))
+    p.add_argument("--run-root", type=Path)
     p.add_argument("--dataset-path")
-    p.add_argument("--seeds", type=int, nargs="+", default=[11,22,33])
+    p.add_argument("--seeds", type=int, nargs="+")
     p.add_argument("--configs", nargs="+", help="Run only these named configurations from the plan.")
     p.add_argument("--deterministic", choices=("strict","warn","off"), default="strict")
     p.add_argument("--dry-run", action="store_true")
     a=p.parse_args(); plan=json.loads(a.plan.read_text())
+    a.run_root = a.run_root or Path(plan.get("run_root", "runs_seeded"))
+    a.seeds = a.seeds or plan.get("seeds", [11, 22, 33])
+    if len(set(a.seeds)) != len(a.seeds):
+        p.error("seeds must be unique")
+    if plan.get("study_id", "").startswith("reepe"):
+        if a.run_root.resolve() == Path("runs_seeded").resolve():
+            p.error("REEPE training requires its own run root")
     if a.configs:
         unknown = set(a.configs) - set(plan["configurations"])
         if unknown:

@@ -1,0 +1,25 @@
+{
+  "study_id": "reepe_cost_40ep_v1",
+  "run_root": "runs_seeded",
+  "output_root": "results_reepe/cost_40ep",
+  "seeds": [
+    11,
+    22,
+    33
+  ],
+  "expected_epochs": 40,
+  "configurations": [
+    "phasenet-64",
+    "phasenet-93",
+    "complex-full-64",
+    "complex-loss-matched-64"
+  ],
+  "measurement": {
+    "resolution": 256,
+    "precision": "fp32",
+    "warmup": 30,
+    "repetitions": 100,
+    "tile_size": 0,
+    "deterministic": "strict"
+  }
+}

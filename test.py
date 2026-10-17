@@ -316,7 +316,7 @@ def parse_args():
     parser.add_argument(
         "--feature-dim",
         type=int,
-        default=64,
+        default=None,
         help="Feature dimension used when training the model.",
     )
     return parser.parse_args()
@@ -328,20 +328,11 @@ def resolve_device(device_arg):
     return torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-def load_model(model_path, device, feature_dim):
-    """Load model checkpoint (state_dict only)."""
-    checkpoint = torch.load(model_path, map_location=device)
-    model = PhaseNet(feature_dim=feature_dim).to(device)
-
-    if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
-        model.load_state_dict(checkpoint["model_state_dict"])
-        epoch = checkpoint.get("epoch")
-    else:
-        model.load_state_dict(checkpoint)
-        epoch = None
-
-    model.eval()
-    return model, epoch
+def load_model(model_path, device, feature_dim=None):
+    from utils.model_loading import load_inference_model
+    model, info = load_inference_model(
+        model_path, device, architecture="real", feature_dim=feature_dim)
+    return model, info["epoch"]
 
 
 # ============================================================================
@@ -349,7 +340,7 @@ def load_model(model_path, device, feature_dim):
 # ============================================================================
 
 def evaluate(model, dataloader, device, save_dir=None, max_samples=None, save_all=False,
-             best_k=1, model_name="model", mode="mode", worst_k=None, scalar_metrics_path=None):
+             best_k=1, model_name="model", mode="mode", worst_k=None, scalar_metrics_path=None, sample_callback=None):
 
     """Evaluate model on dataloader and optionally save best metric images."""
     pyr = SCFpyr_PyTorch(
@@ -366,7 +357,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, save_al
     ssim_total = 0.0
     lpips_total = 0.0
     pce_total = 0.0
-    loss_fn_lpips = lpips.LPIPS(net='alex').to(device) 
+    loss_fn_lpips = lpips.LPIPS(net='alex').to(device).eval()
     processed = 0
 
     tracker = (WorstMetricsTracker(save_dir, model_name, mode, worst_k)
@@ -381,6 +372,8 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, save_al
                 break
 
             batch_size = len(batch["start"])
+            if batch_size != 1:
+                raise ValueError("publication evaluation requires batch_size=1 for per-image metrics")
             images_list = [
                 torch.stack([batch["start"][i], batch["inter"][i], batch["end"][i]])
                 for i in range(batch_size)
@@ -403,16 +396,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, save_al
 
                 # Forward pass
                 pred_coeff = model(train_coeff)
-                # print(f"DEBUG: amp_scales length = {len(amp_scales)}")
-                # for i, scale in enumerate(amp_scales):
-                #     print(f"  Level {i}: scale shape = {scale.shape}")
-                # print(f"DEBUG: pred_coeff length = {len(pred_coeff)}")
-                # for i, coeff in enumerate(pred_coeff):
-                #     print(f"  Level {i}: coeff shape = {coeff.shape}") 
-                
-                # ✓ FIX: Denormalize using amp_scales (stays as list[Tensor])
-                # amp_scales_dict = {i: amp_scales[i] for i in range(len(amp_scales))}
-                pce_channel = compute_real_pce(truth_coeff, pred_coeff)
+                pce_channel = compute_real_pce(truth_coeff, pred_coeff, amp_scales=amp_scales)
                 pce_batch_sum += pce_channel
 
                 # Reconstruction: convert back to output_convert format for pyr.reconstruct()
@@ -435,9 +419,14 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, save_al
             psnr_batch = shared_psnr(pred_batch, truth_batch)
             ssim_batch = shared_ssim(pred_batch, truth_batch)
             lpips_batch = shared_lpips(pred_batch, truth_batch, loss_fn_lpips)
-            pce_batch = pce_batch_sum / 2.0
+            pce_batch = pce_batch_sum / 3.0
             
             batch_count = pred_batch.shape[0]
+            if sample_callback is not None:
+                sample_callback(processed, {"psnr": psnr_batch, "ssim": ssim_batch,
+                    "lpips": lpips_batch, "pce": pce_batch, "l1": l1_batch,
+                    "mse": mse_batch, "height": int(pred_batch.shape[-2]),
+                    "width": int(pred_batch.shape[-1])})
             if scalar_tracker is not None:
                 dataset = getattr(dataloader, "dataset", None)
                 local_index = processed
@@ -584,9 +573,9 @@ def main():
                     f"allocated={allocated:.2f} GiB, reserved={reserved:.2f} GiB. "
                     "Native SNU-FILM evaluation will not resize or tile automatically."
                 ) from error
-        model_name = args.model_name or ("PhaseNet-default" if args.feature_dim == 64 else
-                                         "PhaseNet-big" if args.feature_dim == 93 else
-                                         f"PhaseNet-feature-{args.feature_dim}")
+        model_name = args.model_name or ("PhaseNet-default" if model.feature_dim == 64 else
+                                         "PhaseNet-big" if model.feature_dim == 93 else
+                                         f"PhaseNet-feature-{model.feature_dim}")
         write_snufilm_results(results, args.metrics_dir, model_name)
         return
 

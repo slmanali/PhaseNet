@@ -1,4 +1,5 @@
 import argparse
+import json
 import os
 from pathlib import Path
 import time
@@ -42,6 +43,9 @@ def parse_args():
     parser.add_argument("--deterministic", choices=("strict", "warn", "off"), default="strict")
     parser.add_argument("--run-root", type=Path, default=Path("./runs_seeded"))
     parser.add_argument("--config-name", default=None)
+    parser.add_argument("--study-id", default=None)
+    parser.add_argument("--normalization", choices=("full", "diagonal"), default="full")
+    parser.add_argument("--activation", choices=("leaky_relu", "modrelu"), default="leaky_relu")
     parser.add_argument("--resume", type=Path, default=None,
                         help="Resume a full checkpoint at a completed epoch boundary.")
 
@@ -163,15 +167,31 @@ def output_convert_complex(pred_real, pred_imag, highpass=None):
     return coeff
 
 
+def create_training_model(args):
+    """Pair unchanged initialization across component variants for each seed."""
+    reference = ComplexPhaseNetSafe(feature_dim=args.feature_dim)
+    changed = (args.convolution != "complex" or args.normalization != "full"
+               or args.activation != "leaky_relu"
+               or args.phase_correction_scale != 0.1
+               or args.residual_correction_scale != 0.1)
+    if not changed:
+        return reference
+    rng_after_reference = torch.get_rng_state()
+    model = ComplexPhaseNetSafe(
+        feature_dim=args.feature_dim, convolution=args.convolution,
+        normalization=args.normalization, activation=args.activation,
+        phase_correction_scale=args.phase_correction_scale,
+        residual_correction_scale=args.residual_correction_scale,
+    )
+    model.initialize_ablation_from(reference)
+    torch.set_rng_state(rng_after_reference)
+    return model
+
+
 def main():
     args = parse_args()
     configure_reproducibility(args.seed, args.deterministic)
     torch.autograd.set_detect_anomaly(True)
-
-    log_dir = Path('./log')
-    log_dir.mkdir(exist_ok=True)
-    now = time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime(time.time()))
-    log_file = log_dir / f'{now}_train_complex_safe.txt'
 
     device = resolve_device(args.device)
     print(f'Using device: {device}')
@@ -198,8 +218,11 @@ def main():
         dataset = torch.utils.data.Subset(dataset, range(min(args.overfit_samples, len(dataset))))
         print(f'Overfit/debug mode enabled: using first {len(dataset)} triplets')
     print(f'Dataset loaded: {len(dataset)} triplets')
-    config_name = args.config_name or "complex-safe-{args.feature_dim}"
+    config_name = args.config_name or f"complex-safe-{args.feature_dim}"
     run_dir = create_run_directory(args.run_root, config_name, args.seed, resume=args.resume is not None)
+    log_file = run_dir / "training.log"
+    if args.study_id:
+        args.debug_save_dir = run_dir / "debug"
     data_generator = make_data_generator(args.seed)
     split_hash = ordered_hash(dataset_sample_ids(dataset))
 
@@ -207,24 +230,7 @@ def main():
     pyr = SCFpyr_PyTorch(height=12, nbands=4, scale_factor=2 ** (1 / 2), device=device)
     pyr_type = 1
 
-    reference_model = None
-    if args.convolution != "complex":
-        reference_model = ComplexPhaseNetSafe(
-            feature_dim=args.feature_dim,
-            phase_correction_scale=args.phase_correction_scale,
-            residual_correction_scale=args.residual_correction_scale,
-            convolution="complex",
-        )
-    model = ComplexPhaseNetSafe(
-        feature_dim=args.feature_dim,
-        phase_correction_scale=args.phase_correction_scale,
-        residual_correction_scale=args.residual_correction_scale,
-        convolution=args.convolution,
-    )
-    if reference_model is not None:
-        model.initialize_ablation_from(reference_model)
-        del reference_model
-    model = model.to(device)
+    model = create_training_model(args).to(device)
     print('\nModel architecture:')
     print(model)
     total_params = sum(p.numel() for p in model.parameters())
@@ -250,7 +256,7 @@ def main():
         weight_decay=1e-5,
     )
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-        optimizer, mode='min', factor=0.5, patience=2, verbose=True
+        optimizer, mode='min', factor=0.5, patience=2
     )
 
     start_epoch = 0
@@ -269,6 +275,7 @@ def main():
               f"{args.epochs} epochs requested.", flush=True)
     metadata = {
         "status": "running", "seed": args.seed, "configuration": config_name,
+        "study_id": args.study_id, "architecture": "complex",
         "arguments": vars(args), "split_sample_sha256": split_hash,
         "sample_count": len(dataset), "environment": environment_metadata(),
         "checkpoint_selection": "final_completed_epoch", "completed_epochs": start_epoch,
@@ -279,6 +286,10 @@ def main():
                       "patience": 2, "mode": "min"},
         "input_size": [256, 256], "precision": "fp32",
         "convolution_replacement_scope": "feature and prediction-head convolutions",
+        "normalization": args.normalization,
+        "activation": args.activation,
+        "activation_replacement_scope": "feature blocks only; prediction-head tanh unchanged",
+        "initialization_alignment": "unchanged state copied from the same seeded reference",
         "initialization": ("native_complex" if args.convolution == "complex" else
                            "matching_A_B" if args.convolution == "separate_real" else
                            "complex_block_matrix"),
@@ -303,6 +314,9 @@ def main():
 
         epoch_loss = 0.0
         num_batches = 0
+        epoch_components = {}
+        epoch_started = time.perf_counter()
+        epoch_learning_rate = optimizer.param_groups[0]["lr"]
         epoch_steps = 0
         pbar = tqdm(trainloader, desc=f'Epoch {epoch + 1}/{args.epochs}')
 
@@ -314,7 +328,9 @@ def main():
                 B = start_batch.shape[0]
 
                 channel_losses = []
+                channel_stats = []
                 vis_pred_channels = []
+                save_visualization = args.save_interval > 0 and (total_step + 1) % args.save_interval == 0
 
                 for channel in range(3):
                     start_ch = start_batch[:, channel:channel + 1, :, :]
@@ -343,7 +359,9 @@ def main():
                         inter_ch, pred_img_ch,
                     )
                     channel_losses.append(loss_ch)
-                    vis_pred_channels.append(pred_img_ch.detach().cpu().clamp(0, 1))
+                    channel_stats.append(dict(criterion.last_stats))
+                    if save_visualization:
+                        vis_pred_channels.append(pred_img_ch.detach().cpu().clamp(0, 1))
 
                 loss = sum(channel_losses) / len(channel_losses)
                 if not torch.isfinite(loss):
@@ -360,9 +378,12 @@ def main():
                 num_batches += 1
                 total_step += 1
                 epoch_steps += 1
+                stats = {key: sum(row[key] for row in channel_stats) / 3.0
+                         for key in channel_stats[0]}
+                for key, value in stats.items():
+                    epoch_components[key] = epoch_components.get(key, 0.0) + value
 
                 if total_step % args.log_interval == 0:
-                    stats = criterion.last_stats
                     log_msg = (
                         f"Step {total_step:6d} | Loss total={stats['total']:6.3f} "
                         f"img={stats['img']:6.3f} grad={stats['grad']:6.3f} "
@@ -404,6 +425,20 @@ def main():
         metadata.update(status="running", completed_epochs=epoch + 1,
                         completed_steps=total_step, checkpoint=str(checkpoint_path))
         write_metadata(run_dir / "metadata.json", metadata)
+        # Keep only committed epoch records when resuming after interruption.
+        history_path = run_dir / "epoch_metrics.jsonl"
+        history = ([json.loads(line) for line in history_path.read_text().splitlines()]
+                   if history_path.exists() else [])
+        history = [row for row in history if row["epoch"] < epoch + 1]
+        history.append({"epoch": epoch + 1, "global_step": total_step,
+                        "mean_training_loss": avg_epoch_loss,
+                        "components": {key: value / num_batches for key, value in epoch_components.items()},
+                        "learning_rate": epoch_learning_rate,
+                        "next_learning_rate": optimizer.param_groups[0]["lr"],
+                        "seconds": time.perf_counter() - epoch_started})
+        temporary = history_path.with_suffix(".tmp")
+        temporary.write_text("".join(json.dumps(row, allow_nan=False) + "\n" for row in history))
+        temporary.replace(history_path)
 
         if (epoch + 1) % 2 == 0:
             checkpoint_path = run_dir / f'legacy_epoch{epoch + 1}.pth'
@@ -429,6 +464,7 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt:
         print("\n\nTraining interrupted by user.")
+        raise SystemExit(130)
     except Exception:
         # Research runs must terminate nonzero; metadata/checkpoint remain inspectable.
         raise

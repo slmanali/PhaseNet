@@ -7,9 +7,9 @@ from .complex_nn import (
     ComplexConv2d,
     ComplexBatchNorm2d,
     ComplexLeakyReLU,
+    ComplexModReLU,
     ComplexTanh,
     make_component_conv,
-    ComplexConv2d,
     UnrestrictedRealConv2d,
     SeparateRealConv2d,
 )
@@ -19,12 +19,17 @@ pi = np.pi
 
 class ComplexPhaseNetBlock(nn.Module):
     def __init__(self, in_channels=44, out_channels=32, kernel_size=3, padding=1,
-                 convolution="complex"):
+                 convolution="complex", normalization="full", activation="leaky_relu"):
         super().__init__()
         self.conv1 = make_component_conv(convolution, in_channels, out_channels, kernel_size, padding=padding)
         self.conv2 = make_component_conv(convolution, out_channels, out_channels, kernel_size, padding=padding)
-        self.bn = ComplexBatchNorm2d(out_channels)
-        self.activation = ComplexLeakyReLU(negative_slope=0.2)
+        self.bn = ComplexBatchNorm2d(out_channels, whitening=normalization)
+        if activation == "leaky_relu":
+            self.activation = ComplexLeakyReLU(negative_slope=0.2)
+        elif activation == "modrelu":
+            self.activation = ComplexModReLU(out_channels)
+        else:
+            raise ValueError(f"unknown feature activation: {activation}")
 
     def forward(self, real, imag):
         real, imag = self.conv1(real, imag)
@@ -66,6 +71,8 @@ class ComplexPhaseNetSafe(nn.Module):
         phase_correction_scale=0.1,
         residual_correction_scale=0.1,
         convolution="complex",
+        normalization="full",
+        activation="leaky_relu",
     ):
         super().__init__()
         self.alpha = nn.Parameter(torch.tensor(0.5))
@@ -74,26 +81,29 @@ class ComplexPhaseNetSafe(nn.Module):
         self.phase_correction_scale = phase_correction_scale
         self.residual_correction_scale = residual_correction_scale
         self.convolution = convolution
+        self.normalization = normalization
+        self.feature_activation = activation
 
         self.layer = nn.ModuleList()
         self.pred = nn.ModuleList()
 
         # Residual level: one complex channel in, one complex channel out
-        self.layer.append(ComplexPhaseNetBlock(1, feature_dim, 1, 0, convolution))
+        self.layer.append(ComplexPhaseNetBlock(1, feature_dim, 1, 0, convolution, normalization, activation))
         self.pred.append(ComplexPred(feature_dim, 1, convolution=convolution))
 
         # Band levels: 16 input channels + previous feat + previous pred
         # Prediction only needs 4 channels: one phase correction per orientation
         input_ch_1 = 16 + feature_dim + 1
-        self.layer.append(ComplexPhaseNetBlock(input_ch_1, feature_dim, 1, 0, convolution))
+        self.layer.append(ComplexPhaseNetBlock(input_ch_1, feature_dim, 1, 0, convolution, normalization, activation))
         self.pred.append(ComplexPred(feature_dim, 4, convolution=convolution))
 
         input_ch_n = 16 + feature_dim + 4
-        self.layer.append(ComplexPhaseNetBlock(input_ch_n, feature_dim, 1, 0, convolution))
+        self.layer.append(ComplexPhaseNetBlock(input_ch_n, feature_dim, 1, 0, convolution, normalization, activation))
         self.pred.append(ComplexPred(feature_dim, 4, convolution=convolution))
 
         for _ in range(8):
-            self.layer.append(ComplexPhaseNetBlock(input_ch_n, feature_dim, convolution=convolution))
+            self.layer.append(ComplexPhaseNetBlock(input_ch_n, feature_dim, convolution=convolution,
+                                                   normalization=normalization, activation=activation))
             self.pred.append(ComplexPred(feature_dim, 4, convolution=convolution))
 
     @torch.no_grad()

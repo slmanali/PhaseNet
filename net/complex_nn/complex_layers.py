@@ -202,7 +202,7 @@ class ComplexBatchNorm2d(nn.Module):
     """
     
     def __init__(self, num_features, eps=1e-5, momentum=0.1, affine=True,
-                 track_running_stats=True):
+                 track_running_stats=True, whitening="full"):
         super(ComplexBatchNorm2d, self).__init__()
         
         self.num_features = num_features
@@ -210,6 +210,9 @@ class ComplexBatchNorm2d(nn.Module):
         self.momentum = momentum
         self.affine = affine
         self.track_running_stats = track_running_stats
+        if whitening not in {"full", "diagonal"}:
+            raise ValueError("whitening must be full or diagonal")
+        self.whitening = whitening
         
         if self.affine:
             # Learnable parameters for affine transformation
@@ -279,7 +282,7 @@ class ComplexBatchNorm2d(nn.Module):
         
         # Calculate mean
         # Shape: [N, C, H, W] -> [C]
-        if self.training:
+        if self.training or not self.track_running_stats:
             mean_real = input_real.mean([0, 2, 3])
             mean_imag = input_imag.mean([0, 2, 3])
         else:
@@ -291,7 +294,7 @@ class ComplexBatchNorm2d(nn.Module):
         input_imag_centered = input_imag - mean_imag.view(1, -1, 1, 1)
         
         # Calculate covariance matrix components
-        if self.training:
+        if self.training or not self.track_running_stats:
             var_rr = (input_real_centered ** 2).mean([0, 2, 3])
             var_ii = (input_imag_centered ** 2).mean([0, 2, 3])
             var_ri = (input_real_centered * input_imag_centered).mean([0, 2, 3])
@@ -314,8 +317,12 @@ class ComplexBatchNorm2d(nn.Module):
                 self.running_var_ri = (1 - exponential_average_factor) * self.running_var_ri + \
                                      exponential_average_factor * var_ri
         
-        # Compute the inverse square root of the covariance matrix
-        # Using Cholesky decomposition for numerical stability
+        # The diagonal control changes only covariance mixing. It keeps the
+        # original stabilization formula, buffers, and complex affine map.
+        if self.whitening == "diagonal":
+            var_ri = torch.zeros_like(var_ri)
+
+        # Closed-form inverse square root used by the original implementation.
         tau = var_rr + var_ii + self.eps
         delta = (var_rr * var_ii - var_ri ** 2) + self.eps
         

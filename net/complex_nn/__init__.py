@@ -13,6 +13,7 @@ from .complex_layers import (
     ComplexBatchNorm2d,
     ComplexReLU,
     ComplexLeakyReLU,
+    ComplexModReLU,
     ComplexTanh,
     ComplexSequential
 )
@@ -34,6 +35,7 @@ __all__ = [
     'ComplexBatchNorm2d',
     'ComplexReLU',
     'ComplexLeakyReLU',
+    'ComplexModReLU',
     'ComplexTanh',
     'ComplexSequential',
     'complex_magnitude',

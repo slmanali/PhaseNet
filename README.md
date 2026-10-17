@@ -1,5 +1,11 @@
 # PhaseNet for Video Frame Interpolation
 
+The independent REEPE component and cost study is documented in
+[docs/REEPE_COMPONENT_STUDY.md](docs/REEPE_COMPONENT_STUDY.md).
+It uses fresh 10-epoch component runs and measures the computational cost of the
+twelve saved 40-epoch models. Its quality results are stored separately from the
+Computer Optics revision.
+
 ## Overview
 
 This repository contains implementations of PhaseNet for video frame interpolation:
