@@ -42,11 +42,16 @@ def compute_lpips(pred, target, loss_fn):
     return loss_fn(pred_lpips, truth_lpips).mean().item()
 
 
-def compute_real_pce(truth_coeff, pred_coeff, amp_eps=AMP_EPS):
+def compute_real_pce(truth_coeff, pred_coeff, amp_eps=AMP_EPS, amp_scales=None):
+    """Internal coefficient phase error; mask amplitudes in raw pyramid units."""
+    if amp_scales is not None and len(amp_scales) != len(truth_coeff) - 1:
+        raise ValueError("one amplitude scale is required per oriented pyramid level")
     total, count = 0.0, 0
-    for truth, pred in zip(truth_coeff[1:], pred_coeff[1:]):
+    for index, (truth, pred) in enumerate(zip(truth_coeff[1:], pred_coeff[1:])):
         n_orient = truth.shape[1] // 2
         truth_amp = truth[:, :n_orient]
+        if amp_scales is not None:
+            truth_amp = truth_amp * amp_scales[index]
         truth_phase = truth[:, n_orient:]
         pred_phase = pred[:, n_orient:]
         phase_diff = torch.atan2(torch.sin(pred_phase - truth_phase),

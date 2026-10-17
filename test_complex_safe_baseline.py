@@ -221,12 +221,12 @@ def parse_args():
     parser.add_argument(
         "--feature-dim",
         type=int,
-        default=32,
+        default=None,
         help="Feature dimension used when the model was trained.",
     )
     parser.add_argument("--convolution",
                         choices=("complex", "separate_real", "unrestricted_real"),
-                        default="complex")
+                        default=None)
     return parser.parse_args()
 
 
@@ -236,23 +236,12 @@ def resolve_device(device_arg):
     return torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-def load_model(model_path, device, feature_dim, convolution="complex"):
-    try:
-        checkpoint = torch.load(model_path, map_location=device, weights_only=False)
-    except TypeError:
-        checkpoint = torch.load(model_path, map_location=device)
-    model = ComplexPhaseNetSafe(feature_dim=feature_dim,
-                                convolution=convolution).to(device)
-
-    if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
-        model.load_state_dict(checkpoint["model_state_dict"])
-        epoch = checkpoint.get("epoch")
-    else:
-        model.load_state_dict(checkpoint)
-        epoch = None
-
-    model.eval()
-    return model, epoch
+def load_model(model_path, device, feature_dim=None, convolution=None):
+    from utils.model_loading import load_inference_model
+    model, info = load_inference_model(
+        model_path, device, architecture="complex", feature_dim=feature_dim,
+        convolution=convolution)
+    return model, info["epoch"]
 
 
 def ensure_dataset_path(dataset_path_arg):
@@ -415,7 +404,7 @@ def save_batch_visualizations(batch, raw_predictions, clamped_predictions, save_
 
 def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_size=None,
              save_all=False, best_k=1, model_name="model", mode="mode", worst_k=None,
-             scalar_metrics_path=None):
+             scalar_metrics_path=None, sample_callback=None, diagnostics=None):
 
     pyr = SCFpyr_PyTorch(
         height=12,
@@ -431,7 +420,7 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_si
     ssim_total = 0.0
     lpips_total = 0.0
     pce_total = 0.0
-    loss_fn_lpips = lpips.LPIPS(net='alex').to(device) 
+    loss_fn_lpips = lpips.LPIPS(net='alex').to(device).eval()
     processed = 0
 
     tracker = (WorstMetricsTracker(save_dir, model_name, mode, worst_k)
@@ -446,6 +435,8 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_si
                 break
 
             batch_size = len(batch["start"])
+            if batch_size != 1:
+                raise ValueError("publication evaluation requires batch_size=1 for per-image metrics")
             images_list = [
                 torch.stack([batch["start"][i], batch["inter"][i], batch["end"][i]])
                 for i in range(batch_size)
@@ -478,6 +469,10 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_si
                 pred_real, pred_imag = model(train_real, train_imag, tile_size=tile_size)
                 pce_channel = compute_complex_pce(truth_real, truth_imag, pred_real, pred_imag)
                 pce_batch_sum += pce_channel
+                if diagnostics is not None:
+                    diagnostics.channel(processed, channel, (train_real, train_imag),
+                                        (truth_real, truth_imag), (pred_real, pred_imag),
+                                        complex_model=True)
 
                 pred_coeff = output_convert_complex(pred_real, pred_imag, highpass=hp_mid)
                 pred_img = pyr.reconstruct(pred_coeff, pyr_type=pyr_type)
@@ -499,8 +494,15 @@ def evaluate(model, dataloader, device, save_dir=None, max_samples=None, tile_si
             ssim_batch = shared_ssim(pred_batch, truth_batch)
             lpips_batch = shared_lpips(pred_batch, truth_batch, loss_fn_lpips)
             pce_batch = pce_batch_sum / 3.0
+            if diagnostics is not None:
+                diagnostics.reconstructed(processed, pred_batch, truth_batch, pyr, pyr_type)
 
             batch_count = pred_batch.shape[0]
+            if sample_callback is not None:
+                sample_callback(processed, {"psnr": psnr_batch, "ssim": ssim_batch,
+                    "lpips": lpips_batch, "pce": pce_batch, "l1": l1_batch,
+                    "mse": mse_batch, "height": int(pred_batch.shape[-2]),
+                    "width": int(pred_batch.shape[-1])})
             if scalar_tracker is not None:
                 dataset = getattr(dataloader, "dataset", None)
                 local_index = processed

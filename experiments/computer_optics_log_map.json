@@ -1,0 +1,25 @@
+{
+  "note": "Seed-33 loss-matched completion log retains a generic safe_seed33 filename; this explicit association must be retained with the run records.",
+  "runs": {
+    "phasenet-64": {
+      "11": "log/2026-10-02_01-56-56_train_real_safe_seed11.txt",
+      "22": "log/2026-10-02_17-56-22_train_real_safe_seed22.txt",
+      "33": "log/2026-10-03_09-41-22_train_real_safe_seed33.txt"
+    },
+    "phasenet-93": {
+      "11": "log/2026-10-04_01-37-21_train_real_safe_big_seed11.txt",
+      "22": "log/2026-10-04_22-16-32_train_real_safe_big_seed22.txt",
+      "33": "log/2026-10-05_19-09-34_train_real_safe_big_seed33.txt"
+    },
+    "complex-full-64": {
+      "11": "log/2026-10-06_16-16-29_train_complex_safe_seed11.txt",
+      "22": "log/2026-10-08_06-01-38_train_complex_safe_seed22.txt",
+      "33": "log/2026-10-09_20-25-00_train_complex_safe_seed33.txt"
+    },
+    "complex-loss-matched-64": {
+      "11": "log/2026-10-11_10-04-53_train_complex_safe_matched_seed11.txt",
+      "22": "log/2026-10-13_00-33-09_train_complex_safe_matched_seed22.txt",
+      "33": "log/2026-10-14_15-34-37_train_complex_safe_seed33.txt"
+    }
+  }
+}
