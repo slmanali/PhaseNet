@@ -7,6 +7,9 @@ for video frame interpolation using phase and amplitude representations.
 
 from .complex_layers import (
     ComplexConv2d,
+    SeparateRealConv2d,
+    UnrestrictedRealConv2d,
+    make_component_conv,
     ComplexBatchNorm2d,
     ComplexReLU,
     ComplexLeakyReLU,
@@ -25,6 +28,9 @@ from .complex_utils import (
 
 __all__ = [
     'ComplexConv2d',
+    'SeparateRealConv2d',
+    'UnrestrictedRealConv2d',
+    'make_component_conv',
     'ComplexBatchNorm2d',
     'ComplexReLU',
     'ComplexLeakyReLU',

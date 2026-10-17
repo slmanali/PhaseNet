@@ -5,7 +5,6 @@
 /net/complex_nn/__pycache__
 outputs/test_complex
 /model
-/log
 /debug_cvnn
 /debug_strong
 /debug_sharp
@@ -92,10 +91,16 @@ tools/__pycache__/audit_davis_split.cpython-312.pyc
 /SNU-FILM
 eval_modes.zip
 snufilm-test.zip
+__pycache__/
+utils/__pycache__/
 utils/__pycache__/snufilm.cpython-312.pyc
 /tests/__pycache__
-/tools/__pycache__/
+/tools/__pycache__/s
 /opt/
 /checkpoints/
 outputs/external_snufilm/
 /venv_film/
+utils/__pycache__/reproducibility.cpython-312.pyc
+__pycache__/train.cpython-312.pyc
+/debug_real_safes/
+/debug_real_safe

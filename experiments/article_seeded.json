@@ -1,0 +1,12 @@
+{
+  "dataset_path": "/home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p",
+  "common": {"epochs": 40, "batch_size": 2, "learning_rate": 0.00008, "split": "train", "save_interval": 200},
+  "configurations": {
+    "phasenet-64": {"entrypoint": "train.py", "feature_dim": 64, "img_weight": 0.05, "residual_weight": 0.1, "phase_weight": 0.2, "amp_weight": 0.0, "grad_weight": 0.1},
+    "phasenet-93": {"entrypoint": "train.py", "feature_dim": 93, "img_weight": 0.05, "residual_weight": 0.1, "phase_weight": 0.2, "amp_weight": 0.0, "grad_weight": 0.1},
+    "complex-full-64": {"entrypoint": "train_complex_safe_baseline.py", "feature_dim": 64, "convolution": "complex", "img_weight": 0.08, "residual_weight": 0.1, "residual_imag_weight": 0.05, "phase_weight": 0.25, "amp_weight": 0.0, "amp_imag_loss_weight": 0.0, "phase_unit_weight": 0.01, "grad_weight": 0.12, "phase_correction_scale": 0.1, "residual_correction_scale": 0.1},
+    "complex-loss-matched-64": {"entrypoint": "train_complex_safe_baseline.py", "feature_dim": 64, "convolution": "complex", "img_weight": 0.05, "residual_weight": 0.1, "residual_imag_weight": 0.0, "phase_weight": 0.2, "amp_weight": 0.0, "amp_imag_loss_weight": 0.0, "phase_unit_weight": 0.0, "grad_weight": 0.1, "phase_correction_scale": 0.1, "residual_correction_scale": 0.1},
+    "complex-separate-real-64": {"entrypoint": "train_complex_safe_baseline.py", "feature_dim": 64, "convolution": "separate_real", "initialization": "matching_non_convolution", "img_weight": 0.05, "residual_weight": 0.1, "residual_imag_weight": 0.0, "phase_weight": 0.2, "amp_weight": 0.0, "amp_imag_loss_weight": 0.0, "phase_unit_weight": 0.0, "grad_weight": 0.1, "phase_correction_scale": 0.1, "residual_correction_scale": 0.1},
+    "complex-unrestricted-real-64": {"entrypoint": "train_complex_safe_baseline.py", "feature_dim": 64, "convolution": "unrestricted_real", "initialization": "complex_block_matrix", "img_weight": 0.05, "residual_weight": 0.1, "residual_imag_weight": 0.0, "phase_weight": 0.2, "amp_weight": 0.0, "amp_imag_loss_weight": 0.0, "phase_unit_weight": 0.0, "grad_weight": 0.1, "phase_correction_scale": 0.1, "residual_correction_scale": 0.1}
+  }
+}

@@ -111,6 +111,81 @@ class ComplexConv2d(nn.Module):
         return output_real, output_imag
 
 
+class SeparateRealConv2d(nn.Module):
+    """Two component-wise real convolutions with the complex-layer interface."""
+
+    def __init__(self, in_channels, out_channels, kernel_size, stride=1,
+                 padding=0, dilation=1, groups=1, bias=True):
+        super().__init__()
+        self.in_channels, self.out_channels = in_channels, out_channels
+        self.conv_real = nn.Conv2d(in_channels, out_channels, kernel_size, stride,
+                                   padding, dilation, groups, bias=bias)
+        self.conv_imag = nn.Conv2d(in_channels, out_channels, kernel_size, stride,
+                                   padding, dilation, groups, bias=bias)
+
+    def forward(self, input_real, input_imag):
+        return self.conv_real(input_real), self.conv_imag(input_imag)
+
+    @torch.no_grad()
+    def initialize_from_complex(self, source):
+        if not isinstance(source, ComplexConv2d):
+            raise TypeError("source must be ComplexConv2d")
+        self.conv_real.weight.copy_(source.conv_real.weight)
+        self.conv_imag.weight.copy_(source.conv_imag.weight)
+        if self.conv_real.bias is not None:
+            self.conv_real.bias.copy_(source.bias_real)
+            self.conv_imag.bias.copy_(source.bias_imag)
+
+
+class UnrestrictedRealConv2d(nn.Module):
+    """A real 2Cin -> 2Cout convolution, split into two output components."""
+
+    def __init__(self, in_channels, out_channels, kernel_size, stride=1,
+                 padding=0, dilation=1, groups=1, bias=True):
+        if groups != 1:
+            raise ValueError("UnrestrictedRealConv2d currently requires groups=1")
+        super().__init__()
+        self.in_channels, self.out_channels = in_channels, out_channels
+        self.conv = nn.Conv2d(2 * in_channels, 2 * out_channels, kernel_size,
+                              stride, padding, dilation, 1, bias=bias)
+
+    def forward(self, input_real, input_imag):
+        output = self.conv(torch.cat((input_real, input_imag), dim=1))
+        return output[:, :self.out_channels], output[:, self.out_channels:]
+
+    @torch.no_grad()
+    def initialize_from_complex(self, source):
+        """Install [[A, -B], [B, A]] so this layer initially matches *source*."""
+        if not isinstance(source, ComplexConv2d):
+            raise TypeError("source must be ComplexConv2d")
+        c_in, c_out = self.in_channels, self.out_channels
+        if (source.in_channels, source.out_channels) != (c_in, c_out):
+            raise ValueError("source and destination channel counts differ")
+        a, b = source.conv_real.weight, source.conv_imag.weight
+        self.conv.weight[:c_out, :c_in].copy_(a)
+        self.conv.weight[:c_out, c_in:].copy_(-b)
+        self.conv.weight[c_out:, :c_in].copy_(b)
+        self.conv.weight[c_out:, c_in:].copy_(a)
+        if self.conv.bias is not None:
+            self.conv.bias[:c_out].copy_(source.bias_real)
+            self.conv.bias[c_out:].copy_(source.bias_imag)
+
+
+CONVOLUTION_OPERATORS = {
+    "complex": ComplexConv2d,
+    "separate_real": SeparateRealConv2d,
+    "unrestricted_real": UnrestrictedRealConv2d,
+}
+
+
+def make_component_conv(kind, *args, **kwargs):
+    try:
+        return CONVOLUTION_OPERATORS[kind](*args, **kwargs)
+    except KeyError as exc:
+        raise ValueError(f"unknown convolution operator {kind!r}; choose from "
+                         f"{sorted(CONVOLUTION_OPERATORS)}") from exc
+
+
 class ComplexBatchNorm2d(nn.Module):
     """
     Complex-valued 2D Batch Normalization.
