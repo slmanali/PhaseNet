@@ -1,0 +1,106 @@
+{
+  "plan": {
+    "study_id": "computer_optics_12models_legacy_v1",
+    "stage": "legacy",
+    "reference_commit": "57cdf8b53673f607fcdd1eec1ed57988d7fb79e2",
+    "run_root": "runs_seeded",
+    "expected_epochs": 40,
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "output_root": "results/computer_optics/legacy_12models",
+    "deterministic": "strict",
+    "tile_size": 0,
+    "source_lock": {
+      "test.py": "e21d45e6197c35a5864370a569068645a4e58cacc224f108a2228991a1a59618",
+      "test_complex_safe_baseline.py": "6a35c6553eede16f2bb7759ebbc741f83355a9979ffef5af7860a3e777cc69b5",
+      "train_complex_safe_baseline.py": "4112db902a8f52b41ee7dadc3baaab46137e4ab7799ecaed727ebc0dec77c018",
+      "utils/metrics.py": "e8d8b29e7443c97da7c38fa9f18e529a2bed8bdf4a38b8293fdd4b840814f351",
+      "utils/davis.py": "36937f5be97f726dcaca576fa6e38a002ee63479c9b2a3cc42e0441f7cf7bd80",
+      "utils/snufilm.py": "f1c064811ae7c614c1556a89829088381e83bbd729abc62a7f9e44bf0d48fe83",
+      "utils/average_metrics.py": "3f3867bfbcf57c1a8f6dad5be4d04cdacbd590e76e765caf145bdd6ab1aed4db",
+      "utils/best_metrics.py": "df1e9400eb9a1171b150da5f71bba3e032be23da9064abf80f08949e8d3a2309",
+      "utils/reproducibility.py": "9713a93652674d627a10600ac06ca730ead6c28fc6edfa1ac7781f90b641cbec",
+      "net/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "net/complex_nn/__init__.py": "9c160b92546301acbc16260834aba68437527c14ffebf0bb97e21f9afd125340",
+      "net/complex_nn/complex_layers.py": "c4c9959b1242a2d02717cc394ba83360446a910d156d770656a43d4fdd5adf95",
+      "net/complex_nn/complex_utils.py": "2cd931508d593a0ab16d47092d11e34ef4449b8fc0aba2513a508768fe6aa238",
+      "net/complex_phasenet.py": "4b87a59a3d89e978cc741f9efb0229b27dc582a2969c43e3c8bf1c46780e8d31",
+      "net/complex_phasenet_safe_baseline.py": "6d5fe5b764e0b88d080ccfa51a2c98272da1fa64c97859eb9a0dd0e54b4d7860",
+      "net/phasenet.py": "5cb08399edccfe01fbbe9e0fdde8d3480deafc8e35f5b061a378d8c44c16a097",
+      "net/phasenet_aligned.py": "dbff81448875a124fdb59415d1bb600fbe29038ad81fed298ef85f11704fd78e",
+      "net/phasenet_safe.py": "2b6ad33440c2f70529ef46e087082150da8319520f45f4f30e1124724400d8aa",
+      "steerable/SCFpyr_NumPy.py": "3ad58759bdb579b5b730e3ea247c1414b6a92b22dc992a37e3b50c3c9feec93d",
+      "steerable/SCFpyr_PyTorch.py": "48471cddf4dec6183d9b47a8fa58f8046859c429c8c178e27f478e1419c50aa5",
+      "steerable/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "steerable/math_utils.py": "07302c74220cd9deafafd75b81e1f90690cc73be9b11a664a5ac70f6603dbed3",
+      "steerable/utils.py": "7ed21f71083b68445ba4a844db7a2168ba65b70eef6f83cf80fa704b5771333a"
+    },
+    "models": {
+      "phasenet-64": {
+        "architecture": "real",
+        "feature_dim": 64
+      },
+      "phasenet-93": {
+        "architecture": "real",
+        "feature_dim": 93
+      },
+      "complex-full-64": {
+        "architecture": "complex",
+        "feature_dim": 64
+      },
+      "complex-loss-matched-64": {
+        "architecture": "complex",
+        "feature_dim": 64
+      }
+    },
+    "datasets": {
+      "davis": {
+        "kind": "davis",
+        "path": "DAVIS-data/DAVIS/JPEGImages/480p",
+        "image_size": "256",
+        "subsets": [
+          "val"
+        ]
+      },
+      "ucf101": {
+        "kind": "ucf101",
+        "path": "ucf101_interp_ours",
+        "image_size": "256",
+        "subsets": [
+          "test"
+        ]
+      },
+      "middlebury": {
+        "kind": "middlebury",
+        "path": "eval-color-allframes",
+        "image_size": "256",
+        "subsets": [
+          "test"
+        ]
+      },
+      "snufilm": {
+        "kind": "snufilm",
+        "path": "SNU-FILM",
+        "image_size": "256",
+        "subsets": [
+          "easy",
+          "medium",
+          "hard",
+          "extreme"
+        ]
+      }
+    }
+  },
+  "job": {
+    "variant": "complex-full-64",
+    "seed": 11,
+    "dataset": "snufilm",
+    "subset": "extreme"
+  },
+  "destination": "results/computer_optics/legacy_12models/complex-full-64/seed-11/snufilm/extreme",
+  "device": "cuda:0",
+  "overwrite": false
+}

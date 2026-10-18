@@ -1,0 +1,17 @@
+{
+  "samples": 379,
+  "amplitude_threshold": 0.0001,
+  "reconstructed_input": "final clamped RGB prediction, decomposed again",
+  "aggregation": "valid-coefficient mean per RGB channel; RGB mean; equal image mean",
+  "empty_mask_rule": "channel error zero; retained counts expose empty masks",
+  "phase_unit_definition": "mean abs(sqrt(real_phase^2 + imag_phase^2 + 1e-8)-1); equal band/RGB mean",
+  "interpretation": "coefficient phase agreement; not video temporal consistency",
+  "internal_pce": 0.6640290179406273,
+  "internal_valid_fraction": 0.3413241934184447,
+  "circular_midpoint_pce": 0.6610276602341862,
+  "circular_midpoint_valid_fraction": 0.3413241934184447,
+  "reconstructed_pce": 0.7349119513445815,
+  "reconstructed_valid_fraction": 0.3413241934184447,
+  "phase_unit_loss_unweighted": null,
+  "lowpass_imaginary_l1": null
+}
