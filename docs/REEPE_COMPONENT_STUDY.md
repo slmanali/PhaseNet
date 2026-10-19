@@ -3,14 +3,15 @@
 This branch implements two experiments for the proposed REEPE paper. The first
 asks how individual operations affect quality after a fixed training budget. The
 second measures the computational cost of the twelve existing trained models.
-No numerical results have been generated for the paper by this implementation.
+The twelve GPU cost profiles were committed on 19 October 2026. The component
+training plan now runs each configuration once; its quality results are pending.
 
 ## Keep the papers separate
 
 | Collection | Models | Results | Destination |
 |---|---|---|---|
 | Computer Optics revision | Existing four configurations, seeds 11, 22, 33, 40 epochs | Journal quality comparisons and reviewer responses | Existing journal workflow |
-| REEPE component experiment | Five fresh configurations, seeds 101, 202, 303, 10 epochs | PSNR, SSIM, LPIPS, internal PCE | `runs_reepe_10ep/`, `results_reepe/quality_10ep/` |
+| REEPE component experiment | Five fresh configurations, one run each, seed 101, 10 epochs | PSNR, SSIM, LPIPS, internal PCE | `runs_reepe_10ep/`, `results_reepe/quality_10ep/` |
 | REEPE cost experiment | The twelve existing 40-epoch checkpoints | Parameters, convolution MACs/FLOPs, latency, allocator memory | `results_reepe/cost_40ep/` |
 
 The REEPE quality reference is also trained from scratch for ten epochs. Do not
@@ -23,7 +24,12 @@ no longer satisfy the intended separation of numerical results.
 
 ## Component experiment
 
-The frozen plan is `experiments/reepe_10epoch_ablations.json`: **15 runs in total**.
+The plan is `experiments/reepe_10epoch_ablations.json`: **5 runs in total**.
+It fixes seed 101 internally; no `--seeds` argument is needed. A fixed seed
+controls initialization and sampling without adding training runs. The original
+three-seed plan remains in `experiments/reepe_10epoch_ablations_3seeds.json`.
+It uses the same run directories so completed seed-101 runs can be retained if
+the additional seeds are trained later. The model settings have not changed.
 All use feature width 64, the existing `complex-loss-matched-64` loss weights,
 DAVIS training sequences, 256 x 256 inputs, batch size 2, Adam, and the same
 ReduceLROnPlateau rule. The scheduler responds to each run's training loss, so its
@@ -42,7 +48,7 @@ Convolution replacement includes feature blocks and prediction heads. Its real
 block matrix starts as `[[A, -B], [B, A]]`, matching the complex convolution at
 initialization; training can then break those ties. This is not an equal-parameter
 comparison. The separate-real convolution already supported by the repository is
-an optional control and is not included in these fifteen runs.
+an optional control and is not included in these five runs.
 
 The diagonal normalization retains the reference implementation's numerical
 stabilization and affine transformation. It does not replace the entire block
@@ -64,7 +70,7 @@ git fetch origin
 git switch Component_Analysis_Computational_Cost
 git pull --ff-only origin Component_Analysis_Computational_Cost
 
-# Inspect all fifteen commands without training.
+# Inspect all five commands without training.
 python -m tools.run_experiments --plan experiments/reepe_10epoch_ablations.json --dry-run
 
 # Train sequentially; completed runs are checked and skipped on a later invocation.
@@ -73,7 +79,7 @@ python -m tools.run_experiments --plan experiments/reepe_10epoch_ablations.json
 
 The plan has the training-machine DAVIS path. Override it with `--dataset-path`
 if the checkout is elsewhere. To begin with one run, append
-`--configs reepe10-reference --seeds 101`. Repeating the same command resumes an
+`--configs reepe10-reference`. Repeating the same command resumes an
 interrupted run from the last complete epoch. It does not resume from the middle
 of an epoch. A missing checkpoint stops the launcher rather than overwriting the
 run. Each run saves `metadata.json`, `training.log`, `epoch_metrics.jsonl`, a full
@@ -96,17 +102,23 @@ python -m tools.evaluate_reepe_ablations \
   --snu-mode all --image-size 256 --device cuda:0
 ```
 
-Use `--configs` and `--seeds` to evaluate completed subsets while other runs are
-pending. Tables explicitly mark missing seeds. The evaluator also supports
+Use `--configs` to evaluate completed variants while other runs are pending.
+The default evaluator reads the same one-seed plan, so it does not expect seeds
+202 or 303. For the optional repeated study, pass
+`--plan experiments/reepe_10epoch_ablations_3seeds.json` to both training and
+evaluation; `--seeds` can then select its completed subsets. The evaluator also supports
 `--dataset ucf101` and `--dataset middlebury`; native resolution is optional for
 external datasets and produces a separate output directory. Do not mix resized
 and native-resolution rows. The default study uses resized 256 x 256 inputs.
 LPIPS may download its pretrained AlexNet weights on the first evaluation.
 
 Outputs include per-triplet `samples.csv`, per-sequence `sequences.csv`, run
-`summary.json`, and cross-seed `aggregates.csv/json`. The aggregate is the mean
-and **sample standard deviation of per-run dataset means**, not the standard
-deviation across frames. Per-triplet rows contain the seed, frame identifiers,
+`summary.json`, and `aggregates.csv/json`. With one run, each aggregate mean is
+that run's dataset score, and sample standard deviation is **null**, not zero.
+Report the score as a single-run result without a training-run error bar.
+If the optional three-seed study is completed, the aggregate is the mean and
+sample standard deviation of per-run dataset means, not the standard deviation
+across frames. Per-triplet rows contain the seed, frame identifiers,
 checkpoint SHA-256, dimensions and protocol identifier. The manifest hash covers
 ordered identifiers; it is not a hash of the image bytes. DAVIS grouping uses
 sequence directories; external frame directories are only proxies until their
@@ -169,8 +181,15 @@ Use `--overwrite` only when intentionally replacing a measurement. Do not pool
 timing repetitions as independent trained models. The three seeds share an
 architecture, so their parameter counts and convolution counts should agree.
 
-To relate ablation quality directly to its cost, the same single-checkpoint
-profiler can also measure a new ten-epoch ablation checkpoint:
+To relate ablation quality directly to its cost, profile the five new checkpoints:
+
+```bash
+python -m tools.profile_reepe_models \
+  --plan experiments/reepe_profile_5ablations.json --device cuda:0
+```
+
+The optional `reepe_profile_15ablations.json` plan is for the three-seed study.
+The same single-checkpoint profiler can also measure an individual checkpoint:
 
 ```bash
 python -m tools.benchmark_interpolation \
@@ -202,8 +221,11 @@ not a replacement for PSNR, SSIM or LPIPS.
 Ten epochs can support a controlled **fixed-budget component study**. They do not
 establish convergence, and component rankings can change with longer training.
 Inspect the recorded learning curves before explaining a difference as an
-architectural advantage. With three seeds, show individual runs as well as mean
-and sample standard deviation. One-at-a-time ablations identify conditional
+architectural advantage. One run per configuration does not estimate variation
+between training runs, even when the configurations share a fixed seed. Report
+the observed differences as a single-run comparison. If three seeds are later
+completed, show individual runs and their mean and sample standard deviation.
+One-at-a-time ablations identify conditional
 effects in this model; they do not estimate interactions among components.
 
 The unrestricted convolution is the most informative primary comparison for
@@ -211,7 +233,7 @@ weight sharing, but has more parameters. A separate-real convolution control
 would provide a complementary test with the complex convolution's parameter
 count. If epoch-ten curves remain steep, a later matched longer-budget experiment
 on the reference and the most informative variant would strengthen the conclusion.
-Neither optional extension is part of the fifteen-run plan above.
+Neither optional extension is part of the five-run plan above.
 
 The paper should include a component-quality table, learning curves, and a distinct
 cost table for the twelve existing checkpoints. A quality/cost conclusion about

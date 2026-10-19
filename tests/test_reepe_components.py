@@ -23,12 +23,17 @@ def settings(**changes):
         activation="leaky_relu", phase_correction_scale=.1, residual_correction_scale=.1) | changes))
 
 
-def test_plan_contains_fifteen_fresh_one_component_runs(tmp_path):
-    plan = json.loads((ROOT / "experiments/reepe_10epoch_ablations.json").read_text())
+@pytest.mark.parametrize("filename, expected_seeds", [
+    ("reepe_10epoch_ablations.json", [101]),
+    ("reepe_10epoch_ablations_3seeds.json", [101, 202, 303]),
+])
+def test_plan_contains_fresh_one_component_runs(tmp_path, filename, expected_seeds):
+    plan = json.loads((ROOT / "experiments" / filename).read_text())
     assert plan["common"]["epochs"] == 10
+    assert plan["seeds"] == expected_seeds
     assert set(plan["seeds"]).isdisjoint({11, 22, 33})
     runs = select_runs(plan)
-    assert len(runs) == 15
+    assert len(runs) == 5 * len(expected_seeds)
     args = SimpleNamespace(run_root=tmp_path, dataset_path="DAVIS", deterministic="strict")
     for name, seed in runs:
         config = plan["configurations"][name]
@@ -195,6 +200,9 @@ def test_quality_driver_exports_and_skips_completed_runs(tmp_path, monkeypatch):
     assert (destination / name / "seed-101/samples.csv").is_file()
     assert (destination / name / "seed-101/sequences.csv").is_file()
     aggregate = json.loads((destination / "aggregates.json").read_text())[0]
-    assert aggregate["missing_seeds"] == [202, 303]
+    assert aggregate["missing_seeds"] == []
+    assert aggregate["complete"] and aggregate["runs"] == 1
+    assert aggregate["psnr_mean"] == 20.0
+    assert all(aggregate[metric + "_sample_std"] is None for metric in driver.METRICS)
     driver.main()
     assert len(calls) == 1

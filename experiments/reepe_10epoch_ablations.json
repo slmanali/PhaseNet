@@ -2,9 +2,7 @@
   "study_id": "reepe_component_10ep_v1",
   "run_root": "runs_reepe_10ep",
   "seeds": [
-    101,
-    202,
-    303
+    101
   ],
   "dataset_path": "/home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p",
   "common": {

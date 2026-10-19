@@ -1,0 +1,24 @@
+{
+  "study_id": "reepe_component_cost_10ep_v1",
+  "run_root": "runs_reepe_10ep",
+  "output_root": "results_reepe/cost_10ep",
+  "seeds": [
+    101
+  ],
+  "expected_epochs": 10,
+  "configurations": [
+    "reepe10-reference",
+    "reepe10-conv-unrestricted",
+    "reepe10-bn-diagonal",
+    "reepe10-activation-modrelu",
+    "reepe10-phase-off"
+  ],
+  "measurement": {
+    "resolution": 256,
+    "precision": "fp32",
+    "warmup": 30,
+    "repetitions": 100,
+    "tile_size": 0,
+    "deterministic": "strict"
+  }
+}

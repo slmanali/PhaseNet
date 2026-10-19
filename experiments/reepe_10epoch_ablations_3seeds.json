@@ -1,0 +1,53 @@
+{
+  "study_id": "reepe_component_10ep_v1",
+  "run_root": "runs_reepe_10ep",
+  "seeds": [
+    101,
+    202,
+    303
+  ],
+  "dataset_path": "/home/salman/Documents/GitHub/PhaseNet/DAVIS-data/DAVIS/JPEGImages/480p",
+  "common": {
+    "epochs": 10,
+    "batch_size": 2,
+    "learning_rate": 8e-05,
+    "split": "train",
+    "save_interval": 0,
+    "feature_dim": 64,
+    "study_id": "reepe_component_10ep_v1",
+    "convolution": "complex",
+    "normalization": "full",
+    "activation": "leaky_relu",
+    "img_weight": 0.05,
+    "residual_weight": 0.1,
+    "residual_imag_weight": 0.0,
+    "phase_weight": 0.2,
+    "amp_weight": 0.0,
+    "amp_imag_loss_weight": 0.0,
+    "phase_unit_weight": 0.0,
+    "grad_weight": 0.1,
+    "phase_correction_scale": 0.1,
+    "residual_correction_scale": 0.1
+  },
+  "configurations": {
+    "reepe10-reference": {
+      "entrypoint": "train_complex_safe_baseline.py"
+    },
+    "reepe10-conv-unrestricted": {
+      "entrypoint": "train_complex_safe_baseline.py",
+      "convolution": "unrestricted_real"
+    },
+    "reepe10-bn-diagonal": {
+      "entrypoint": "train_complex_safe_baseline.py",
+      "normalization": "diagonal"
+    },
+    "reepe10-activation-modrelu": {
+      "entrypoint": "train_complex_safe_baseline.py",
+      "activation": "modrelu"
+    },
+    "reepe10-phase-off": {
+      "entrypoint": "train_complex_safe_baseline.py",
+      "phase_correction_scale": 0.0
+    }
+  }
+}
