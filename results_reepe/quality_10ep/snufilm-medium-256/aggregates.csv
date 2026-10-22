@@ -1,0 +1,6 @@
+variant,dataset,subset,runs,missing_seeds,complete,psnr_mean,psnr_sample_std,ssim_mean,ssim_sample_std,lpips_mean,lpips_sample_std,pce_mean,pce_sample_std
+reepe10-reference,snufilm,medium,1,[],True,31.124637182964474,,0.8670261578213784,,0.08436244987833855,,0.6621124011771381,
+reepe10-conv-unrestricted,snufilm,medium,1,[],True,30.386698678810674,,0.8664535030241935,,0.0842318211006181,,0.6621513730782037,
+reepe10-bn-diagonal,snufilm,medium,1,[],True,31.856024335410076,,0.8668545353797175,,0.08519919876454232,,0.6620965920044297,
+reepe10-activation-modrelu,snufilm,medium,1,[],True,30.43083281521876,,0.8668089957006516,,0.08419411197274683,,0.6620607151317791,
+reepe10-phase-off,snufilm,medium,1,[],True,31.380634329496072,,0.8671668442987627,,0.08439687189492097,,0.6620263224438662,
