@@ -1,0 +1,1010 @@
+Step     10 | Loss total= 0.547 img= 0.056 grad= 0.042 res_real= 4.560 res_imag= 4.810 phase= 0.419 phase_unit= 0.000 amp= 0.000
+Step     20 | Loss total= 0.401 img= 0.066 grad= 0.065 res_real= 3.346 res_imag= 5.915 phase= 0.281 phase_unit= 0.000 amp= 0.000
+Step     30 | Loss total= 0.622 img= 0.085 grad= 0.070 res_real= 5.508 res_imag= 5.991 phase= 0.301 phase_unit= 0.000 amp= 0.000
+Step     40 | Loss total= 0.494 img= 0.066 grad= 0.057 res_real= 4.184 res_imag= 6.328 phase= 0.335 phase_unit= 0.000 amp= 0.000
+Step     50 | Loss total= 0.373 img= 0.098 grad= 0.072 res_real= 2.940 res_imag= 4.315 phase= 0.333 phase_unit= 0.000 amp= 0.000
+Step     60 | Loss total= 0.296 img= 0.057 grad= 0.051 res_real= 2.322 res_imag= 5.719 phase= 0.281 phase_unit= 0.000 amp= 0.000
+Step     70 | Loss total= 3.350 img= 0.114 grad= 0.059 res_real=32.590 res_imag= 4.756 phase= 0.395 phase_unit= 0.000 amp= 0.000
+Step     80 | Loss total= 0.587 img= 0.045 grad= 0.039 res_real= 5.325 res_imag= 3.762 phase= 0.242 phase_unit= 0.000 amp= 0.000
+Step     90 | Loss total= 0.459 img= 0.052 grad= 0.051 res_real= 3.910 res_imag= 4.300 phase= 0.303 phase_unit= 0.000 amp= 0.000
+Step    100 | Loss total= 0.263 img= 0.037 grad= 0.047 res_real= 2.147 res_imag= 3.475 phase= 0.208 phase_unit= 0.000 amp= 0.000
+Step    110 | Loss total= 0.262 img= 0.039 grad= 0.037 res_real= 2.027 res_imag= 4.340 phase= 0.269 phase_unit= 0.000 amp= 0.000
+Step    120 | Loss total= 0.338 img= 0.045 grad= 0.049 res_real= 2.860 res_imag= 5.454 phase= 0.226 phase_unit= 0.000 amp= 0.000
+Step    130 | Loss total= 0.331 img= 0.059 grad= 0.059 res_real= 2.606 res_imag= 3.573 phase= 0.310 phase_unit= 0.000 amp= 0.000
+Step    140 | Loss total= 0.255 img= 0.048 grad= 0.045 res_real= 2.025 res_imag= 3.734 phase= 0.229 phase_unit= 0.000 amp= 0.000
+Step    150 | Loss total= 0.370 img= 0.048 grad= 0.046 res_real= 3.119 res_imag= 5.460 phase= 0.258 phase_unit= 0.000 amp= 0.000
+Step    160 | Loss total= 0.244 img= 0.065 grad= 0.063 res_real= 1.746 res_imag= 4.700 phase= 0.297 phase_unit= 0.000 amp= 0.000
+Step    170 | Loss total= 0.119 img= 0.024 grad= 0.037 res_real= 0.831 res_imag= 3.438 phase= 0.158 phase_unit= 0.000 amp= 0.000
+Step    180 | Loss total= 0.448 img= 0.070 grad= 0.055 res_real= 3.747 res_imag= 4.419 phase= 0.319 phase_unit= 0.000 amp= 0.000
+Step    190 | Loss total= 0.324 img= 0.046 grad= 0.042 res_real= 2.572 res_imag= 4.557 phase= 0.303 phase_unit= 0.000 amp= 0.000
+Step    200 | Loss total= 0.191 img= 0.018 grad= 0.024 res_real= 1.460 res_imag= 4.032 phase= 0.208 phase_unit= 0.000 amp= 0.000
+Step    210 | Loss total= 1.239 img= 0.079 grad= 0.054 res_real=11.521 res_imag= 4.054 phase= 0.388 phase_unit= 0.000 amp= 0.000
+Step    220 | Loss total= 0.693 img= 0.048 grad= 0.048 res_real= 6.360 res_imag= 4.417 phase= 0.246 phase_unit= 0.000 amp= 0.000
+Step    230 | Loss total= 0.557 img= 0.060 grad= 0.053 res_real= 4.898 res_imag= 2.613 phase= 0.292 phase_unit= 0.000 amp= 0.000
+Step    240 | Loss total= 0.195 img= 0.056 grad= 0.063 res_real= 1.348 res_imag= 3.119 phase= 0.257 phase_unit= 0.000 amp= 0.000
+Step    250 | Loss total= 0.189 img= 0.054 grad= 0.060 res_real= 1.385 res_imag= 3.357 phase= 0.211 phase_unit= 0.000 amp= 0.000
+Step    260 | Loss total= 0.287 img= 0.051 grad= 0.048 res_real= 2.232 res_imag= 2.669 phase= 0.284 phase_unit= 0.000 amp= 0.000
+Step    270 | Loss total= 0.107 img= 0.021 grad= 0.041 res_real= 0.819 res_imag= 2.634 phase= 0.099 phase_unit= 0.000 amp= 0.000
+Step    280 | Loss total= 1.491 img= 0.074 grad= 0.038 res_real=14.114 res_imag= 3.477 phase= 0.362 phase_unit= 0.000 amp= 0.000
+Step    290 | Loss total= 0.215 img= 0.030 grad= 0.034 res_real= 1.581 res_imag= 4.519 phase= 0.259 phase_unit= 0.000 amp= 0.000
+Step    300 | Loss total= 0.315 img= 0.054 grad= 0.061 res_real= 2.595 res_imag= 2.736 phase= 0.235 phase_unit= 0.000 amp= 0.000
+Step    310 | Loss total= 0.226 img= 0.046 grad= 0.061 res_real= 1.813 res_imag= 2.447 phase= 0.180 phase_unit= 0.000 amp= 0.000
+Step    320 | Loss total= 0.248 img= 0.044 grad= 0.055 res_real= 1.993 res_imag= 2.511 phase= 0.203 phase_unit= 0.000 amp= 0.000
+Step    330 | Loss total= 0.349 img= 0.035 grad= 0.041 res_real= 3.083 res_imag= 2.849 phase= 0.174 phase_unit= 0.000 amp= 0.000
+Step    340 | Loss total= 0.145 img= 0.023 grad= 0.043 res_real= 1.187 res_imag= 2.842 phase= 0.103 phase_unit= 0.000 amp= 0.000
+Step    350 | Loss total= 0.652 img= 0.054 grad= 0.043 res_real= 5.904 res_imag= 3.116 phase= 0.275 phase_unit= 0.000 amp= 0.000
+Step    360 | Loss total= 0.306 img= 0.076 grad= 0.049 res_real= 2.482 res_imag= 3.249 phase= 0.243 phase_unit= 0.000 amp= 0.000
+Step    370 | Loss total= 0.268 img= 0.043 grad= 0.041 res_real= 2.020 res_imag= 2.792 phase= 0.297 phase_unit= 0.000 amp= 0.000
+Step    380 | Loss total= 1.485 img= 0.074 grad= 0.044 res_real=14.035 res_imag= 2.804 phase= 0.369 phase_unit= 0.000 amp= 0.000
+Step    390 | Loss total= 0.430 img= 0.081 grad= 0.070 res_real= 3.594 res_imag= 2.719 phase= 0.297 phase_unit= 0.000 amp= 0.000
+Step    400 | Loss total= 0.316 img= 0.071 grad= 0.056 res_real= 2.512 res_imag= 3.193 phase= 0.281 phase_unit= 0.000 amp= 0.000
+Step    410 | Loss total= 0.167 img= 0.019 grad= 0.027 res_real= 1.374 res_imag= 2.261 phase= 0.131 phase_unit= 0.000 amp= 0.000
+Step    420 | Loss total= 0.215 img= 0.031 grad= 0.040 res_real= 1.738 res_imag= 3.329 phase= 0.178 phase_unit= 0.000 amp= 0.000
+Step    430 | Loss total= 0.356 img= 0.083 grad= 0.067 res_real= 2.794 res_imag= 2.782 phase= 0.328 phase_unit= 0.000 amp= 0.000
+Step    440 | Loss total= 0.473 img= 0.052 grad= 0.054 res_real= 4.209 res_imag= 2.988 phase= 0.220 phase_unit= 0.000 amp= 0.000
+Step    450 | Loss total= 0.214 img= 0.049 grad= 0.042 res_real= 1.622 res_imag= 3.293 phase= 0.227 phase_unit= 0.000 amp= 0.000
+Step    460 | Loss total= 0.388 img= 0.060 grad= 0.068 res_real= 3.359 res_imag= 2.529 phase= 0.211 phase_unit= 0.000 amp= 0.000
+Step    470 | Loss total= 0.407 img= 0.048 grad= 0.037 res_real= 3.509 res_imag= 2.684 phase= 0.250 phase_unit= 0.000 amp= 0.000
+Step    480 | Loss total= 0.332 img= 0.079 grad= 0.068 res_real= 2.491 res_imag= 2.177 phase= 0.359 phase_unit= 0.000 amp= 0.000
+Step    490 | Loss total= 0.563 img= 0.050 grad= 0.037 res_real= 5.032 res_imag= 3.212 phase= 0.269 phase_unit= 0.000 amp= 0.000
+Step    500 | Loss total= 0.568 img= 0.050 grad= 0.044 res_real= 4.965 res_imag= 2.497 phase= 0.324 phase_unit= 0.000 amp= 0.000
+Step    510 | Loss total= 0.225 img= 0.047 grad= 0.054 res_real= 1.735 res_imag= 2.049 phase= 0.221 phase_unit= 0.000 amp= 0.000
+Step    520 | Loss total= 0.818 img= 0.080 grad= 0.064 res_real= 7.367 res_imag= 2.211 phase= 0.355 phase_unit= 0.000 amp= 0.000
+Step    530 | Loss total= 0.246 img= 0.046 grad= 0.047 res_real= 1.852 res_imag= 2.259 phase= 0.271 phase_unit= 0.000 amp= 0.000
+Step    540 | Loss total= 0.587 img= 0.070 grad= 0.060 res_real= 5.131 res_imag= 2.635 phase= 0.323 phase_unit= 0.000 amp= 0.000
+Step    550 | Loss total= 0.325 img= 0.087 grad= 0.077 res_real= 2.542 res_imag= 2.598 phase= 0.294 phase_unit= 0.000 amp= 0.000
+Step    560 | Loss total= 0.338 img= 0.035 grad= 0.046 res_real= 3.021 res_imag= 2.439 phase= 0.145 phase_unit= 0.000 amp= 0.000
+Step    570 | Loss total= 0.249 img= 0.054 grad= 0.052 res_real= 1.894 res_imag= 2.391 phase= 0.259 phase_unit= 0.000 amp= 0.000
+Step    580 | Loss total= 0.281 img= 0.057 grad= 0.048 res_real= 2.181 res_imag= 2.899 phase= 0.274 phase_unit= 0.000 amp= 0.000
+Step    590 | Loss total= 0.661 img= 0.079 grad= 0.065 res_real= 5.805 res_imag= 1.945 phase= 0.352 phase_unit= 0.000 amp= 0.000
+Step    600 | Loss total= 0.179 img= 0.041 grad= 0.047 res_real= 1.289 res_imag= 1.604 phase= 0.219 phase_unit= 0.000 amp= 0.000
+Step    610 | Loss total= 0.248 img= 0.036 grad= 0.045 res_real= 2.019 res_imag= 2.419 phase= 0.199 phase_unit= 0.000 amp= 0.000
+Step    620 | Loss total= 0.204 img= 0.051 grad= 0.055 res_real= 1.539 res_imag= 1.681 phase= 0.209 phase_unit= 0.000 amp= 0.000
+Step    630 | Loss total= 0.532 img= 0.078 grad= 0.064 res_real= 4.521 res_imag= 2.246 phase= 0.346 phase_unit= 0.000 amp= 0.000
+Step    640 | Loss total= 0.177 img= 0.032 grad= 0.032 res_real= 1.230 res_imag= 1.896 phase= 0.245 phase_unit= 0.000 amp= 0.000
+Step    650 | Loss total= 0.161 img= 0.040 grad= 0.052 res_real= 1.242 res_imag= 1.717 phase= 0.147 phase_unit= 0.000 amp= 0.000
+Step    660 | Loss total= 0.520 img= 0.060 grad= 0.057 res_real= 4.505 res_imag= 1.649 phase= 0.306 phase_unit= 0.000 amp= 0.000
+Step    670 | Loss total= 0.321 img= 0.046 grad= 0.054 res_real= 2.668 res_imag= 1.784 phase= 0.231 phase_unit= 0.000 amp= 0.000
+Step    680 | Loss total= 0.683 img= 0.081 grad= 0.069 res_real= 6.182 res_imag= 1.720 phase= 0.270 phase_unit= 0.000 amp= 0.000
+Step    690 | Loss total= 0.137 img= 0.033 grad= 0.050 res_real= 1.040 res_imag= 1.867 phase= 0.130 phase_unit= 0.000 amp= 0.000
+Step    700 | Loss total= 0.149 img= 0.044 grad= 0.054 res_real= 1.042 res_imag= 1.669 phase= 0.183 phase_unit= 0.000 amp= 0.000
+Step    710 | Loss total= 0.172 img= 0.020 grad= 0.030 res_real= 1.391 res_imag= 2.049 phase= 0.146 phase_unit= 0.000 amp= 0.000
+Step    720 | Loss total= 0.142 img= 0.014 grad= 0.025 res_real= 1.225 res_imag= 2.416 phase= 0.080 phase_unit= 0.000 amp= 0.000
+Step    730 | Loss total= 0.516 img= 0.077 grad= 0.052 res_real= 4.396 res_imag= 1.980 phase= 0.339 phase_unit= 0.000 amp= 0.000
+Step    740 | Loss total= 0.180 img= 0.037 grad= 0.042 res_real= 1.280 res_imag= 1.963 phase= 0.228 phase_unit= 0.000 amp= 0.000
+Step    750 | Loss total= 0.157 img= 0.037 grad= 0.046 res_real= 1.126 res_imag= 1.788 phase= 0.192 phase_unit= 0.000 amp= 0.000
+Step    760 | Loss total= 0.327 img= 0.028 grad= 0.041 res_real= 2.895 res_imag= 1.844 phase= 0.161 phase_unit= 0.000 amp= 0.000
+Step    770 | Loss total= 0.194 img= 0.032 grad= 0.046 res_real= 1.560 res_imag= 2.330 phase= 0.158 phase_unit= 0.000 amp= 0.000
+Step    780 | Loss total= 0.222 img= 0.066 grad= 0.063 res_real= 1.564 res_imag= 2.146 phase= 0.279 phase_unit= 0.000 amp= 0.000
+Step    790 | Loss total= 0.499 img= 0.062 grad= 0.053 res_real= 4.226 res_imag= 2.495 phase= 0.338 phase_unit= 0.000 amp= 0.000
+Step    800 | Loss total= 0.241 img= 0.035 grad= 0.038 res_real= 1.966 res_imag= 1.561 phase= 0.196 phase_unit= 0.000 amp= 0.000
+Step    810 | Loss total= 0.167 img= 0.053 grad= 0.051 res_real= 1.048 res_imag= 1.659 phase= 0.274 phase_unit= 0.000 amp= 0.000
+Step    820 | Loss total= 0.138 img= 0.031 grad= 0.044 res_real= 1.084 res_imag= 2.269 phase= 0.121 phase_unit= 0.000 amp= 0.000
+Step    830 | Loss total= 0.223 img= 0.045 grad= 0.037 res_real= 1.450 res_imag= 1.150 phase= 0.359 phase_unit= 0.000 amp= 0.000
+Step    840 | Loss total= 0.450 img= 0.062 grad= 0.054 res_real= 3.704 res_imag= 1.523 phase= 0.356 phase_unit= 0.000 amp= 0.000
+Step    850 | Loss total= 0.516 img= 0.091 grad= 0.069 res_real= 4.452 res_imag= 1.702 phase= 0.295 phase_unit= 0.000 amp= 0.000
+Step    860 | Loss total= 0.119 img= 0.023 grad= 0.043 res_real= 0.920 res_imag= 1.423 phase= 0.109 phase_unit= 0.000 amp= 0.000
+Step    870 | Loss total= 0.102 img= 0.025 grad= 0.036 res_real= 0.718 res_imag= 1.806 phase= 0.128 phase_unit= 0.000 amp= 0.000
+Step    880 | Loss total= 0.262 img= 0.070 grad= 0.067 res_real= 1.974 res_imag= 1.453 phase= 0.274 phase_unit= 0.000 amp= 0.000
+Step    890 | Loss total= 0.551 img= 0.076 grad= 0.062 res_real= 4.724 res_imag= 1.175 phase= 0.341 phase_unit= 0.000 amp= 0.000
+Step    900 | Loss total= 0.367 img= 0.054 grad= 0.047 res_real= 2.979 res_imag= 1.416 phase= 0.307 phase_unit= 0.000 amp= 0.000
+Step    910 | Loss total= 0.503 img= 0.063 grad= 0.055 res_real= 4.346 res_imag= 1.149 phase= 0.301 phase_unit= 0.000 amp= 0.000
+Step    920 | Loss total= 0.212 img= 0.060 grad= 0.055 res_real= 1.398 res_imag= 1.048 phase= 0.320 phase_unit= 0.000 amp= 0.000
+Step    930 | Loss total= 0.173 img= 0.030 grad= 0.054 res_real= 1.460 res_imag= 1.220 phase= 0.099 phase_unit= 0.000 amp= 0.000
+Step    940 | Loss total= 0.674 img= 0.047 grad= 0.034 res_real= 6.206 res_imag= 1.471 phase= 0.240 phase_unit= 0.000 amp= 0.000
+Step    950 | Loss total= 0.216 img= 0.039 grad= 0.045 res_real= 1.691 res_imag= 0.881 phase= 0.200 phase_unit= 0.000 amp= 0.000
+Step    960 | Loss total= 0.221 img= 0.057 grad= 0.050 res_real= 1.523 res_imag= 0.992 phase= 0.306 phase_unit= 0.000 amp= 0.000
+Step    970 | Loss total= 0.392 img= 0.045 grad= 0.041 res_real= 3.328 res_imag= 1.688 phase= 0.262 phase_unit= 0.000 amp= 0.000
+Step    980 | Loss total= 0.143 img= 0.039 grad= 0.048 res_real= 1.055 res_imag= 1.203 phase= 0.154 phase_unit= 0.000 amp= 0.000
+Step    990 | Loss total= 0.784 img= 0.064 grad= 0.061 res_real= 7.174 res_imag= 1.049 phase= 0.287 phase_unit= 0.000 amp= 0.000
+Step   1000 | Loss total= 0.235 img= 0.029 grad= 0.045 res_real= 2.011 res_imag= 0.679 phase= 0.140 phase_unit= 0.000 amp= 0.000
+Step   1010 | Loss total= 0.243 img= 0.066 grad= 0.072 res_real= 1.879 res_imag= 1.613 phase= 0.225 phase_unit= 0.000 amp= 0.000
+Step   1020 | Loss total= 0.708 img= 0.083 grad= 0.059 res_real= 6.231 res_imag= 1.179 phase= 0.376 phase_unit= 0.000 amp= 0.000
+Step   1030 | Loss total= 0.765 img= 0.066 grad= 0.051 res_real= 6.984 res_imag= 0.836 phase= 0.289 phase_unit= 0.000 amp= 0.000
+Step   1040 | Loss total= 0.239 img= 0.049 grad= 0.045 res_real= 1.945 res_imag= 1.134 phase= 0.185 phase_unit= 0.000 amp= 0.000
+Step   1050 | Loss total= 0.714 img= 0.064 grad= 0.049 res_real= 6.310 res_imag= 1.227 phase= 0.376 phase_unit= 0.000 amp= 0.000
+Step   1060 | Loss total= 0.589 img= 0.068 grad= 0.057 res_real= 5.114 res_imag= 0.500 phase= 0.341 phase_unit= 0.000 amp= 0.000
+Step   1070 | Loss total= 0.232 img= 0.031 grad= 0.039 res_real= 1.932 res_imag= 1.123 phase= 0.168 phase_unit= 0.000 amp= 0.000
+Step   1080 | Loss total= 0.261 img= 0.026 grad= 0.032 res_real= 2.227 res_imag= 0.644 phase= 0.168 phase_unit= 0.000 amp= 0.000
+Step   1090 | Loss total= 0.250 img= 0.057 grad= 0.063 res_real= 1.895 res_imag= 1.058 phase= 0.258 phase_unit= 0.000 amp= 0.000
+Step   1100 | Loss total= 0.133 img= 0.018 grad= 0.029 res_real= 1.119 res_imag= 0.861 phase= 0.086 phase_unit= 0.000 amp= 0.000
+Step   1110 | Loss total= 0.281 img= 0.030 grad= 0.036 res_real= 2.394 res_imag= 0.885 phase= 0.180 phase_unit= 0.000 amp= 0.000
+Step   1120 | Loss total= 0.293 img= 0.034 grad= 0.030 res_real= 2.452 res_imag= 0.830 phase= 0.216 phase_unit= 0.000 amp= 0.000
+Step   1130 | Loss total= 0.490 img= 0.084 grad= 0.071 res_real= 4.136 res_imag= 0.700 phase= 0.324 phase_unit= 0.000 amp= 0.000
+Step   1140 | Loss total= 0.369 img= 0.052 grad= 0.066 res_real= 3.117 res_imag= 1.139 phase= 0.238 phase_unit= 0.000 amp= 0.000
+Step   1150 | Loss total= 0.248 img= 0.046 grad= 0.048 res_real= 1.864 res_imag= 0.543 phase= 0.271 phase_unit= 0.000 amp= 0.000
+Step   1160 | Loss total= 0.459 img= 0.059 grad= 0.064 res_real= 4.046 res_imag= 0.583 phase= 0.223 phase_unit= 0.000 amp= 0.000
+Step   1170 | Loss total= 0.146 img= 0.039 grad= 0.052 res_real= 1.047 res_imag= 1.190 phase= 0.169 phase_unit= 0.000 amp= 0.000
+Step   1180 | Loss total= 0.285 img= 0.052 grad= 0.059 res_real= 2.246 res_imag= 0.548 phase= 0.262 phase_unit= 0.000 amp= 0.000
+Step   1190 | Loss total= 1.802 img= 0.086 grad= 0.042 res_real=17.158 res_imag= 0.521 phase= 0.390 phase_unit= 0.000 amp= 0.000
+Step   1200 | Loss total= 0.200 img= 0.020 grad= 0.031 res_real= 1.709 res_imag= 0.293 phase= 0.126 phase_unit= 0.000 amp= 0.000
+Step   1210 | Loss total= 0.357 img= 0.054 grad= 0.062 res_real= 3.036 res_imag= 0.569 phase= 0.221 phase_unit= 0.000 amp= 0.000
+Step   1220 | Loss total= 0.518 img= 0.051 grad= 0.041 res_real= 4.604 res_imag= 1.173 phase= 0.257 phase_unit= 0.000 amp= 0.000
+Step   1230 | Loss total= 0.313 img= 0.073 grad= 0.065 res_real= 2.442 res_imag= 0.421 phase= 0.291 phase_unit= 0.000 amp= 0.000
+Step   1240 | Loss total= 0.450 img= 0.064 grad= 0.051 res_real= 3.737 res_imag= 0.259 phase= 0.339 phase_unit= 0.000 amp= 0.000
+Step   1250 | Loss total= 0.239 img= 0.060 grad= 0.055 res_real= 1.678 res_imag= 0.337 phase= 0.314 phase_unit= 0.000 amp= 0.000
+Step   1260 | Loss total= 0.162 img= 0.029 grad= 0.046 res_real= 1.309 res_imag= 0.549 phase= 0.128 phase_unit= 0.000 amp= 0.000
+Step   1270 | Loss total= 0.144 img= 0.033 grad= 0.053 res_real= 1.146 res_imag= 0.615 phase= 0.111 phase_unit= 0.000 amp= 0.000
+Step   1280 | Loss total= 0.364 img= 0.038 grad= 0.042 res_real= 3.215 res_imag= 0.778 phase= 0.182 phase_unit= 0.000 amp= 0.000
+Step   1290 | Loss total= 0.198 img= 0.032 grad= 0.039 res_real= 1.488 res_imag= 0.217 phase= 0.217 phase_unit= 0.000 amp= 0.000
+Step   1300 | Loss total= 1.021 img= 0.110 grad= 0.070 res_real= 9.194 res_imag= 0.257 phase= 0.445 phase_unit= 0.000 amp= 0.000
+Step   1310 | Loss total= 0.318 img= 0.041 grad= 0.052 res_real= 2.673 res_imag= 0.205 phase= 0.219 phase_unit= 0.000 amp= 0.000
+Step   1320 | Loss total= 0.129 img= 0.018 grad= 0.030 res_real= 1.075 res_imag= 0.366 phase= 0.086 phase_unit= 0.000 amp= 0.000
+Step   1330 | Loss total= 0.729 img= 0.086 grad= 0.053 res_real= 6.338 res_imag= 0.670 phase= 0.429 phase_unit= 0.000 amp= 0.000
+Step   1340 | Loss total= 0.231 img= 0.054 grad= 0.058 res_real= 1.764 res_imag= 0.361 phase= 0.232 phase_unit= 0.000 amp= 0.000
+Step   1350 | Loss total= 0.795 img= 0.064 grad= 0.057 res_real= 7.304 res_imag= 0.448 phase= 0.278 phase_unit= 0.000 amp= 0.000
+Step   1360 | Loss total= 0.199 img= 0.049 grad= 0.046 res_real= 1.413 res_imag= 0.308 phase= 0.256 phase_unit= 0.000 amp= 0.000
+Step   1370 | Loss total= 0.181 img= 0.033 grad= 0.035 res_real= 1.436 res_imag= 0.496 phase= 0.162 phase_unit= 0.000 amp= 0.000
+Step   1380 | Loss total= 0.249 img= 0.049 grad= 0.052 res_real= 2.041 res_imag= 0.307 phase= 0.184 phase_unit= 0.000 amp= 0.000
+Step   1390 | Loss total= 0.275 img= 0.049 grad= 0.049 res_real= 2.233 res_imag= 0.511 phase= 0.224 phase_unit= 0.000 amp= 0.000
+Step   1400 | Loss total= 0.603 img= 0.100 grad= 0.071 res_real= 5.191 res_imag= 0.233 phase= 0.359 phase_unit= 0.000 amp= 0.000
+Step   1410 | Loss total= 0.268 img= 0.067 grad= 0.070 res_real= 2.040 res_imag= 0.214 phase= 0.266 phase_unit= 0.000 amp= 0.000
+Step   1420 | Loss total= 0.254 img= 0.054 grad= 0.048 res_real= 1.914 res_imag= 0.295 phase= 0.275 phase_unit= 0.000 amp= 0.000
+Step   1430 | Loss total= 0.242 img= 0.039 grad= 0.053 res_real= 2.049 res_imag= 0.231 phase= 0.150 phase_unit= 0.000 amp= 0.000
+Step   1440 | Loss total= 0.178 img= 0.041 grad= 0.048 res_real= 1.318 res_imag= 0.676 phase= 0.198 phase_unit= 0.000 amp= 0.000
+Step   1450 | Loss total= 1.143 img= 0.053 grad= 0.043 res_real=10.985 res_imag= 0.388 phase= 0.189 phase_unit= 0.000 amp= 0.000
+Step   1460 | Loss total= 0.400 img= 0.061 grad= 0.056 res_real= 3.349 res_imag= 0.250 phase= 0.284 phase_unit= 0.000 amp= 0.000
+Step   1470 | Loss total= 0.174 img= 0.048 grad= 0.054 res_real= 1.231 res_imag= 0.360 phase= 0.213 phase_unit= 0.000 amp= 0.000
+Step   1480 | Loss total= 0.817 img= 0.043 grad= 0.036 res_real= 7.636 res_imag= 0.524 phase= 0.237 phase_unit= 0.000 amp= 0.000
+Step   1490 | Loss total= 0.264 img= 0.042 grad= 0.059 res_real= 2.212 res_imag= 0.817 phase= 0.174 phase_unit= 0.000 amp= 0.000
+Step   1500 | Loss total= 0.168 img= 0.015 grad= 0.023 res_real= 1.472 res_imag= 0.411 phase= 0.087 phase_unit= 0.000 amp= 0.000
+Step   1510 | Loss total= 0.825 img= 0.088 grad= 0.051 res_real= 7.275 res_imag= 0.620 phase= 0.442 phase_unit= 0.000 amp= 0.000
+Step   1520 | Loss total= 0.275 img= 0.055 grad= 0.051 res_real= 2.017 res_imag= 0.440 phase= 0.326 phase_unit= 0.000 amp= 0.000
+Step   1530 | Loss total= 0.251 img= 0.045 grad= 0.048 res_real= 2.006 res_imag= 0.535 phase= 0.217 phase_unit= 0.000 amp= 0.000
+Step   1540 | Loss total= 0.447 img= 0.048 grad= 0.041 res_real= 3.907 res_imag= 0.247 phase= 0.247 phase_unit= 0.000 amp= 0.000
+Step   1550 | Loss total= 0.173 img= 0.014 grad= 0.023 res_real= 1.545 res_imag= 0.705 phase= 0.076 phase_unit= 0.000 amp= 0.000
+Step   1560 | Loss total= 0.157 img= 0.030 grad= 0.037 res_real= 1.240 res_imag= 0.463 phase= 0.141 phase_unit= 0.000 amp= 0.000
+Step   1570 | Loss total= 0.416 img= 0.065 grad= 0.046 res_real= 3.638 res_imag= 0.523 phase= 0.223 phase_unit= 0.000 amp= 0.000
+Step   1580 | Loss total= 0.135 img= 0.019 grad= 0.034 res_real= 1.149 res_imag= 0.361 phase= 0.080 phase_unit= 0.000 amp= 0.000
+Step   1590 | Loss total= 1.118 img= 0.080 grad= 0.054 res_real=10.326 res_imag= 1.017 phase= 0.379 phase_unit= 0.000 amp= 0.000
+Step   1600 | Loss total= 0.509 img= 0.080 grad= 0.067 res_real= 4.363 res_imag= 0.892 phase= 0.308 phase_unit= 0.000 amp= 0.000
+Step   1610 | Loss total= 0.220 img= 0.066 grad= 0.071 res_real= 1.598 res_imag= 0.617 phase= 0.251 phase_unit= 0.000 amp= 0.000
+Step   1620 | Loss total= 0.715 img= 0.089 grad= 0.059 res_real= 6.227 res_imag= 0.213 phase= 0.412 phase_unit= 0.000 amp= 0.000
+Step   1630 | Loss total= 0.146 img= 0.027 grad= 0.038 res_real= 1.098 res_imag= 0.446 phase= 0.155 phase_unit= 0.000 amp= 0.000
+Step   1640 | Loss total= 0.223 img= 0.072 grad= 0.071 res_real= 1.596 res_imag= 0.355 phase= 0.263 phase_unit= 0.000 amp= 0.000
+Step   1650 | Loss total= 0.218 img= 0.056 grad= 0.060 res_real= 1.607 res_imag= 0.901 phase= 0.242 phase_unit= 0.000 amp= 0.000
+Step   1660 | Loss total= 0.648 img= 0.079 grad= 0.066 res_real= 5.738 res_imag= 1.263 phase= 0.316 phase_unit= 0.000 amp= 0.000
+Step   1670 | Loss total= 0.315 img= 0.052 grad= 0.045 res_real= 2.631 res_imag= 0.729 phase= 0.221 phase_unit= 0.000 amp= 0.000
+Step   1680 | Loss total= 0.979 img= 0.101 grad= 0.064 res_real= 8.957 res_imag= 0.235 phase= 0.361 phase_unit= 0.000 amp= 0.000
+Step   1690 | Loss total= 1.426 img= 0.072 grad= 0.053 res_real=13.539 res_imag= 1.104 phase= 0.316 phase_unit= 0.000 amp= 0.000
+Step   1700 | Loss total= 0.216 img= 0.046 grad= 0.050 res_real= 1.635 res_imag= 0.499 phase= 0.224 phase_unit= 0.000 amp= 0.000
+Step   1710 | Loss total= 0.584 img= 0.067 grad= 0.058 res_real= 5.118 res_imag= 1.559 phase= 0.317 phase_unit= 0.000 amp= 0.000
+Step   1720 | Loss total= 2.306 img= 0.108 grad= 0.048 res_real=22.011 res_imag= 0.606 phase= 0.475 phase_unit= 0.000 amp= 0.000
+Step   1730 | Loss total= 0.143 img= 0.016 grad= 0.033 res_real= 1.271 res_imag= 0.391 phase= 0.057 phase_unit= 0.000 amp= 0.000
+Step   1740 | Loss total= 0.289 img= 0.046 grad= 0.050 res_real= 2.402 res_imag= 1.371 phase= 0.205 phase_unit= 0.000 amp= 0.000
+Step   1750 | Loss total= 0.341 img= 0.068 grad= 0.066 res_real= 2.822 res_imag= 1.411 phase= 0.243 phase_unit= 0.000 amp= 0.000
+Step   1760 | Loss total= 0.151 img= 0.031 grad= 0.044 res_real= 1.182 res_imag= 1.347 phase= 0.132 phase_unit= 0.000 amp= 0.000
+Step   1770 | Loss total= 0.240 img= 0.035 grad= 0.034 res_real= 1.989 res_imag= 1.503 phase= 0.182 phase_unit= 0.000 amp= 0.000
+Step   1780 | Loss total= 0.276 img= 0.050 grad= 0.045 res_real= 2.125 res_imag= 0.953 phase= 0.283 phase_unit= 0.000 amp= 0.000
+Step   1790 | Loss total= 0.201 img= 0.015 grad= 0.022 res_real= 1.745 res_imag= 1.415 phase= 0.117 phase_unit= 0.000 amp= 0.000
+Step   1800 | Loss total= 0.170 img= 0.042 grad= 0.062 res_real= 1.337 res_imag= 1.175 phase= 0.140 phase_unit= 0.000 amp= 0.000
+Step   1810 | Loss total= 0.149 img= 0.019 grad= 0.035 res_real= 1.297 res_imag= 0.904 phase= 0.076 phase_unit= 0.000 amp= 0.000
+Step   1820 | Loss total= 1.520 img= 0.088 grad= 0.061 res_real=14.509 res_imag= 1.173 phase= 0.294 phase_unit= 0.000 amp= 0.000
+Step   1830 | Loss total= 1.006 img= 0.093 grad= 0.055 res_real= 9.162 res_imag= 0.975 phase= 0.400 phase_unit= 0.000 amp= 0.000
+Step   1840 | Loss total= 0.257 img= 0.049 grad= 0.050 res_real= 2.064 res_imag= 1.485 phase= 0.214 phase_unit= 0.000 amp= 0.000
+Step   1850 | Loss total= 0.134 img= 0.026 grad= 0.040 res_real= 0.986 res_imag= 1.294 phase= 0.148 phase_unit= 0.000 amp= 0.000
+Step   1860 | Loss total= 0.221 img= 0.042 grad= 0.034 res_real= 1.708 res_imag= 1.233 phase= 0.224 phase_unit= 0.000 amp= 0.000
+Step   1870 | Loss total= 0.202 img= 0.044 grad= 0.048 res_real= 1.490 res_imag= 0.784 phase= 0.230 phase_unit= 0.000 amp= 0.000
+Step   1880 | Loss total= 0.469 img= 0.065 grad= 0.058 res_real= 4.004 res_imag= 1.483 phase= 0.297 phase_unit= 0.000 amp= 0.000
+Step   1890 | Loss total= 0.190 img= 0.037 grad= 0.043 res_real= 1.392 res_imag= 1.309 phase= 0.224 phase_unit= 0.000 amp= 0.000
+Step   1900 | Loss total= 0.272 img= 0.052 grad= 0.055 res_real= 2.149 res_imag= 0.824 phase= 0.245 phase_unit= 0.000 amp= 0.000
+Step   1910 | Loss total= 0.409 img= 0.071 grad= 0.061 res_real= 3.459 res_imag= 0.669 phase= 0.268 phase_unit= 0.000 amp= 0.000
+Step   1920 | Loss total= 0.587 img= 0.092 grad= 0.076 res_real= 5.105 res_imag= 1.508 phase= 0.323 phase_unit= 0.000 amp= 0.000
+Step   1930 | Loss total= 0.567 img= 0.056 grad= 0.044 res_real= 4.987 res_imag= 1.429 phase= 0.304 phase_unit= 0.000 amp= 0.000
+Step   1940 | Loss total= 0.274 img= 0.043 grad= 0.042 res_real= 2.089 res_imag= 0.542 phase= 0.292 phase_unit= 0.000 amp= 0.000
+Step   1950 | Loss total= 0.582 img= 0.061 grad= 0.043 res_real= 4.982 res_imag= 1.059 phase= 0.382 phase_unit= 0.000 amp= 0.000
+Step   1960 | Loss total= 0.525 img= 0.038 grad= 0.039 res_real= 4.802 res_imag= 1.486 phase= 0.195 phase_unit= 0.000 amp= 0.000
+Step   1970 | Loss total= 0.233 img= 0.033 grad= 0.049 res_real= 1.904 res_imag= 1.362 phase= 0.179 phase_unit= 0.000 amp= 0.000
+Step   1980 | Loss total= 0.310 img= 0.042 grad= 0.044 res_real= 2.497 res_imag= 1.234 phase= 0.270 phase_unit= 0.000 amp= 0.000
+Step   1990 | Loss total= 0.508 img= 0.056 grad= 0.051 res_real= 4.499 res_imag= 1.375 phase= 0.250 phase_unit= 0.000 amp= 0.000
+Step   2000 | Loss total= 0.198 img= 0.019 grad= 0.022 res_real= 1.679 res_imag= 1.374 phase= 0.133 phase_unit= 0.000 amp= 0.000
+Step   2010 | Loss total= 0.147 img= 0.019 grad= 0.033 res_real= 1.271 res_imag= 1.706 phase= 0.081 phase_unit= 0.000 amp= 0.000
+Step   2020 | Loss total= 0.360 img= 0.050 grad= 0.044 res_real= 2.960 res_imag= 2.549 phase= 0.285 phase_unit= 0.000 amp= 0.000
+Step   2030 | Loss total= 0.250 img= 0.046 grad= 0.045 res_real= 2.026 res_imag= 1.478 phase= 0.202 phase_unit= 0.000 amp= 0.000
+Step   2040 | Loss total= 0.183 img= 0.037 grad= 0.050 res_real= 1.392 res_imag= 1.776 phase= 0.182 phase_unit= 0.000 amp= 0.000
+Step   2050 | Loss total= 1.530 img= 0.076 grad= 0.052 res_real=14.522 res_imag= 2.058 phase= 0.343 phase_unit= 0.000 amp= 0.000
+Step   2060 | Loss total= 0.290 img= 0.044 grad= 0.054 res_real= 2.337 res_imag= 1.162 phase= 0.244 phase_unit= 0.000 amp= 0.000
+Step   2070 | Loss total= 0.400 img= 0.057 grad= 0.050 res_real= 3.340 res_imag= 1.534 phase= 0.291 phase_unit= 0.000 amp= 0.000
+Step   2080 | Loss total= 0.401 img= 0.061 grad= 0.049 res_real= 3.311 res_imag= 1.458 phase= 0.309 phase_unit= 0.000 amp= 0.000
+Step   2090 | Loss total= 0.524 img= 0.104 grad= 0.069 res_real= 4.393 res_imag= 2.063 phase= 0.361 phase_unit= 0.000 amp= 0.000
+Step   2100 | Loss total= 0.369 img= 0.071 grad= 0.062 res_real= 2.952 res_imag= 2.050 phase= 0.319 phase_unit= 0.000 amp= 0.000
+Step   2110 | Loss total= 0.159 img= 0.016 grad= 0.022 res_real= 1.287 res_imag= 1.260 phase= 0.135 phase_unit= 0.000 amp= 0.000
+Step   2120 | Loss total= 0.157 img= 0.057 grad= 0.061 res_real= 1.000 res_imag= 1.563 phase= 0.240 phase_unit= 0.000 amp= 0.000
+Step   2130 | Loss total= 1.344 img= 0.054 grad= 0.022 res_real=12.911 res_imag= 1.944 phase= 0.241 phase_unit= 0.000 amp= 0.000
+Step   2140 | Loss total= 0.531 img= 0.060 grad= 0.059 res_real= 4.811 res_imag= 1.395 phase= 0.204 phase_unit= 0.000 amp= 0.000
+Step   2150 | Loss total= 1.090 img= 0.095 grad= 0.063 res_real=10.053 res_imag= 2.230 phase= 0.367 phase_unit= 0.000 amp= 0.000
+Step   2160 | Loss total= 0.624 img= 0.068 grad= 0.055 res_real= 5.457 res_imag= 1.888 phase= 0.348 phase_unit= 0.000 amp= 0.000
+Step   2170 | Loss total= 1.486 img= 0.092 grad= 0.051 res_real=13.861 res_imag= 0.996 phase= 0.450 phase_unit= 0.000 amp= 0.000
+Step   2180 | Loss total= 0.301 img= 0.054 grad= 0.058 res_real= 2.370 res_imag= 1.743 phase= 0.278 phase_unit= 0.000 amp= 0.000
+Step   2190 | Loss total= 0.193 img= 0.022 grad= 0.039 res_real= 1.709 res_imag= 1.623 phase= 0.088 phase_unit= 0.000 amp= 0.000
+Step   2200 | Loss total= 0.198 img= 0.041 grad= 0.044 res_real= 1.574 res_imag= 1.452 phase= 0.169 phase_unit= 0.000 amp= 0.000
+Step   2210 | Loss total= 1.058 img= 0.087 grad= 0.065 res_real= 9.720 res_imag= 2.274 phase= 0.375 phase_unit= 0.000 amp= 0.000
+Step   2220 | Loss total= 0.427 img= 0.073 grad= 0.054 res_real= 3.702 res_imag= 1.302 phase= 0.239 phase_unit= 0.000 amp= 0.000
+Step   2230 | Loss total= 0.241 img= 0.054 grad= 0.060 res_real= 1.900 res_imag= 1.854 phase= 0.211 phase_unit= 0.000 amp= 0.000
+Step   2240 | Loss total= 0.174 img= 0.040 grad= 0.053 res_real= 1.369 res_imag= 1.923 phase= 0.149 phase_unit= 0.000 amp= 0.000
+Step   2250 | Loss total= 0.803 img= 0.083 grad= 0.064 res_real= 7.230 res_imag= 2.653 phase= 0.347 phase_unit= 0.000 amp= 0.000
+Step   2260 | Loss total= 0.193 img= 0.040 grad= 0.058 res_real= 1.495 res_imag= 2.225 phase= 0.178 phase_unit= 0.000 amp= 0.000
+Step   2270 | Loss total= 0.240 img= 0.032 grad= 0.035 res_real= 2.011 res_imag= 1.942 phase= 0.168 phase_unit= 0.000 amp= 0.000
+Step   2280 | Loss total= 0.316 img= 0.068 grad= 0.054 res_real= 2.392 res_imag= 1.254 phase= 0.341 phase_unit= 0.000 amp= 0.000
+Step   2290 | Loss total= 0.173 img= 0.023 grad= 0.037 res_real= 1.447 res_imag= 1.465 phase= 0.119 phase_unit= 0.000 amp= 0.000
+Step   2300 | Loss total= 0.309 img= 0.041 grad= 0.039 res_real= 2.665 res_imag= 1.808 phase= 0.180 phase_unit= 0.000 amp= 0.000
+Step   2310 | Loss total= 0.312 img= 0.060 grad= 0.060 res_real= 2.435 res_imag= 2.179 phase= 0.295 phase_unit= 0.000 amp= 0.000
+Step   2320 | Loss total= 0.265 img= 0.048 grad= 0.052 res_real= 2.095 res_imag= 2.350 phase= 0.242 phase_unit= 0.000 amp= 0.000
+Step   2330 | Loss total= 0.166 img= 0.034 grad= 0.050 res_real= 1.293 res_imag= 2.135 phase= 0.149 phase_unit= 0.000 amp= 0.000
+Step   2340 | Loss total= 0.354 img= 0.042 grad= 0.040 res_real= 3.089 res_imag= 1.925 phase= 0.194 phase_unit= 0.000 amp= 0.000
+Step   2350 | Loss total= 0.500 img= 0.080 grad= 0.067 res_real= 4.239 res_imag= 1.534 phase= 0.327 phase_unit= 0.000 amp= 0.000
+Step   2360 | Loss total= 0.384 img= 0.040 grad= 0.046 res_real= 3.348 res_imag= 2.323 phase= 0.214 phase_unit= 0.000 amp= 0.000
+Step   2370 | Loss total= 0.363 img= 0.061 grad= 0.048 res_real= 2.869 res_imag= 2.634 phase= 0.343 phase_unit= 0.000 amp= 0.000
+Step   2380 | Loss total= 0.280 img= 0.051 grad= 0.052 res_real= 2.147 res_imag= 2.516 phase= 0.287 phase_unit= 0.000 amp= 0.000
+Step   2390 | Loss total= 0.220 img= 0.035 grad= 0.039 res_real= 1.759 res_imag= 2.934 phase= 0.195 phase_unit= 0.000 amp= 0.000
+Step   2400 | Loss total= 1.365 img= 0.084 grad= 0.064 res_real=12.988 res_imag= 1.949 phase= 0.279 phase_unit= 0.000 amp= 0.000
+Step   2410 | Loss total= 0.218 img= 0.026 grad= 0.032 res_real= 1.766 res_imag= 2.481 phase= 0.182 phase_unit= 0.000 amp= 0.000
+Step   2420 | Loss total= 0.572 img= 0.047 grad= 0.051 res_real= 5.211 res_imag= 1.432 phase= 0.219 phase_unit= 0.000 amp= 0.000
+Step   2430 | Loss total= 0.313 img= 0.046 grad= 0.044 res_real= 2.527 res_imag= 2.380 phase= 0.267 phase_unit= 0.000 amp= 0.000
+Step   2440 | Loss total= 0.235 img= 0.044 grad= 0.048 res_real= 1.930 res_imag= 2.680 phase= 0.177 phase_unit= 0.000 amp= 0.000
+Step   2450 | Loss total= 0.192 img= 0.039 grad= 0.062 res_real= 1.578 res_imag= 2.370 phase= 0.131 phase_unit= 0.000 amp= 0.000
+Step   2460 | Loss total= 1.280 img= 0.061 grad= 0.060 res_real=12.320 res_imag= 2.271 phase= 0.192 phase_unit= 0.000 amp= 0.000
+Step   2470 | Loss total= 0.295 img= 0.057 grad= 0.058 res_real= 2.336 res_imag= 2.564 phase= 0.262 phase_unit= 0.000 amp= 0.000
+Step   2480 | Loss total= 0.146 img= 0.029 grad= 0.042 res_real= 1.176 res_imag= 2.560 phase= 0.116 phase_unit= 0.000 amp= 0.000
+Step   2490 | Loss total= 0.468 img= 0.058 grad= 0.065 res_real= 4.171 res_imag= 3.413 phase= 0.209 phase_unit= 0.000 amp= 0.000
+Step   2500 | Loss total= 0.378 img= 0.057 grad= 0.053 res_real= 3.092 res_imag= 2.940 phase= 0.303 phase_unit= 0.000 amp= 0.000
+Step   2510 | Loss total= 0.497 img= 0.074 grad= 0.056 res_real= 4.209 res_imag= 2.052 phase= 0.332 phase_unit= 0.000 amp= 0.000
+Step   2520 | Loss total= 0.658 img= 0.072 grad= 0.059 res_real= 5.749 res_imag= 2.965 phase= 0.368 phase_unit= 0.000 amp= 0.000
+Step   2530 | Loss total= 0.217 img= 0.045 grad= 0.054 res_real= 1.655 res_imag= 2.822 phase= 0.221 phase_unit= 0.000 amp= 0.000
+Step   2540 | Loss total= 0.317 img= 0.043 grad= 0.043 res_real= 2.660 res_imag= 3.378 phase= 0.224 phase_unit= 0.000 amp= 0.000
+Step   2550 | Loss total= 1.119 img= 0.072 grad= 0.049 res_real=10.534 res_imag= 2.213 phase= 0.286 phase_unit= 0.000 amp= 0.000
+Step   2560 | Loss total= 0.169 img= 0.020 grad= 0.036 res_real= 1.450 res_imag= 3.275 phase= 0.096 phase_unit= 0.000 amp= 0.000
+Step   2570 | Loss total= 0.411 img= 0.066 grad= 0.065 res_real= 3.422 res_imag= 2.705 phase= 0.294 phase_unit= 0.000 amp= 0.000
+Step   2580 | Loss total= 0.329 img= 0.055 grad= 0.048 res_real= 2.646 res_imag= 3.151 phase= 0.283 phase_unit= 0.000 amp= 0.000
+Step   2590 | Loss total= 0.198 img= 0.045 grad= 0.054 res_real= 1.519 res_imag= 2.402 phase= 0.193 phase_unit= 0.000 amp= 0.000
+Step   2600 | Loss total= 0.416 img= 0.057 grad= 0.050 res_real= 3.340 res_imag= 3.262 phase= 0.372 phase_unit= 0.000 amp= 0.000
+Step   2610 | Loss total= 0.968 img= 0.070 grad= 0.044 res_real= 8.938 res_imag= 4.176 phase= 0.329 phase_unit= 0.000 amp= 0.000
+Step   2620 | Loss total= 0.456 img= 0.064 grad= 0.052 res_real= 3.823 res_imag= 2.689 phase= 0.324 phase_unit= 0.000 amp= 0.000
+Step   2630 | Loss total= 0.956 img= 0.064 grad= 0.062 res_real= 9.073 res_imag= 2.962 phase= 0.196 phase_unit= 0.000 amp= 0.000
+Step   2640 | Loss total= 0.319 img= 0.039 grad= 0.033 res_real= 2.779 res_imag= 2.731 phase= 0.181 phase_unit= 0.000 amp= 0.000
+Step   2650 | Loss total= 0.500 img= 0.071 grad= 0.054 res_real= 4.369 res_imag= 2.700 phase= 0.273 phase_unit= 0.000 amp= 0.000
+Step   2660 | Loss total= 0.113 img= 0.031 grad= 0.054 res_real= 0.869 res_imag= 2.269 phase= 0.098 phase_unit= 0.000 amp= 0.000
+Step   2670 | Loss total= 0.949 img= 0.091 grad= 0.063 res_real= 8.607 res_imag= 1.826 phase= 0.389 phase_unit= 0.000 amp= 0.000
+Step   2680 | Loss total= 0.491 img= 0.061 grad= 0.048 res_real= 4.268 res_imag= 2.667 phase= 0.281 phase_unit= 0.000 amp= 0.000
+Step   2690 | Loss total= 0.773 img= 0.070 grad= 0.048 res_real= 7.120 res_imag= 2.572 phase= 0.262 phase_unit= 0.000 amp= 0.000
+Step   2700 | Loss total= 0.157 img= 0.039 grad= 0.058 res_real= 1.209 res_imag= 2.842 phase= 0.140 phase_unit= 0.000 amp= 0.000
+Step   2710 | Loss total= 0.576 img= 0.051 grad= 0.042 res_real= 5.053 res_imag= 2.432 phase= 0.318 phase_unit= 0.000 amp= 0.000
+Step   2720 | Loss total= 0.374 img= 0.080 grad= 0.058 res_real= 3.129 res_imag= 2.948 phase= 0.257 phase_unit= 0.000 amp= 0.000
+Step   2730 | Loss total= 0.397 img= 0.065 grad= 0.051 res_real= 3.292 res_imag= 2.464 phase= 0.297 phase_unit= 0.000 amp= 0.000
+Step   2740 | Loss total= 0.214 img= 0.061 grad= 0.058 res_real= 1.542 res_imag= 2.831 phase= 0.256 phase_unit= 0.000 amp= 0.000
+Step   2750 | Loss total= 0.273 img= 0.037 grad= 0.049 res_real= 2.237 res_imag= 2.134 phase= 0.212 phase_unit= 0.000 amp= 0.000
+Step   2760 | Loss total= 0.672 img= 0.068 grad= 0.059 res_real= 6.114 res_imag= 2.763 phase= 0.255 phase_unit= 0.000 amp= 0.000
+Step   2770 | Loss total= 1.458 img= 0.112 grad= 0.072 res_real=13.797 res_imag= 2.410 phase= 0.328 phase_unit= 0.000 amp= 0.000
+Step   2780 | Loss total= 0.273 img= 0.057 grad= 0.059 res_real= 2.092 res_imag= 3.137 phase= 0.276 phase_unit= 0.000 amp= 0.000
+Step   2790 | Loss total= 0.437 img= 0.055 grad= 0.049 res_real= 3.756 res_imag= 2.531 phase= 0.267 phase_unit= 0.000 amp= 0.000
+Step   2800 | Loss total= 0.212 img= 0.051 grad= 0.048 res_real= 1.528 res_imag= 2.502 phase= 0.261 phase_unit= 0.000 amp= 0.000
+Step   2810 | Loss total= 0.536 img= 0.063 grad= 0.054 res_real= 4.847 res_imag= 2.641 phase= 0.212 phase_unit= 0.000 amp= 0.000
+Step   2820 | Loss total= 0.261 img= 0.061 grad= 0.065 res_real= 2.028 res_imag= 2.935 phase= 0.242 phase_unit= 0.000 amp= 0.000
+Step   2830 | Loss total= 0.943 img= 0.093 grad= 0.048 res_real= 8.506 res_imag= 4.020 phase= 0.415 phase_unit= 0.000 amp= 0.000
+Step   2840 | Loss total= 0.494 img= 0.046 grad= 0.043 res_real= 4.268 res_imag= 2.224 phase= 0.301 phase_unit= 0.000 amp= 0.000
+Step   2850 | Loss total= 0.315 img= 0.074 grad= 0.068 res_real= 2.422 res_imag= 3.052 phase= 0.312 phase_unit= 0.000 amp= 0.000
+Step   2860 | Loss total= 0.313 img= 0.038 grad= 0.038 res_real= 2.616 res_imag= 3.567 phase= 0.229 phase_unit= 0.000 amp= 0.000
+Step   2870 | Loss total= 0.089 img= 0.022 grad= 0.039 res_real= 0.657 res_imag= 3.064 phase= 0.091 phase_unit= 0.000 amp= 0.000
+Step   2880 | Loss total= 0.368 img= 0.048 grad= 0.050 res_real= 3.215 res_imag= 3.517 phase= 0.195 phase_unit= 0.000 amp= 0.000
+Step   2890 | Loss total= 0.350 img= 0.058 grad= 0.052 res_real= 2.778 res_imag= 3.102 phase= 0.319 phase_unit= 0.000 amp= 0.000
+Step   2900 | Loss total= 0.177 img= 0.028 grad= 0.039 res_real= 1.346 res_imag= 2.970 phase= 0.184 phase_unit= 0.000 amp= 0.000
+Step   2910 | Loss total= 0.543 img= 0.062 grad= 0.051 res_real= 4.744 res_imag= 3.054 phase= 0.304 phase_unit= 0.000 amp= 0.000
+Step   2920 | Loss total= 0.221 img= 0.051 grad= 0.056 res_real= 1.706 res_imag= 2.477 phase= 0.209 phase_unit= 0.000 amp= 0.000
+Step   2930 | Loss total= 0.456 img= 0.073 grad= 0.063 res_real= 3.892 res_imag= 2.465 phase= 0.285 phase_unit= 0.000 amp= 0.000
+Step   2940 | Loss total= 0.094 img= 0.015 grad= 0.030 res_real= 0.776 res_imag= 2.887 phase= 0.063 phase_unit= 0.000 amp= 0.000
+Step   2950 | Loss total= 0.348 img= 0.068 grad= 0.069 res_real= 2.822 res_imag= 3.136 phase= 0.279 phase_unit= 0.000 amp= 0.000
+Step   2960 | Loss total= 0.239 img= 0.048 grad= 0.048 res_real= 1.816 res_imag= 3.510 phase= 0.249 phase_unit= 0.000 amp= 0.000
+Step   2970 | Loss total= 0.517 img= 0.056 grad= 0.044 res_real= 4.625 res_imag= 2.866 phase= 0.237 phase_unit= 0.000 amp= 0.000
+Step   2980 | Loss total= 0.392 img= 0.064 grad= 0.057 res_real= 3.207 res_imag= 3.524 phase= 0.314 phase_unit= 0.000 amp= 0.000
+Step   2990 | Loss total= 0.181 img= 0.020 grad= 0.027 res_real= 1.462 res_imag= 3.146 phase= 0.154 phase_unit= 0.000 amp= 0.000
+Step   3000 | Loss total= 0.168 img= 0.042 grad= 0.049 res_real= 1.248 res_imag= 2.807 phase= 0.182 phase_unit= 0.000 amp= 0.000
+Step   3010 | Loss total= 0.268 img= 0.044 grad= 0.047 res_real= 2.183 res_imag= 2.743 phase= 0.213 phase_unit= 0.000 amp= 0.000
+Step   3020 | Loss total= 0.352 img= 0.043 grad= 0.050 res_real= 2.960 res_imag= 3.054 phase= 0.244 phase_unit= 0.000 amp= 0.000
+Step   3030 | Loss total= 0.412 img= 0.080 grad= 0.053 res_real= 3.197 res_imag= 2.749 phase= 0.413 phase_unit= 0.000 amp= 0.000
+Step   3040 | Loss total= 0.356 img= 0.048 grad= 0.050 res_real= 2.973 res_imag= 2.199 phase= 0.254 phase_unit= 0.000 amp= 0.000
+Step   3050 | Loss total= 0.240 img= 0.040 grad= 0.043 res_real= 1.937 res_imag= 2.499 phase= 0.200 phase_unit= 0.000 amp= 0.000
+Step   3060 | Loss total= 1.190 img= 0.077 grad= 0.050 res_real=11.063 res_imag= 3.116 phase= 0.376 phase_unit= 0.000 amp= 0.000
+Step   3070 | Loss total= 0.157 img= 0.025 grad= 0.044 res_real= 1.309 res_imag= 3.831 phase= 0.103 phase_unit= 0.000 amp= 0.000
+Step   3080 | Loss total= 0.998 img= 0.056 grad= 0.033 res_real= 9.383 res_imag= 3.641 phase= 0.269 phase_unit= 0.000 amp= 0.000
+Step   3090 | Loss total= 0.403 img= 0.086 grad= 0.069 res_real= 3.191 res_imag= 3.608 phase= 0.365 phase_unit= 0.000 amp= 0.000
+Step   3100 | Loss total= 0.467 img= 0.068 grad= 0.047 res_real= 4.177 res_imag= 2.732 phase= 0.204 phase_unit= 0.000 amp= 0.000
+Step   3110 | Loss total= 0.316 img= 0.054 grad= 0.048 res_real= 2.551 res_imag= 2.864 phase= 0.266 phase_unit= 0.000 amp= 0.000
+Step   3120 | Loss total= 0.227 img= 0.037 grad= 0.049 res_real= 1.848 res_imag= 2.227 phase= 0.179 phase_unit= 0.000 amp= 0.000
+Step   3130 | Loss total= 0.892 img= 0.062 grad= 0.035 res_real= 8.274 res_imag= 2.490 phase= 0.289 phase_unit= 0.000 amp= 0.000
+Step   3140 | Loss total= 0.210 img= 0.058 grad= 0.055 res_real= 1.397 res_imag= 3.286 phase= 0.309 phase_unit= 0.000 amp= 0.000
+Step   3150 | Loss total= 0.478 img= 0.056 grad= 0.058 res_real= 4.180 res_imag= 2.780 phase= 0.257 phase_unit= 0.000 amp= 0.000
+Step   3160 | Loss total= 0.128 img= 0.019 grad= 0.025 res_real= 0.963 res_imag= 3.328 phase= 0.140 phase_unit= 0.000 amp= 0.000
+Step   3170 | Loss total= 0.262 img= 0.056 grad= 0.047 res_real= 1.929 res_imag= 2.490 phase= 0.310 phase_unit= 0.000 amp= 0.000
+Step   3180 | Loss total= 0.433 img= 0.074 grad= 0.071 res_real= 3.698 res_imag= 3.660 phase= 0.260 phase_unit= 0.000 amp= 0.000
+Step   3190 | Loss total= 0.157 img= 0.036 grad= 0.044 res_real= 1.134 res_imag= 2.992 phase= 0.185 phase_unit= 0.000 amp= 0.000
+Step   3200 | Loss total= 1.109 img= 0.059 grad= 0.034 res_real=10.386 res_imag= 3.489 phase= 0.322 phase_unit= 0.000 amp= 0.000
+Step   3210 | Loss total= 0.135 img= 0.029 grad= 0.053 res_real= 1.088 res_imag= 2.979 phase= 0.095 phase_unit= 0.000 amp= 0.000
+Step   3220 | Loss total= 0.579 img= 0.072 grad= 0.060 res_real= 5.052 res_imag= 3.607 phase= 0.323 phase_unit= 0.000 amp= 0.000
+Step   3230 | Loss total= 0.233 img= 0.038 grad= 0.042 res_real= 1.932 res_imag= 2.872 phase= 0.169 phase_unit= 0.000 amp= 0.000
+Step   3240 | Loss total= 1.245 img= 0.070 grad= 0.056 res_real=11.953 res_imag= 3.096 phase= 0.204 phase_unit= 0.000 amp= 0.000
+Step   3250 | Loss total= 0.817 img= 0.085 grad= 0.054 res_real= 7.229 res_imag= 3.626 phase= 0.422 phase_unit= 0.000 amp= 0.000
+Step   3260 | Loss total= 0.226 img= 0.037 grad= 0.050 res_real= 1.827 res_imag= 3.502 phase= 0.182 phase_unit= 0.000 amp= 0.000
+Step   3270 | Loss total= 0.182 img= 0.041 grad= 0.042 res_real= 1.281 res_imag= 3.071 phase= 0.241 phase_unit= 0.000 amp= 0.000
+Step   3280 | Loss total= 0.412 img= 0.055 grad= 0.055 res_real= 3.562 res_imag= 3.811 phase= 0.238 phase_unit= 0.000 amp= 0.000
+Step   3290 | Loss total= 0.685 img= 0.060 grad= 0.051 res_real= 6.156 res_imag= 4.059 phase= 0.309 phase_unit= 0.000 amp= 0.000
+Step   3300 | Loss total= 0.348 img= 0.046 grad= 0.045 res_real= 2.827 res_imag= 3.838 phase= 0.294 phase_unit= 0.000 amp= 0.000
+Step   3310 | Loss total= 0.435 img= 0.073 grad= 0.052 res_real= 3.804 res_imag= 2.453 phase= 0.228 phase_unit= 0.000 amp= 0.000
+Step   3320 | Loss total= 0.116 img= 0.033 grad= 0.045 res_real= 0.790 res_imag= 3.572 phase= 0.152 phase_unit= 0.000 amp= 0.000
+Step   3330 | Loss total= 0.158 img= 0.017 grad= 0.033 res_real= 1.387 res_imag= 4.184 phase= 0.074 phase_unit= 0.000 amp= 0.000
+Step   3340 | Loss total= 0.186 img= 0.043 grad= 0.052 res_real= 1.412 res_imag= 3.156 phase= 0.188 phase_unit= 0.000 amp= 0.000
+Step   3350 | Loss total= 0.429 img= 0.066 grad= 0.055 res_real= 3.568 res_imag= 3.412 phase= 0.315 phase_unit= 0.000 amp= 0.000
+Step   3360 | Loss total= 0.183 img= 0.022 grad= 0.033 res_real= 1.557 res_imag= 3.324 phase= 0.114 phase_unit= 0.000 amp= 0.000
+Step   3370 | Loss total= 0.309 img= 0.049 grad= 0.056 res_real= 2.632 res_imag= 3.169 phase= 0.190 phase_unit= 0.000 amp= 0.000
+Step   3380 | Loss total= 0.497 img= 0.080 grad= 0.069 res_real= 4.277 res_imag= 4.157 phase= 0.291 phase_unit= 0.000 amp= 0.000
+Step   3390 | Loss total= 0.333 img= 0.043 grad= 0.047 res_real= 2.663 res_imag= 4.092 phase= 0.297 phase_unit= 0.000 amp= 0.000
+Step   3400 | Loss total= 0.306 img= 0.050 grad= 0.058 res_real= 2.544 res_imag= 2.313 phase= 0.216 phase_unit= 0.000 amp= 0.000
+Step   3410 | Loss total= 0.685 img= 0.082 grad= 0.059 res_real= 6.153 res_imag= 3.142 phase= 0.301 phase_unit= 0.000 amp= 0.000
+Step   3420 | Loss total= 0.414 img= 0.065 grad= 0.051 res_real= 3.406 res_imag= 3.291 phase= 0.325 phase_unit= 0.000 amp= 0.000
+Step   3430 | Loss total= 0.239 img= 0.053 grad= 0.053 res_real= 1.772 res_imag= 2.666 phase= 0.270 phase_unit= 0.000 amp= 0.000
+Step   3440 | Loss total= 0.562 img= 0.077 grad= 0.060 res_real= 4.841 res_imag= 3.274 phase= 0.341 phase_unit= 0.000 amp= 0.000
+Step   3450 | Loss total= 0.197 img= 0.018 grad= 0.034 res_real= 1.749 res_imag= 3.059 phase= 0.088 phase_unit= 0.000 amp= 0.000
+Step   3460 | Loss total= 0.177 img= 0.008 grad= 0.014 res_real= 1.648 res_imag= 3.977 phase= 0.053 phase_unit= 0.000 amp= 0.000
+Step   3470 | Loss total= 0.203 img= 0.045 grad= 0.050 res_real= 1.543 res_imag= 2.536 phase= 0.207 phase_unit= 0.000 amp= 0.000
+Step   3480 | Loss total= 0.134 img= 0.034 grad= 0.040 res_real= 0.944 res_imag= 3.740 phase= 0.169 phase_unit= 0.000 amp= 0.000
+Step   3490 | Loss total= 0.404 img= 0.052 grad= 0.054 res_real= 3.511 res_imag= 3.407 phase= 0.225 phase_unit= 0.000 amp= 0.000
+Step   3500 | Loss total= 0.579 img= 0.077 grad= 0.057 res_real= 4.960 res_imag= 3.408 phase= 0.366 phase_unit= 0.000 amp= 0.000
+Step   3510 | Loss total= 0.160 img= 0.042 grad= 0.061 res_real= 1.236 res_imag= 2.907 phase= 0.141 phase_unit= 0.000 amp= 0.000
+Step   3520 | Loss total= 0.403 img= 0.082 grad= 0.069 res_real= 3.199 res_imag= 4.200 phase= 0.358 phase_unit= 0.000 amp= 0.000
+Step   3530 | Loss total= 0.141 img= 0.026 grad= 0.039 res_real= 1.124 res_imag= 3.465 phase= 0.116 phase_unit= 0.000 amp= 0.000
+Step   3540 | Loss total= 0.394 img= 0.057 grad= 0.049 res_real= 3.416 res_imag= 2.872 phase= 0.222 phase_unit= 0.000 amp= 0.000
+Step   3550 | Loss total= 0.161 img= 0.042 grad= 0.042 res_real= 1.046 res_imag= 3.463 phase= 0.249 phase_unit= 0.000 amp= 0.000
+Step   3560 | Loss total= 0.430 img= 0.068 grad= 0.061 res_real= 3.650 res_imag= 4.500 phase= 0.277 phase_unit= 0.000 amp= 0.000
+Step   3570 | Loss total= 0.309 img= 0.047 grad= 0.043 res_real= 2.555 res_imag= 4.383 phase= 0.232 phase_unit= 0.000 amp= 0.000
+Step   3580 | Loss total= 0.208 img= 0.055 grad= 0.061 res_real= 1.534 res_imag= 3.876 phase= 0.230 phase_unit= 0.000 amp= 0.000
+Step   3590 | Loss total= 0.321 img= 0.057 grad= 0.055 res_real= 2.560 res_imag= 3.947 phase= 0.286 phase_unit= 0.000 amp= 0.000
+Step   3600 | Loss total= 1.395 img= 0.081 grad= 0.068 res_real=13.325 res_imag= 3.715 phase= 0.260 phase_unit= 0.000 amp= 0.000
+Step   3610 | Loss total= 0.335 img= 0.051 grad= 0.049 res_real= 2.857 res_imag= 3.273 phase= 0.212 phase_unit= 0.000 amp= 0.000
+Step   3620 | Loss total= 0.312 img= 0.056 grad= 0.052 res_real= 2.549 res_imag= 4.057 phase= 0.247 phase_unit= 0.000 amp= 0.000
+Step   3630 | Loss total= 0.177 img= 0.019 grad= 0.033 res_real= 1.487 res_imag= 2.973 phase= 0.121 phase_unit= 0.000 amp= 0.000
+Step   3640 | Loss total= 0.331 img= 0.046 grad= 0.052 res_real= 2.849 res_imag= 4.523 phase= 0.192 phase_unit= 0.000 amp= 0.000
+Step   3650 | Loss total= 0.367 img= 0.063 grad= 0.055 res_real= 2.931 res_imag= 3.490 phase= 0.329 phase_unit= 0.000 amp= 0.000
+Step   3660 | Loss total= 0.736 img= 0.080 grad= 0.063 res_real= 6.707 res_imag= 3.428 phase= 0.275 phase_unit= 0.000 amp= 0.000
+Step   3670 | Loss total= 0.147 img= 0.034 grad= 0.054 res_real= 1.154 res_imag= 3.967 phase= 0.121 phase_unit= 0.000 amp= 0.000
+Step   3680 | Loss total= 0.642 img= 0.099 grad= 0.067 res_real= 5.587 res_imag= 3.038 phase= 0.360 phase_unit= 0.000 amp= 0.000
+Step   3690 | Loss total= 0.249 img= 0.024 grad= 0.033 res_real= 2.151 res_imag= 3.524 phase= 0.145 phase_unit= 0.000 amp= 0.000
+Step   3700 | Loss total= 0.195 img= 0.039 grad= 0.038 res_real= 1.462 res_imag= 3.795 phase= 0.215 phase_unit= 0.000 amp= 0.000
+Step   3710 | Loss total= 0.977 img= 0.076 grad= 0.057 res_real= 8.923 res_imag= 3.849 phase= 0.378 phase_unit= 0.000 amp= 0.000
+Step   3720 | Loss total= 1.646 img= 0.078 grad= 0.049 res_real=15.767 res_imag= 2.840 phase= 0.302 phase_unit= 0.000 amp= 0.000
+Step   3730 | Loss total= 0.170 img= 0.034 grad= 0.055 res_real= 1.365 res_imag= 2.996 phase= 0.132 phase_unit= 0.000 amp= 0.000
+Step   3740 | Loss total= 0.664 img= 0.074 grad= 0.049 res_real= 5.807 res_imag= 4.724 phase= 0.376 phase_unit= 0.000 amp= 0.000
+Step   3750 | Loss total= 0.434 img= 0.042 grad= 0.037 res_real= 3.897 res_imag= 3.932 phase= 0.192 phase_unit= 0.000 amp= 0.000
+Step   3760 | Loss total= 0.446 img= 0.084 grad= 0.070 res_real= 3.690 res_imag= 4.844 phase= 0.328 phase_unit= 0.000 amp= 0.000
+Step   3770 | Loss total= 3.420 img= 0.125 grad= 0.053 res_real=33.134 res_imag= 5.053 phase= 0.474 phase_unit= 0.000 amp= 0.000
+Step   3780 | Loss total= 1.200 img= 0.065 grad= 0.045 res_real=11.388 res_imag= 4.055 phase= 0.267 phase_unit= 0.000 amp= 0.000
+Step   3790 | Loss total= 0.128 img= 0.023 grad= 0.042 res_real= 1.071 res_imag= 3.441 phase= 0.076 phase_unit= 0.000 amp= 0.000
+Step   3800 | Loss total= 0.458 img= 0.066 grad= 0.045 res_real= 4.026 res_imag= 3.764 phase= 0.240 phase_unit= 0.000 amp= 0.000
+Step   3810 | Loss total= 0.367 img= 0.039 grad= 0.045 res_real= 3.180 res_imag= 3.693 phase= 0.210 phase_unit= 0.000 amp= 0.000
+Step   3820 | Loss total= 0.189 img= 0.053 grad= 0.064 res_real= 1.415 res_imag= 4.175 phase= 0.191 phase_unit= 0.000 amp= 0.000
+Step   3830 | Loss total= 0.208 img= 0.039 grad= 0.049 res_real= 1.645 res_imag= 4.678 phase= 0.185 phase_unit= 0.000 amp= 0.000
+Step   3840 | Loss total= 0.492 img= 0.074 grad= 0.059 res_real= 4.088 res_imag= 4.178 phase= 0.368 phase_unit= 0.000 amp= 0.000
+Step   3850 | Loss total= 0.218 img= 0.054 grad= 0.062 res_real= 1.688 res_imag= 3.767 phase= 0.204 phase_unit= 0.000 amp= 0.000
+Step   3860 | Loss total= 0.099 img= 0.017 grad= 0.028 res_real= 0.762 res_imag= 4.417 phase= 0.095 phase_unit= 0.000 amp= 0.000
+Step   3870 | Loss total= 0.170 img= 0.036 grad= 0.033 res_real= 1.089 res_imag= 3.258 phase= 0.280 phase_unit= 0.000 amp= 0.000
+Step   3880 | Loss total= 0.293 img= 0.067 grad= 0.050 res_real= 2.123 res_imag= 3.964 phase= 0.364 phase_unit= 0.000 amp= 0.000
+Step   3890 | Loss total= 0.239 img= 0.062 grad= 0.059 res_real= 1.761 res_imag= 4.365 phase= 0.269 phase_unit= 0.000 amp= 0.000
+Step   3900 | Loss total= 0.487 img= 0.076 grad= 0.062 res_real= 4.249 res_imag= 3.835 phase= 0.262 phase_unit= 0.000 amp= 0.000
+Step   3910 | Loss total= 0.701 img= 0.083 grad= 0.054 res_real= 6.080 res_imag= 4.351 phase= 0.418 phase_unit= 0.000 amp= 0.000
+Step   3920 | Loss total= 0.078 img= 0.009 grad= 0.016 res_real= 0.644 res_imag= 4.460 phase= 0.058 phase_unit= 0.000 amp= 0.000
+Step   3930 | Loss total= 0.197 img= 0.025 grad= 0.038 res_real= 1.716 res_imag= 3.370 phase= 0.100 phase_unit= 0.000 amp= 0.000
+Step   3940 | Loss total= 0.183 img= 0.026 grad= 0.040 res_real= 1.527 res_imag= 4.811 phase= 0.123 phase_unit= 0.000 amp= 0.000
+Step   3950 | Loss total= 0.218 img= 0.044 grad= 0.039 res_real= 1.732 res_imag= 4.157 phase= 0.192 phase_unit= 0.000 amp= 0.000
+Step   3960 | Loss total= 0.674 img= 0.067 grad= 0.059 res_real= 6.023 res_imag= 2.500 phase= 0.313 phase_unit= 0.000 amp= 0.000
+Step   3970 | Loss total= 0.615 img= 0.074 grad= 0.058 res_real= 5.536 res_imag= 4.335 phase= 0.262 phase_unit= 0.000 amp= 0.000
+Step   3980 | Loss total= 0.461 img= 0.064 grad= 0.057 res_real= 3.906 res_imag= 3.803 phase= 0.309 phase_unit= 0.000 amp= 0.000
+Step   3990 | Loss total= 0.677 img= 0.093 grad= 0.070 res_real= 5.961 res_imag= 4.899 phase= 0.347 phase_unit= 0.000 amp= 0.000
+Step   4000 | Loss total= 0.307 img= 0.044 grad= 0.041 res_real= 2.539 res_imag= 4.612 phase= 0.232 phase_unit= 0.000 amp= 0.000
+Step   4010 | Loss total= 0.341 img= 0.082 grad= 0.069 res_real= 2.712 res_imag= 3.773 phase= 0.295 phase_unit= 0.000 amp= 0.000
+Step   4020 | Loss total= 0.248 img= 0.033 grad= 0.050 res_real= 2.093 res_imag= 4.363 phase= 0.161 phase_unit= 0.000 amp= 0.000
+Step   4030 | Loss total= 0.165 img= 0.051 grad= 0.059 res_real= 1.189 res_imag= 3.994 phase= 0.187 phase_unit= 0.000 amp= 0.000
+Step   4040 | Loss total= 0.187 img= 0.053 grad= 0.060 res_real= 1.341 res_imag= 3.826 phase= 0.222 phase_unit= 0.000 amp= 0.000
+Step   4050 | Loss total= 0.169 img= 0.025 grad= 0.043 res_real= 1.445 res_imag= 4.203 phase= 0.095 phase_unit= 0.000 amp= 0.000
+Step   4060 | Loss total= 0.416 img= 0.062 grad= 0.058 res_real= 3.458 res_imag= 3.507 phase= 0.308 phase_unit= 0.000 amp= 0.000
+Step   4070 | Loss total= 0.434 img= 0.067 grad= 0.056 res_real= 3.602 res_imag= 3.696 phase= 0.324 phase_unit= 0.000 amp= 0.000
+Step   4080 | Loss total= 0.187 img= 0.033 grad= 0.050 res_real= 1.575 res_imag= 4.127 phase= 0.116 phase_unit= 0.000 amp= 0.000
+Step   4090 | Loss total= 0.852 img= 0.073 grad= 0.050 res_real= 7.607 res_imag= 4.490 phase= 0.412 phase_unit= 0.000 amp= 0.000
+Step   4100 | Loss total= 0.271 img= 0.039 grad= 0.042 res_real= 2.231 res_imag= 4.421 phase= 0.209 phase_unit= 0.000 amp= 0.000
+Step   4110 | Loss total= 0.252 img= 0.046 grad= 0.047 res_real= 1.864 res_imag= 5.139 phase= 0.295 phase_unit= 0.000 amp= 0.000
+Step   4120 | Loss total= 0.364 img= 0.088 grad= 0.065 res_real= 2.952 res_imag= 4.856 phase= 0.292 phase_unit= 0.000 amp= 0.000
+Step   4130 | Loss total= 1.013 img= 0.098 grad= 0.059 res_real= 9.172 res_imag= 4.739 phase= 0.424 phase_unit= 0.000 amp= 0.000
+Step   4140 | Loss total= 0.174 img= 0.055 grad= 0.068 res_real= 1.225 res_imag= 3.341 phase= 0.208 phase_unit= 0.000 amp= 0.000
+Step   4150 | Loss total= 0.099 img= 0.019 grad= 0.038 res_real= 0.790 res_imag= 3.597 phase= 0.077 phase_unit= 0.000 amp= 0.000
+Step   4160 | Loss total= 0.149 img= 0.022 grad= 0.032 res_real= 1.169 res_imag= 3.655 phase= 0.137 phase_unit= 0.000 amp= 0.000
+Step   4170 | Loss total= 0.146 img= 0.035 grad= 0.045 res_real= 1.084 res_imag= 3.813 phase= 0.155 phase_unit= 0.000 amp= 0.000
+Step   4180 | Loss total= 0.285 img= 0.045 grad= 0.041 res_real= 2.364 res_imag= 4.701 phase= 0.210 phase_unit= 0.000 amp= 0.000
+Step   4190 | Loss total= 0.388 img= 0.029 grad= 0.036 res_real= 3.498 res_imag= 3.497 phase= 0.165 phase_unit= 0.000 amp= 0.000
+Step   4200 | Loss total= 0.336 img= 0.055 grad= 0.050 res_real= 2.803 res_imag= 3.901 phase= 0.240 phase_unit= 0.000 amp= 0.000
+Step   4210 | Loss total= 0.750 img= 0.089 grad= 0.070 res_real= 6.728 res_imag= 3.872 phase= 0.326 phase_unit= 0.000 amp= 0.000
+Step   4220 | Loss total= 0.200 img= 0.049 grad= 0.050 res_real= 1.393 res_imag= 4.669 phase= 0.268 phase_unit= 0.000 amp= 0.000
+Step   4230 | Loss total= 1.052 img= 0.085 grad= 0.065 res_real= 9.743 res_imag= 4.659 phase= 0.337 phase_unit= 0.000 amp= 0.000
+Step   4240 | Loss total= 0.124 img= 0.035 grad= 0.043 res_real= 0.840 res_imag= 3.808 phase= 0.169 phase_unit= 0.000 amp= 0.000
+Step   4250 | Loss total= 0.516 img= 0.057 grad= 0.061 res_real= 4.609 res_imag= 5.544 phase= 0.229 phase_unit= 0.000 amp= 0.000
+Step   4260 | Loss total= 0.241 img= 0.051 grad= 0.055 res_real= 1.824 res_imag= 4.377 phase= 0.255 phase_unit= 0.000 amp= 0.000
+Step   4270 | Loss total= 0.235 img= 0.054 grad= 0.055 res_real= 1.700 res_imag= 5.084 phase= 0.282 phase_unit= 0.000 amp= 0.000
+Step   4280 | Loss total= 0.177 img= 0.034 grad= 0.034 res_real= 1.322 res_imag= 5.042 phase= 0.200 phase_unit= 0.000 amp= 0.000
+Step   4290 | Loss total= 0.386 img= 0.057 grad= 0.061 res_real= 3.248 res_imag= 4.321 phase= 0.262 phase_unit= 0.000 amp= 0.000
+Step   4300 | Loss total= 0.264 img= 0.060 grad= 0.053 res_real= 1.917 res_imag= 4.922 phase= 0.318 phase_unit= 0.000 amp= 0.000
+Step   4310 | Loss total= 2.301 img= 0.101 grad= 0.050 res_real=22.014 res_imag= 5.930 phase= 0.446 phase_unit= 0.000 amp= 0.000
+Step   4320 | Loss total= 0.183 img= 0.019 grad= 0.041 res_real= 1.658 res_imag= 4.161 phase= 0.061 phase_unit= 0.000 amp= 0.000
+Step   4330 | Loss total= 0.194 img= 0.059 grad= 0.058 res_real= 1.339 res_imag= 4.891 phase= 0.258 phase_unit= 0.000 amp= 0.000
+Step   4340 | Loss total= 0.710 img= 0.094 grad= 0.068 res_real= 6.250 res_imag= 5.489 phase= 0.367 phase_unit= 0.000 amp= 0.000
+Step   4350 | Loss total= 0.227 img= 0.058 grad= 0.062 res_real= 1.730 res_imag= 3.698 phase= 0.226 phase_unit= 0.000 amp= 0.000
+Step   4360 | Loss total= 0.215 img= 0.048 grad= 0.051 res_real= 1.647 res_imag= 5.346 phase= 0.213 phase_unit= 0.000 amp= 0.000
+Step   4370 | Loss total= 0.164 img= 0.021 grad= 0.033 res_real= 1.393 res_imag= 5.626 phase= 0.101 phase_unit= 0.000 amp= 0.000
+Step   4380 | Loss total= 0.092 img= 0.013 grad= 0.023 res_real= 0.758 res_imag= 5.129 phase= 0.069 phase_unit= 0.000 amp= 0.000
+Step   4390 | Loss total= 0.543 img= 0.056 grad= 0.048 res_real= 4.692 res_imag= 5.649 phase= 0.330 phase_unit= 0.000 amp= 0.000
+Step   4400 | Loss total= 0.292 img= 0.041 grad= 0.056 res_real= 2.478 res_imag= 5.204 phase= 0.183 phase_unit= 0.000 amp= 0.000
+Step   4410 | Loss total= 0.165 img= 0.027 grad= 0.037 res_real= 1.278 res_imag= 4.504 phase= 0.159 phase_unit= 0.000 amp= 0.000
+Step   4420 | Loss total= 0.184 img= 0.025 grad= 0.049 res_real= 1.594 res_imag= 4.686 phase= 0.091 phase_unit= 0.000 amp= 0.000
+Step   4430 | Loss total= 0.668 img= 0.079 grad= 0.051 res_real= 5.920 res_imag= 3.378 phase= 0.334 phase_unit= 0.000 amp= 0.000
+Step   4440 | Loss total= 0.136 img= 0.031 grad= 0.049 res_real= 1.048 res_imag= 3.660 phase= 0.122 phase_unit= 0.000 amp= 0.000
+Step   4450 | Loss total= 0.158 img= 0.029 grad= 0.044 res_real= 1.271 res_imag= 5.511 phase= 0.124 phase_unit= 0.000 amp= 0.000
+Step   4460 | Loss total= 0.608 img= 0.101 grad= 0.067 res_real= 5.294 res_imag= 3.806 phase= 0.336 phase_unit= 0.000 amp= 0.000
+Step   4470 | Loss total= 0.237 img= 0.059 grad= 0.065 res_real= 1.836 res_imag= 4.448 phase= 0.218 phase_unit= 0.000 amp= 0.000
+Step   4480 | Loss total= 0.543 img= 0.073 grad= 0.065 res_real= 4.759 res_imag= 4.515 phase= 0.283 phase_unit= 0.000 amp= 0.000
+Step   4490 | Loss total= 0.308 img= 0.060 grad= 0.050 res_real= 2.322 res_imag= 4.390 phase= 0.338 phase_unit= 0.000 amp= 0.000
+Step   4500 | Loss total= 0.637 img= 0.074 grad= 0.058 res_real= 5.551 res_imag= 5.067 phase= 0.363 phase_unit= 0.000 amp= 0.000
+Step   4510 | Loss total= 0.768 img= 0.093 grad= 0.069 res_real= 6.952 res_imag= 4.575 phase= 0.307 phase_unit= 0.000 amp= 0.000
+Step   4520 | Loss total= 0.472 img= 0.075 grad= 0.068 res_real= 4.088 res_imag= 5.694 phase= 0.266 phase_unit= 0.000 amp= 0.000
+Step   4530 | Loss total= 0.408 img= 0.065 grad= 0.052 res_real= 3.403 res_imag= 4.021 phase= 0.296 phase_unit= 0.000 amp= 0.000
+Step   4540 | Loss total= 1.003 img= 0.064 grad= 0.038 res_real= 9.329 res_imag= 4.104 phase= 0.315 phase_unit= 0.000 amp= 0.000
+Step   4550 | Loss total= 0.792 img= 0.071 grad= 0.045 res_real= 7.014 res_imag= 4.245 phase= 0.415 phase_unit= 0.000 amp= 0.000
+Step   4560 | Loss total= 0.137 img= 0.026 grad= 0.037 res_real= 1.056 res_imag= 5.486 phase= 0.132 phase_unit= 0.000 amp= 0.000
+Step   4570 | Loss total= 0.246 img= 0.054 grad= 0.066 res_real= 1.936 res_imag= 4.555 phase= 0.215 phase_unit= 0.000 amp= 0.000
+Step   4580 | Loss total= 0.337 img= 0.056 grad= 0.059 res_real= 2.847 res_imag= 4.970 phase= 0.216 phase_unit= 0.000 amp= 0.000
+Step   4590 | Loss total= 1.013 img= 0.062 grad= 0.045 res_real= 9.373 res_imag= 6.029 phase= 0.338 phase_unit= 0.000 amp= 0.000
+Step   4600 | Loss total= 0.736 img= 0.077 grad= 0.057 res_real= 6.506 res_imag= 4.867 phase= 0.378 phase_unit= 0.000 amp= 0.000
+Step   4610 | Loss total= 0.297 img= 0.053 grad= 0.047 res_real= 2.307 res_imag= 5.393 phase= 0.296 phase_unit= 0.000 amp= 0.000
+Step   4620 | Loss total= 1.752 img= 0.093 grad= 0.053 res_real=16.711 res_imag= 6.223 phase= 0.353 phase_unit= 0.000 amp= 0.000
+Step   4630 | Loss total= 0.126 img= 0.024 grad= 0.039 res_real= 1.005 res_imag= 4.525 phase= 0.100 phase_unit= 0.000 amp= 0.000
+Step   4640 | Loss total= 0.490 img= 0.069 grad= 0.055 res_real= 4.136 res_imag= 4.438 phase= 0.336 phase_unit= 0.000 amp= 0.000
+Step   4650 | Loss total= 0.285 img= 0.036 grad= 0.048 res_real= 2.475 res_imag= 4.783 phase= 0.157 phase_unit= 0.000 amp= 0.000
+Step   4660 | Loss total= 0.120 img= 0.029 grad= 0.052 res_real= 0.931 res_imag= 4.386 phase= 0.101 phase_unit= 0.000 amp= 0.000
+Step   4670 | Loss total= 0.221 img= 0.030 grad= 0.051 res_real= 1.934 res_imag= 4.933 phase= 0.106 phase_unit= 0.000 amp= 0.000
+Step   4680 | Loss total= 0.246 img= 0.041 grad= 0.046 res_real= 1.998 res_imag= 4.600 phase= 0.196 phase_unit= 0.000 amp= 0.000
+Step   4690 | Loss total= 0.205 img= 0.043 grad= 0.051 res_real= 1.556 res_imag= 4.874 phase= 0.212 phase_unit= 0.000 amp= 0.000
+Step   4700 | Loss total= 0.657 img= 0.105 grad= 0.070 res_real= 5.704 res_imag= 4.207 phase= 0.371 phase_unit= 0.000 amp= 0.000
+Step   4710 | Loss total= 0.213 img= 0.047 grad= 0.051 res_real= 1.601 res_imag= 5.434 phase= 0.228 phase_unit= 0.000 amp= 0.000
+Step   4720 | Loss total= 0.855 img= 0.062 grad= 0.053 res_real= 7.870 res_imag= 4.145 phase= 0.297 phase_unit= 0.000 amp= 0.000
+Step   4730 | Loss total= 0.244 img= 0.017 grad= 0.030 res_real= 2.271 res_imag= 4.067 phase= 0.066 phase_unit= 0.000 amp= 0.000
+Step   4740 | Loss total= 0.219 img= 0.049 grad= 0.049 res_real= 1.663 res_imag= 5.112 phase= 0.229 phase_unit= 0.000 amp= 0.000
+Step   4750 | Loss total= 0.200 img= 0.020 grad= 0.027 res_real= 1.691 res_imag= 4.664 phase= 0.136 phase_unit= 0.000 amp= 0.000
+Step   4760 | Loss total= 0.664 img= 0.051 grad= 0.060 res_real= 6.213 res_imag= 4.522 phase= 0.170 phase_unit= 0.000 amp= 0.000
+Step   4770 | Loss total= 1.075 img= 0.084 grad= 0.061 res_real= 9.991 res_imag= 3.795 phase= 0.325 phase_unit= 0.000 amp= 0.000
+Step   4780 | Loss total= 0.206 img= 0.017 grad= 0.023 res_real= 1.775 res_imag= 4.630 phase= 0.126 phase_unit= 0.000 amp= 0.000
+Step   4790 | Loss total= 0.108 img= 0.016 grad= 0.032 res_real= 0.873 res_imag= 4.419 phase= 0.084 phase_unit= 0.000 amp= 0.000
+Step   4800 | Loss total= 0.359 img= 0.041 grad= 0.041 res_real= 3.114 res_imag= 3.913 phase= 0.209 phase_unit= 0.000 amp= 0.000
+Step   4810 | Loss total= 1.285 img= 0.060 grad= 0.047 res_real=12.408 res_imag= 5.112 phase= 0.181 phase_unit= 0.000 amp= 0.000
+Step   4820 | Loss total= 0.290 img= 0.058 grad= 0.059 res_real= 2.306 res_imag= 5.648 phase= 0.253 phase_unit= 0.000 amp= 0.000
+Step   4830 | Loss total= 0.510 img= 0.054 grad= 0.049 res_real= 4.526 res_imag= 4.913 phase= 0.251 phase_unit= 0.000 amp= 0.000
+Step   4840 | Loss total= 0.120 img= 0.015 grad= 0.023 res_real= 0.965 res_imag= 5.614 phase= 0.104 phase_unit= 0.000 amp= 0.000
+Step   4850 | Loss total= 0.427 img= 0.039 grad= 0.043 res_real= 3.743 res_imag= 5.543 phase= 0.232 phase_unit= 0.000 amp= 0.000
+Step   4860 | Loss total= 0.532 img= 0.070 grad= 0.056 res_real= 4.522 res_imag= 6.208 phase= 0.353 phase_unit= 0.000 amp= 0.000
+Step   4870 | Loss total= 0.230 img= 0.047 grad= 0.057 res_real= 1.847 res_imag= 4.394 phase= 0.187 phase_unit= 0.000 amp= 0.000
+Step   4880 | Loss total= 0.185 img= 0.030 grad= 0.031 res_real= 1.426 res_imag= 5.291 phase= 0.188 phase_unit= 0.000 amp= 0.000
+Step   4890 | Loss total= 0.090 img= 0.010 grad= 0.019 res_real= 0.778 res_imag= 4.796 phase= 0.051 phase_unit= 0.000 amp= 0.000
+Step   4900 | Loss total= 0.196 img= 0.026 grad= 0.039 res_real= 1.562 res_imag= 5.106 phase= 0.171 phase_unit= 0.000 amp= 0.000
+Step   4910 | Loss total= 0.155 img= 0.046 grad= 0.057 res_real= 1.110 res_imag= 4.605 phase= 0.180 phase_unit= 0.000 amp= 0.000
+Step   4920 | Loss total= 0.184 img= 0.038 grad= 0.046 res_real= 1.445 res_imag= 5.302 phase= 0.167 phase_unit= 0.000 amp= 0.000
+Step   4930 | Loss total= 0.200 img= 0.043 grad= 0.041 res_real= 1.484 res_imag= 5.026 phase= 0.224 phase_unit= 0.000 amp= 0.000
+Step   4940 | Loss total= 0.268 img= 0.069 grad= 0.061 res_real= 1.971 res_imag= 4.944 phase= 0.307 phase_unit= 0.000 amp= 0.000
+Step   4950 | Loss total= 0.153 img= 0.049 grad= 0.051 res_real= 0.987 res_imag= 4.554 phase= 0.234 phase_unit= 0.000 amp= 0.000
+Step   4960 | Loss total= 0.262 img= 0.046 grad= 0.049 res_real= 2.029 res_imag= 5.985 phase= 0.261 phase_unit= 0.000 amp= 0.000
+Step   4970 | Loss total= 0.306 img= 0.041 grad= 0.042 res_real= 2.526 res_imag= 5.258 phase= 0.238 phase_unit= 0.000 amp= 0.000
+Step   4980 | Loss total= 0.170 img= 0.027 grad= 0.041 res_real= 1.413 res_imag= 4.403 phase= 0.114 phase_unit= 0.000 amp= 0.000
+Step   4990 | Loss total= 0.712 img= 0.088 grad= 0.067 res_real= 6.421 res_imag= 4.592 phase= 0.296 phase_unit= 0.000 amp= 0.000
+Step   5000 | Loss total= 0.141 img= 0.010 grad= 0.016 res_real= 1.251 res_imag= 5.742 phase= 0.071 phase_unit= 0.000 amp= 0.000
+Step   5010 | Loss total= 0.217 img= 0.046 grad= 0.042 res_real= 1.574 res_imag= 4.721 phase= 0.267 phase_unit= 0.000 amp= 0.000
+Step   5020 | Loss total= 0.498 img= 0.055 grad= 0.052 res_real= 4.363 res_imag= 5.001 phase= 0.267 phase_unit= 0.000 amp= 0.000
+Step   5030 | Loss total= 0.301 img= 0.042 grad= 0.043 res_real= 2.413 res_imag= 4.491 phase= 0.265 phase_unit= 0.000 amp= 0.000
+Step   5040 | Loss total= 1.318 img= 0.090 grad= 0.056 res_real=12.376 res_imag= 3.953 phase= 0.349 phase_unit= 0.000 amp= 0.000
+Step   5050 | Loss total= 0.618 img= 0.090 grad= 0.065 res_real= 5.253 res_imag= 5.322 phase= 0.410 phase_unit= 0.000 amp= 0.000
+Step   5060 | Loss total= 0.466 img= 0.069 grad= 0.059 res_real= 3.899 res_imag= 5.291 phase= 0.335 phase_unit= 0.000 amp= 0.000
+Step   5070 | Loss total= 1.202 img= 0.063 grad= 0.051 res_real=11.365 res_imag= 5.277 phase= 0.286 phase_unit= 0.000 amp= 0.000
+Step   5080 | Loss total= 1.429 img= 0.069 grad= 0.040 res_real=13.573 res_imag= 5.242 phase= 0.324 phase_unit= 0.000 amp= 0.000
+Step   5090 | Loss total= 0.248 img= 0.044 grad= 0.056 res_real= 2.032 res_imag= 4.391 phase= 0.185 phase_unit= 0.000 amp= 0.000
+Step   5100 | Loss total= 0.340 img= 0.032 grad= 0.034 res_real= 2.903 res_imag= 5.536 phase= 0.224 phase_unit= 0.000 amp= 0.000
+Step   5110 | Loss total= 0.127 img= 0.016 grad= 0.029 res_real= 1.106 res_imag= 4.887 phase= 0.062 phase_unit= 0.000 amp= 0.000
+Step   5120 | Loss total= 0.405 img= 0.047 grad= 0.054 res_real= 3.551 res_imag= 4.881 phase= 0.210 phase_unit= 0.000 amp= 0.000
+Step   5130 | Loss total= 0.106 img= 0.015 grad= 0.027 res_real= 0.876 res_imag= 6.187 phase= 0.074 phase_unit= 0.000 amp= 0.000
+Step   5140 | Loss total= 0.167 img= 0.039 grad= 0.042 res_real= 1.193 res_imag= 5.575 phase= 0.208 phase_unit= 0.000 amp= 0.000
+Step   5150 | Loss total= 0.617 img= 0.075 grad= 0.056 res_real= 5.425 res_imag= 4.958 phase= 0.327 phase_unit= 0.000 amp= 0.000
+Step   5160 | Loss total= 1.041 img= 0.077 grad= 0.057 res_real= 9.663 res_imag= 6.733 phase= 0.324 phase_unit= 0.000 amp= 0.000
+Step   5170 | Loss total= 0.134 img= 0.012 grad= 0.021 res_real= 1.178 res_imag= 5.412 phase= 0.070 phase_unit= 0.000 amp= 0.000
+Step   5180 | Loss total= 0.362 img= 0.078 grad= 0.067 res_real= 2.850 res_imag= 5.729 phase= 0.331 phase_unit= 0.000 amp= 0.000
+Step   5190 | Loss total= 0.556 img= 0.088 grad= 0.071 res_real= 4.849 res_imag= 4.220 phase= 0.296 phase_unit= 0.000 amp= 0.000
+Step   5200 | Loss total= 1.302 img= 0.071 grad= 0.044 res_real=12.245 res_imag= 6.195 phase= 0.347 phase_unit= 0.000 amp= 0.000
+Step   5210 | Loss total= 0.484 img= 0.069 grad= 0.061 res_real= 4.116 res_imag= 6.807 phase= 0.315 phase_unit= 0.000 amp= 0.000
+Step   5220 | Loss total= 0.127 img= 0.037 grad= 0.061 res_real= 0.959 res_imag= 4.807 phase= 0.115 phase_unit= 0.000 amp= 0.000
+Step   5230 | Loss total= 1.528 img= 0.075 grad= 0.049 res_real=14.491 res_imag= 4.932 phase= 0.353 phase_unit= 0.000 amp= 0.000
+Step   5240 | Loss total= 0.214 img= 0.056 grad= 0.054 res_real= 1.544 res_imag= 6.160 phase= 0.259 phase_unit= 0.000 amp= 0.000
+Step   5250 | Loss total= 0.334 img= 0.035 grad= 0.030 res_real= 2.827 res_imag= 4.635 phase= 0.233 phase_unit= 0.000 amp= 0.000
+Step   5260 | Loss total= 0.246 img= 0.052 grad= 0.060 res_real= 1.978 res_imag= 5.793 phase= 0.196 phase_unit= 0.000 amp= 0.000
+Step   5270 | Loss total= 0.510 img= 0.071 grad= 0.050 res_real= 4.416 res_imag= 4.961 phase= 0.301 phase_unit= 0.000 amp= 0.000
+Step   5280 | Loss total= 0.305 img= 0.040 grad= 0.052 res_real= 2.598 res_imag= 6.546 phase= 0.191 phase_unit= 0.000 amp= 0.000
+Step   5290 | Loss total= 0.552 img= 0.076 grad= 0.063 res_real= 4.727 res_imag= 6.396 phase= 0.345 phase_unit= 0.000 amp= 0.000
+Step   5300 | Loss total= 0.128 img= 0.035 grad= 0.056 res_real= 0.965 res_imag= 4.342 phase= 0.120 phase_unit= 0.000 amp= 0.000
+Step   5310 | Loss total= 0.141 img= 0.035 grad= 0.055 res_real= 1.097 res_imag= 4.944 phase= 0.121 phase_unit= 0.000 amp= 0.000
+Step   5320 | Loss total= 0.965 img= 0.076 grad= 0.054 res_real= 8.940 res_imag= 6.565 phase= 0.307 phase_unit= 0.000 amp= 0.000
+Step   5330 | Loss total= 0.296 img= 0.051 grad= 0.048 res_real= 2.387 res_imag= 5.102 phase= 0.251 phase_unit= 0.000 amp= 0.000
+Step   5340 | Loss total= 0.304 img= 0.073 grad= 0.067 res_real= 2.328 res_imag= 6.283 phase= 0.305 phase_unit= 0.000 amp= 0.000
+Step   5350 | Loss total= 0.284 img= 0.053 grad= 0.045 res_real= 2.120 res_imag= 5.068 phase= 0.324 phase_unit= 0.000 amp= 0.000
+Step   5360 | Loss total= 0.357 img= 0.052 grad= 0.048 res_real= 2.871 res_imag= 5.925 phase= 0.314 phase_unit= 0.000 amp= 0.000
+Step   5370 | Loss total= 0.131 img= 0.028 grad= 0.050 res_real= 1.078 res_imag= 6.550 phase= 0.082 phase_unit= 0.000 amp= 0.000
+Step   5380 | Loss total= 0.244 img= 0.060 grad= 0.058 res_real= 1.820 res_imag= 6.378 phase= 0.265 phase_unit= 0.000 amp= 0.000
+Step   5390 | Loss total= 0.168 img= 0.020 grad= 0.026 res_real= 1.347 res_imag= 6.024 phase= 0.148 phase_unit= 0.000 amp= 0.000
+Step   5400 | Loss total= 0.599 img= 0.060 grad= 0.046 res_real= 5.319 res_imag= 6.887 phase= 0.299 phase_unit= 0.000 amp= 0.000
+Step   5410 | Loss total= 0.184 img= 0.043 grad= 0.062 res_real= 1.436 res_imag= 6.058 phase= 0.160 phase_unit= 0.000 amp= 0.000
+Step   5420 | Loss total= 0.136 img= 0.025 grad= 0.045 res_real= 1.092 res_imag= 5.902 phase= 0.104 phase_unit= 0.000 amp= 0.000
+Step   5430 | Loss total= 0.481 img= 0.087 grad= 0.074 res_real= 4.057 res_imag= 6.376 phase= 0.317 phase_unit= 0.000 amp= 0.000
+Step   5440 | Loss total= 0.752 img= 0.119 grad= 0.073 res_real= 6.654 res_imag= 4.950 phase= 0.370 phase_unit= 0.000 amp= 0.000
+Step   5450 | Loss total= 0.347 img= 0.056 grad= 0.057 res_real= 2.826 res_imag= 6.476 phase= 0.281 phase_unit= 0.000 amp= 0.000
+Step   5460 | Loss total= 0.216 img= 0.048 grad= 0.041 res_real= 1.626 res_imag= 5.976 phase= 0.232 phase_unit= 0.000 amp= 0.000
+Step   5470 | Loss total= 0.170 img= 0.035 grad= 0.049 res_real= 1.315 res_imag= 6.159 phase= 0.158 phase_unit= 0.000 amp= 0.000
+Step   5480 | Loss total= 1.314 img= 0.070 grad= 0.046 res_real=12.506 res_imag= 4.548 phase= 0.277 phase_unit= 0.000 amp= 0.000
+Step   5490 | Loss total= 0.213 img= 0.044 grad= 0.044 res_real= 1.724 res_imag= 5.908 phase= 0.169 phase_unit= 0.000 amp= 0.000
+Step   5500 | Loss total= 0.185 img= 0.052 grad= 0.054 res_real= 1.331 res_imag= 5.431 phase= 0.219 phase_unit= 0.000 amp= 0.000
+Step   5510 | Loss total= 0.232 img= 0.071 grad= 0.071 res_real= 1.637 res_imag= 6.457 phase= 0.289 phase_unit= 0.000 amp= 0.000
+Step   5520 | Loss total= 0.531 img= 0.080 grad= 0.057 res_real= 4.392 res_imag= 5.565 phase= 0.411 phase_unit= 0.000 amp= 0.000
+Step   5530 | Loss total= 0.134 img= 0.034 grad= 0.046 res_real= 0.995 res_imag= 6.274 phase= 0.139 phase_unit= 0.000 amp= 0.000
+Step   5540 | Loss total= 0.205 img= 0.039 grad= 0.055 res_real= 1.657 res_imag= 6.154 phase= 0.160 phase_unit= 0.000 amp= 0.000
+Step   5550 | Loss total= 0.236 img= 0.051 grad= 0.050 res_real= 1.829 res_imag= 6.603 phase= 0.226 phase_unit= 0.000 amp= 0.000
+Step   5560 | Loss total= 0.147 img= 0.031 grad= 0.047 res_real= 1.145 res_imag= 6.884 phase= 0.130 phase_unit= 0.000 amp= 0.000
+Step   5570 | Loss total= 0.201 img= 0.042 grad= 0.051 res_real= 1.610 res_imag= 6.208 phase= 0.166 phase_unit= 0.000 amp= 0.000
+Step   5580 | Loss total= 0.598 img= 0.076 grad= 0.066 res_real= 5.226 res_imag= 5.777 phase= 0.325 phase_unit= 0.000 amp= 0.000
+Step   5590 | Loss total= 0.415 img= 0.071 grad= 0.069 res_real= 3.522 res_imag= 7.213 phase= 0.264 phase_unit= 0.000 amp= 0.000
+Step   5600 | Loss total= 0.141 img= 0.034 grad= 0.048 res_real= 1.062 res_imag= 6.662 phase= 0.139 phase_unit= 0.000 amp= 0.000
+Step   5610 | Loss total= 0.220 img= 0.029 grad= 0.045 res_real= 1.822 res_imag= 6.153 phase= 0.160 phase_unit= 0.000 amp= 0.000
+Step   5620 | Loss total= 0.374 img= 0.058 grad= 0.050 res_real= 3.256 res_imag= 7.275 phase= 0.203 phase_unit= 0.000 amp= 0.000
+Step   5630 | Loss total= 0.715 img= 0.080 grad= 0.053 res_real= 6.247 res_imag= 5.001 phase= 0.402 phase_unit= 0.000 amp= 0.000
+Step   5640 | Loss total= 0.257 img= 0.048 grad= 0.045 res_real= 1.895 res_imag= 6.460 phase= 0.301 phase_unit= 0.000 amp= 0.000
+Step   5650 | Loss total= 0.302 img= 0.043 grad= 0.038 res_real= 2.497 res_imag= 6.570 phase= 0.232 phase_unit= 0.000 amp= 0.000
+Step   5660 | Loss total= 0.210 img= 0.044 grad= 0.059 res_real= 1.688 res_imag= 5.593 phase= 0.167 phase_unit= 0.000 amp= 0.000
+Step   5670 | Loss total= 1.010 img= 0.048 grad= 0.025 res_real= 9.536 res_imag= 7.068 phase= 0.255 phase_unit= 0.000 amp= 0.000
+Step   5680 | Loss total= 0.264 img= 0.042 grad= 0.044 res_real= 2.057 res_imag= 5.404 phase= 0.260 phase_unit= 0.000 amp= 0.000
+Step   5690 | Loss total= 0.149 img= 0.027 grad= 0.050 res_real= 1.253 res_imag= 5.909 phase= 0.089 phase_unit= 0.000 amp= 0.000
+Step   5700 | Loss total= 0.825 img= 0.067 grad= 0.046 res_real= 7.624 res_imag= 5.750 phase= 0.273 phase_unit= 0.000 amp= 0.000
+Step   5710 | Loss total= 0.267 img= 0.032 grad= 0.033 res_real= 2.264 res_imag= 7.425 phase= 0.177 phase_unit= 0.000 amp= 0.000
+Step   5720 | Loss total= 0.315 img= 0.042 grad= 0.044 res_real= 2.678 res_imag= 6.666 phase= 0.204 phase_unit= 0.000 amp= 0.000
+Step   5730 | Loss total= 0.175 img= 0.031 grad= 0.033 res_real= 1.330 res_imag= 6.937 phase= 0.188 phase_unit= 0.000 amp= 0.000
+Step   5740 | Loss total= 0.190 img= 0.018 grad= 0.035 res_real= 1.744 res_imag= 6.624 phase= 0.058 phase_unit= 0.000 amp= 0.000
+Step   5750 | Loss total= 0.158 img= 0.051 grad= 0.060 res_real= 1.179 res_imag= 4.912 phase= 0.158 phase_unit= 0.000 amp= 0.000
+Step   5760 | Loss total= 0.195 img= 0.038 grad= 0.043 res_real= 1.484 res_imag= 6.642 phase= 0.200 phase_unit= 0.000 amp= 0.000
+Step   5770 | Loss total= 0.469 img= 0.093 grad= 0.068 res_real= 3.800 res_imag= 6.597 phase= 0.389 phase_unit= 0.000 amp= 0.000
+Step   5780 | Loss total= 0.244 img= 0.033 grad= 0.046 res_real= 2.020 res_imag= 4.651 phase= 0.181 phase_unit= 0.000 amp= 0.000
+Step   5790 | Loss total= 0.181 img= 0.032 grad= 0.032 res_real= 1.421 res_imag= 6.503 phase= 0.172 phase_unit= 0.000 amp= 0.000
+Step   5800 | Loss total= 0.237 img= 0.032 grad= 0.037 res_real= 1.978 res_imag= 6.870 phase= 0.172 phase_unit= 0.000 amp= 0.000
+Step   5810 | Loss total= 0.517 img= 0.047 grad= 0.038 res_real= 4.615 res_imag= 8.084 phase= 0.247 phase_unit= 0.000 amp= 0.000
+Step   5820 | Loss total= 0.248 img= 0.040 grad= 0.048 res_real= 1.979 res_imag= 4.968 phase= 0.216 phase_unit= 0.000 amp= 0.000
+Step   5830 | Loss total= 0.288 img= 0.056 grad= 0.058 res_real= 2.300 res_imag= 6.087 phase= 0.245 phase_unit= 0.000 amp= 0.000
+Step   5840 | Loss total= 0.257 img= 0.051 grad= 0.049 res_real= 2.077 res_imag= 5.546 phase= 0.211 phase_unit= 0.000 amp= 0.000
+Step   5850 | Loss total= 0.239 img= 0.027 grad= 0.036 res_real= 1.983 res_imag= 7.706 phase= 0.179 phase_unit= 0.000 amp= 0.000
+Step   5860 | Loss total= 0.260 img= 0.046 grad= 0.044 res_real= 2.110 res_imag= 6.956 phase= 0.211 phase_unit= 0.000 amp= 0.000
+Step   5870 | Loss total= 0.258 img= 0.061 grad= 0.067 res_real= 1.949 res_imag= 7.102 phase= 0.264 phase_unit= 0.000 amp= 0.000
+Step   5880 | Loss total= 0.285 img= 0.048 grad= 0.058 res_real= 2.305 res_imag= 7.052 phase= 0.230 phase_unit= 0.000 amp= 0.000
+Step   5890 | Loss total= 0.145 img= 0.045 grad= 0.066 res_real= 1.070 res_imag= 6.332 phase= 0.145 phase_unit= 0.000 amp= 0.000
+Step   5900 | Loss total= 0.477 img= 0.058 grad= 0.066 res_real= 4.273 res_imag= 7.228 phase= 0.198 phase_unit= 0.000 amp= 0.000
+Step   5910 | Loss total= 0.607 img= 0.046 grad= 0.042 res_real= 5.479 res_imag= 7.081 phase= 0.261 phase_unit= 0.000 amp= 0.000
+Step   5920 | Loss total= 0.148 img= 0.043 grad= 0.054 res_real= 1.096 res_imag= 5.471 phase= 0.153 phase_unit= 0.000 amp= 0.000
+Step   5930 | Loss total= 0.283 img= 0.056 grad= 0.056 res_real= 2.261 res_imag= 6.212 phase= 0.243 phase_unit= 0.000 amp= 0.000
+Step   5940 | Loss total= 0.265 img= 0.056 grad= 0.056 res_real= 2.032 res_imag= 7.328 phase= 0.269 phase_unit= 0.000 amp= 0.000
+Step   5950 | Loss total= 0.452 img= 0.061 grad= 0.054 res_real= 3.974 res_imag= 7.526 phase= 0.232 phase_unit= 0.000 amp= 0.000
+Step   5960 | Loss total= 0.352 img= 0.052 grad= 0.059 res_real= 2.923 res_imag= 6.560 phase= 0.255 phase_unit= 0.000 amp= 0.000
+Step   5970 | Loss total= 0.273 img= 0.053 grad= 0.049 res_real= 2.094 res_imag= 6.753 phase= 0.281 phase_unit= 0.000 amp= 0.000
+Step   5980 | Loss total= 0.770 img= 0.086 grad= 0.062 res_real= 6.824 res_imag= 7.556 phase= 0.388 phase_unit= 0.000 amp= 0.000
+Step   5990 | Loss total= 0.259 img= 0.041 grad= 0.039 res_real= 1.883 res_imag= 7.523 phase= 0.323 phase_unit= 0.000 amp= 0.000
+Step   6000 | Loss total= 0.311 img= 0.070 grad= 0.065 res_real= 2.395 res_imag= 6.613 phase= 0.307 phase_unit= 0.000 amp= 0.000
+Step   6010 | Loss total= 0.283 img= 0.039 grad= 0.038 res_real= 2.336 res_imag= 7.174 phase= 0.218 phase_unit= 0.000 amp= 0.000
+Step   6020 | Loss total= 0.382 img= 0.069 grad= 0.072 res_real= 3.253 res_imag= 7.464 phase= 0.228 phase_unit= 0.000 amp= 0.000
+Step   6030 | Loss total= 0.319 img= 0.032 grad= 0.043 res_real= 2.674 res_imag= 6.887 phase= 0.227 phase_unit= 0.000 amp= 0.000
+Step   6040 | Loss total= 0.413 img= 0.072 grad= 0.059 res_real= 3.319 res_imag= 7.054 phase= 0.357 phase_unit= 0.000 amp= 0.000
+Step   6050 | Loss total= 0.766 img= 0.055 grad= 0.049 res_real= 6.990 res_imag= 6.640 phase= 0.298 phase_unit= 0.000 amp= 0.000
+Step   6060 | Loss total= 0.127 img= 0.035 grad= 0.033 res_real= 0.654 res_imag= 4.908 phase= 0.281 phase_unit= 0.000 amp= 0.000
+Step   6070 | Loss total= 0.367 img= 0.037 grad= 0.043 res_real= 3.211 res_imag= 6.241 phase= 0.201 phase_unit= 0.000 amp= 0.000
+Step   6080 | Loss total= 0.208 img= 0.046 grad= 0.069 res_real= 1.698 res_imag= 5.425 phase= 0.144 phase_unit= 0.000 amp= 0.000
+Step   6090 | Loss total= 0.195 img= 0.030 grad= 0.042 res_real= 1.559 res_imag= 6.181 phase= 0.169 phase_unit= 0.000 amp= 0.000
+Step   6100 | Loss total= 0.263 img= 0.052 grad= 0.060 res_real= 2.053 res_imag= 6.234 phase= 0.244 phase_unit= 0.000 amp= 0.000
+Step   6110 | Loss total= 1.386 img= 0.073 grad= 0.066 res_real=13.316 res_imag= 6.588 phase= 0.223 phase_unit= 0.000 amp= 0.000
+Step   6120 | Loss total= 0.256 img= 0.022 grad= 0.035 res_real= 2.311 res_imag= 7.579 phase= 0.103 phase_unit= 0.000 amp= 0.000
+Step   6130 | Loss total= 0.204 img= 0.033 grad= 0.044 res_real= 1.618 res_imag= 5.763 phase= 0.180 phase_unit= 0.000 amp= 0.000
+Step   6140 | Loss total= 2.296 img= 0.116 grad= 0.056 res_real=21.963 res_imag= 7.004 phase= 0.443 phase_unit= 0.000 amp= 0.000
+Step   6150 | Loss total= 0.077 img= 0.008 grad= 0.014 res_real= 0.640 res_imag= 7.325 phase= 0.058 phase_unit= 0.000 amp= 0.000
+Step   6160 | Loss total= 1.702 img= 0.090 grad= 0.055 res_real=16.236 res_imag= 6.963 phase= 0.341 phase_unit= 0.000 amp= 0.000
+Step   6170 | Loss total= 0.235 img= 0.057 grad= 0.052 res_real= 1.690 res_imag= 6.529 phase= 0.289 phase_unit= 0.000 amp= 0.000
+Step   6180 | Loss total= 0.297 img= 0.073 grad= 0.056 res_real= 2.163 res_imag= 6.395 phase= 0.358 phase_unit= 0.000 amp= 0.000
+Step   6190 | Loss total= 0.453 img= 0.083 grad= 0.061 res_real= 3.903 res_imag= 5.942 phase= 0.261 phase_unit= 0.000 amp= 0.000
+Step   6200 | Loss total= 0.784 img= 0.098 grad= 0.069 res_real= 6.939 res_imag= 7.765 phase= 0.393 phase_unit= 0.000 amp= 0.000
+Step   6210 | Loss total= 0.193 img= 0.055 grad= 0.063 res_real= 1.433 res_imag= 6.406 phase= 0.204 phase_unit= 0.000 amp= 0.000
+Step   6220 | Loss total= 0.471 img= 0.065 grad= 0.050 res_real= 3.967 res_imag= 6.868 phase= 0.330 phase_unit= 0.000 amp= 0.000
+Step   6230 | Loss total= 0.254 img= 0.034 grad= 0.043 res_real= 2.134 res_imag= 7.133 phase= 0.175 phase_unit= 0.000 amp= 0.000
+Step   6240 | Loss total= 0.187 img= 0.040 grad= 0.040 res_real= 1.286 res_imag= 6.465 phase= 0.261 phase_unit= 0.000 amp= 0.000
+Step   6250 | Loss total= 0.334 img= 0.046 grad= 0.052 res_real= 2.864 res_imag= 6.032 phase= 0.199 phase_unit= 0.000 amp= 0.000
+Step   6260 | Loss total= 0.503 img= 0.053 grad= 0.054 res_real= 4.538 res_imag= 7.116 phase= 0.205 phase_unit= 0.000 amp= 0.000
+Step   6270 | Loss total= 0.260 img= 0.083 grad= 0.075 res_real= 1.905 res_imag= 6.908 phase= 0.291 phase_unit= 0.000 amp= 0.000
+Step   6280 | Loss total= 1.039 img= 0.074 grad= 0.064 res_real= 9.633 res_imag= 6.084 phase= 0.329 phase_unit= 0.000 amp= 0.000
+Step   6290 | Loss total= 0.527 img= 0.097 grad= 0.076 res_real= 4.391 res_imag= 8.560 phase= 0.377 phase_unit= 0.000 amp= 0.000
+Step   6300 | Loss total= 0.464 img= 0.080 grad= 0.065 res_real= 3.816 res_imag= 7.026 phase= 0.358 phase_unit= 0.000 amp= 0.000
+Step   6310 | Loss total= 0.183 img= 0.039 grad= 0.044 res_real= 1.402 res_imag= 7.294 phase= 0.182 phase_unit= 0.000 amp= 0.000
+Step   6320 | Loss total= 1.131 img= 0.059 grad= 0.048 res_real=10.763 res_imag= 6.146 phase= 0.232 phase_unit= 0.000 amp= 0.000
+Step   6330 | Loss total= 0.172 img= 0.041 grad= 0.058 res_real= 1.279 res_imag= 7.821 phase= 0.182 phase_unit= 0.000 amp= 0.000
+Step   6340 | Loss total= 0.133 img= 0.012 grad= 0.019 res_real= 1.176 res_imag= 6.813 phase= 0.065 phase_unit= 0.000 amp= 0.000
+Step   6350 | Loss total= 0.277 img= 0.058 grad= 0.049 res_real= 2.135 res_imag= 6.458 phase= 0.281 phase_unit= 0.000 amp= 0.000
+Step   6360 | Loss total= 0.209 img= 0.042 grad= 0.050 res_real= 1.551 res_imag= 6.086 phase= 0.233 phase_unit= 0.000 amp= 0.000
+Step   6370 | Loss total= 0.493 img= 0.068 grad= 0.060 res_real= 4.139 res_imag= 7.747 phase= 0.350 phase_unit= 0.000 amp= 0.000
+Step   6380 | Loss total= 0.473 img= 0.063 grad= 0.046 res_real= 3.959 res_imag= 6.352 phase= 0.346 phase_unit= 0.000 amp= 0.000
+Step   6390 | Loss total= 1.316 img= 0.093 grad= 0.064 res_real=12.294 res_imag= 8.853 phase= 0.380 phase_unit= 0.000 amp= 0.000
+Step   6400 | Loss total= 0.256 img= 0.044 grad= 0.049 res_real= 2.007 res_imag= 6.022 phase= 0.240 phase_unit= 0.000 amp= 0.000
+Step   6410 | Loss total= 0.311 img= 0.072 grad= 0.065 res_real= 2.383 res_imag= 6.542 phase= 0.313 phase_unit= 0.000 amp= 0.000
+Step   6420 | Loss total= 0.163 img= 0.037 grad= 0.059 res_real= 1.325 res_imag= 6.382 phase= 0.115 phase_unit= 0.000 amp= 0.000
+Step   6430 | Loss total= 0.489 img= 0.079 grad= 0.060 res_real= 4.044 res_imag= 6.671 phase= 0.372 phase_unit= 0.000 amp= 0.000
+Step   6440 | Loss total= 0.571 img= 0.058 grad= 0.049 res_real= 5.090 res_imag= 6.571 phase= 0.269 phase_unit= 0.000 amp= 0.000
+Step   6450 | Loss total= 0.916 img= 0.107 grad= 0.083 res_real= 8.315 res_imag= 8.649 phase= 0.355 phase_unit= 0.000 amp= 0.000
+Step   6460 | Loss total= 0.362 img= 0.052 grad= 0.054 res_real= 3.042 res_imag= 8.453 phase= 0.249 phase_unit= 0.000 amp= 0.000
+Step   6470 | Loss total= 0.206 img= 0.038 grad= 0.039 res_real= 1.639 res_imag= 7.058 phase= 0.180 phase_unit= 0.000 amp= 0.000
+Step   6480 | Loss total= 0.281 img= 0.041 grad= 0.045 res_real= 2.231 res_imag= 7.251 phase= 0.257 phase_unit= 0.000 amp= 0.000
+Step   6490 | Loss total= 0.187 img= 0.054 grad= 0.053 res_real= 1.246 res_imag= 6.989 phase= 0.271 phase_unit= 0.000 amp= 0.000
+Step   6500 | Loss total= 0.194 img= 0.016 grad= 0.030 res_real= 1.775 res_imag= 7.627 phase= 0.065 phase_unit= 0.000 amp= 0.000
+Step   6510 | Loss total= 1.340 img= 0.103 grad= 0.056 res_real=12.441 res_imag= 7.617 phase= 0.425 phase_unit= 0.000 amp= 0.000
+Step   6520 | Loss total= 0.298 img= 0.043 grad= 0.045 res_real= 2.429 res_imag= 9.280 phase= 0.244 phase_unit= 0.000 amp= 0.000
+Step   6530 | Loss total= 0.448 img= 0.055 grad= 0.047 res_real= 3.903 res_imag= 8.211 phase= 0.254 phase_unit= 0.000 amp= 0.000
+Step   6540 | Loss total= 0.316 img= 0.046 grad= 0.043 res_real= 2.682 res_imag= 7.016 phase= 0.206 phase_unit= 0.000 amp= 0.000
+Step   6550 | Loss total= 1.532 img= 0.076 grad= 0.061 res_real=14.656 res_imag= 7.368 phase= 0.281 phase_unit= 0.000 amp= 0.000
+Step   6560 | Loss total= 0.380 img= 0.068 grad= 0.051 res_real= 2.976 res_imag= 6.891 phase= 0.372 phase_unit= 0.000 amp= 0.000
+Step   6570 | Loss total= 0.249 img= 0.063 grad= 0.057 res_real= 1.877 res_imag= 6.571 phase= 0.264 phase_unit= 0.000 amp= 0.000
+Step   6580 | Loss total= 0.496 img= 0.065 grad= 0.058 res_real= 4.263 res_imag= 7.785 phase= 0.304 phase_unit= 0.000 amp= 0.000
+Step   6590 | Loss total= 0.540 img= 0.067 grad= 0.059 res_real= 4.698 res_imag= 8.659 phase= 0.306 phase_unit= 0.000 amp= 0.000
+Step   6600 | Loss total= 0.544 img= 0.082 grad= 0.063 res_real= 4.729 res_imag= 6.794 phase= 0.302 phase_unit= 0.000 amp= 0.000
+Step   6610 | Loss total= 0.123 img= 0.045 grad= 0.068 res_real= 0.842 res_imag= 6.406 phase= 0.150 phase_unit= 0.000 amp= 0.000
+Step   6620 | Loss total= 0.164 img= 0.029 grad= 0.044 res_real= 1.320 res_imag= 8.564 phase= 0.132 phase_unit= 0.000 amp= 0.000
+Step   6630 | Loss total= 0.205 img= 0.021 grad= 0.031 res_real= 1.753 res_imag= 8.403 phase= 0.129 phase_unit= 0.000 amp= 0.000
+Step   6640 | Loss total= 1.335 img= 0.071 grad= 0.061 res_real=12.680 res_imag= 7.650 phase= 0.286 phase_unit= 0.000 amp= 0.000
+Step   6650 | Loss total= 0.291 img= 0.054 grad= 0.059 res_real= 2.329 res_imag= 8.662 phase= 0.246 phase_unit= 0.000 amp= 0.000
+Step   6660 | Loss total= 0.367 img= 0.039 grad= 0.049 res_real= 3.215 res_imag= 5.702 phase= 0.194 phase_unit= 0.000 amp= 0.000
+Step   6670 | Loss total= 0.314 img= 0.054 grad= 0.055 res_real= 2.498 res_imag= 8.635 phase= 0.282 phase_unit= 0.000 amp= 0.000
+Step   6680 | Loss total= 0.097 img= 0.012 grad= 0.024 res_real= 0.823 res_imag= 7.351 phase= 0.059 phase_unit= 0.000 amp= 0.000
+Step   6690 | Loss total= 0.845 img= 0.094 grad= 0.067 res_real= 7.670 res_imag= 7.905 phase= 0.335 phase_unit= 0.000 amp= 0.000
+Step   6700 | Loss total= 0.297 img= 0.039 grad= 0.035 res_real= 2.454 res_imag= 8.117 phase= 0.230 phase_unit= 0.000 amp= 0.000
+Step   6710 | Loss total= 0.408 img= 0.041 grad= 0.039 res_real= 3.637 res_imag= 7.725 phase= 0.191 phase_unit= 0.000 amp= 0.000
+Step   6720 | Loss total= 0.314 img= 0.084 grad= 0.065 res_real= 2.541 res_imag= 6.435 phase= 0.244 phase_unit= 0.000 amp= 0.000
+Step   6730 | Loss total= 0.365 img= 0.054 grad= 0.049 res_real= 2.935 res_imag= 8.090 phase= 0.320 phase_unit= 0.000 amp= 0.000
+Step   6740 | Loss total= 0.161 img= 0.042 grad= 0.055 res_real= 1.208 res_imag= 6.415 phase= 0.164 phase_unit= 0.000 amp= 0.000
+Step   6750 | Loss total= 0.497 img= 0.073 grad= 0.063 res_real= 4.233 res_imag= 8.597 phase= 0.320 phase_unit= 0.000 amp= 0.000
+Step   6760 | Loss total= 0.605 img= 0.093 grad= 0.069 res_real= 5.331 res_imag= 6.967 phase= 0.300 phase_unit= 0.000 amp= 0.000
+Step   6770 | Loss total= 0.634 img= 0.048 grad= 0.048 res_real= 5.732 res_imag= 8.913 phase= 0.266 phase_unit= 0.000 amp= 0.000
+Step   6780 | Loss total= 0.515 img= 0.048 grad= 0.041 res_real= 4.565 res_imag= 8.196 phase= 0.258 phase_unit= 0.000 amp= 0.000
+Step   6790 | Loss total= 0.146 img= 0.028 grad= 0.042 res_real= 1.098 res_imag= 5.956 phase= 0.154 phase_unit= 0.000 amp= 0.000
+Step   6800 | Loss total= 0.223 img= 0.026 grad= 0.035 res_real= 1.834 res_imag= 6.789 phase= 0.176 phase_unit= 0.000 amp= 0.000
+Step   6810 | Loss total= 0.414 img= 0.069 grad= 0.056 res_real= 3.348 res_imag= 7.367 phase= 0.349 phase_unit= 0.000 amp= 0.000
+Step   6820 | Loss total= 0.344 img= 0.047 grad= 0.037 res_real= 2.866 res_imag= 7.836 phase= 0.259 phase_unit= 0.000 amp= 0.000
+Step   6830 | Loss total= 0.280 img= 0.045 grad= 0.048 res_real= 2.277 res_imag= 6.002 phase= 0.228 phase_unit= 0.000 amp= 0.000
+Step   6840 | Loss total= 0.268 img= 0.032 grad= 0.033 res_real= 2.258 res_imag= 6.280 phase= 0.189 phase_unit= 0.000 amp= 0.000
+Step   6850 | Loss total= 0.248 img= 0.027 grad= 0.037 res_real= 2.015 res_imag= 9.257 phase= 0.208 phase_unit= 0.000 amp= 0.000
+Step   6860 | Loss total= 0.546 img= 0.068 grad= 0.055 res_real= 4.679 res_imag= 8.066 phase= 0.346 phase_unit= 0.000 amp= 0.000
+Step   6870 | Loss total= 0.241 img= 0.038 grad= 0.039 res_real= 1.819 res_imag= 8.691 phase= 0.265 phase_unit= 0.000 amp= 0.000
+Step   6880 | Loss total= 0.227 img= 0.057 grad= 0.054 res_real= 1.677 res_imag= 7.430 phase= 0.257 phase_unit= 0.000 amp= 0.000
+Step   6890 | Loss total= 0.173 img= 0.054 grad= 0.061 res_real= 1.199 res_imag= 7.252 phase= 0.223 phase_unit= 0.000 amp= 0.000
+Step   6900 | Loss total= 1.368 img= 0.067 grad= 0.056 res_real=13.197 res_imag= 7.919 phase= 0.194 phase_unit= 0.000 amp= 0.000
+Step   6910 | Loss total= 0.427 img= 0.069 grad= 0.058 res_real= 3.560 res_imag= 7.367 phase= 0.311 phase_unit= 0.000 amp= 0.000
+Step   6920 | Loss total= 0.319 img= 0.061 grad= 0.050 res_real= 2.445 res_imag= 8.169 phase= 0.333 phase_unit= 0.000 amp= 0.000
+Step   6930 | Loss total= 0.268 img= 0.052 grad= 0.064 res_real= 2.211 res_imag= 6.734 phase= 0.188 phase_unit= 0.000 amp= 0.000
+Step   6940 | Loss total= 0.210 img= 0.034 grad= 0.057 res_real= 1.789 res_imag= 6.301 phase= 0.120 phase_unit= 0.000 amp= 0.000
+Step   6950 | Loss total= 1.560 img= 0.065 grad= 0.046 res_real=15.028 res_imag= 6.887 phase= 0.247 phase_unit= 0.000 amp= 0.000
+Step   6960 | Loss total= 0.965 img= 0.085 grad= 0.061 res_real= 8.815 res_imag= 8.236 phase= 0.363 phase_unit= 0.000 amp= 0.000
+Step   6970 | Loss total= 0.791 img= 0.047 grad= 0.036 res_real= 7.562 res_imag= 7.674 phase= 0.146 phase_unit= 0.000 amp= 0.000
+Step   6980 | Loss total= 0.376 img= 0.058 grad= 0.065 res_real= 3.151 res_imag= 7.251 phase= 0.256 phase_unit= 0.000 amp= 0.000
+Step   6990 | Loss total= 0.258 img= 0.068 grad= 0.068 res_real= 2.042 res_imag= 6.704 phase= 0.218 phase_unit= 0.000 amp= 0.000
+Step   7000 | Loss total= 0.605 img= 0.074 grad= 0.061 res_real= 5.319 res_imag= 7.605 phase= 0.316 phase_unit= 0.000 amp= 0.000
+Step   7010 | Loss total= 0.383 img= 0.099 grad= 0.072 res_real= 3.110 res_imag= 6.967 phase= 0.300 phase_unit= 0.000 amp= 0.000
+Step   7020 | Loss total= 0.447 img= 0.036 grad= 0.040 res_real= 3.989 res_imag= 8.166 phase= 0.211 phase_unit= 0.000 amp= 0.000
+Step   7030 | Loss total= 1.075 img= 0.070 grad= 0.044 res_real= 9.984 res_imag= 8.861 phase= 0.343 phase_unit= 0.000 amp= 0.000
+Step   7040 | Loss total= 0.224 img= 0.070 grad= 0.067 res_real= 1.604 res_imag= 7.657 phase= 0.269 phase_unit= 0.000 amp= 0.000
+Step   7050 | Loss total= 0.465 img= 0.065 grad= 0.061 res_real= 4.023 res_imag= 6.958 phase= 0.269 phase_unit= 0.000 amp= 0.000
+Step   7060 | Loss total= 1.067 img= 0.087 grad= 0.057 res_real= 9.756 res_imag= 6.745 phase= 0.404 phase_unit= 0.000 amp= 0.000
+Step   7070 | Loss total= 2.329 img= 0.113 grad= 0.053 res_real=22.233 res_imag= 9.633 phase= 0.474 phase_unit= 0.000 amp= 0.000
+Step   7080 | Loss total= 0.190 img= 0.053 grad= 0.061 res_real= 1.374 res_imag= 7.846 phase= 0.221 phase_unit= 0.000 amp= 0.000
+Step   7090 | Loss total= 0.455 img= 0.070 grad= 0.067 res_real= 3.941 res_imag= 8.788 phase= 0.251 phase_unit= 0.000 amp= 0.000
+Step   7100 | Loss total= 0.446 img= 0.064 grad= 0.051 res_real= 3.715 res_imag= 7.336 phase= 0.330 phase_unit= 0.000 amp= 0.000
+Step   7110 | Loss total= 0.254 img= 0.031 grad= 0.041 res_real= 2.172 res_imag= 7.021 phase= 0.154 phase_unit= 0.000 amp= 0.000
+Step   7120 | Loss total= 0.331 img= 0.067 grad= 0.051 res_real= 2.554 res_imag= 7.604 phase= 0.337 phase_unit= 0.000 amp= 0.000
+Step   7130 | Loss total= 0.535 img= 0.067 grad= 0.056 res_real= 4.609 res_imag= 8.849 phase= 0.327 phase_unit= 0.000 amp= 0.000
+Step   7140 | Loss total= 0.476 img= 0.084 grad= 0.063 res_real= 3.865 res_imag= 8.296 phase= 0.396 phase_unit= 0.000 amp= 0.000
+Step   7150 | Loss total= 0.191 img= 0.028 grad= 0.044 res_real= 1.583 res_imag= 8.252 phase= 0.134 phase_unit= 0.000 amp= 0.000
+Step   7160 | Loss total= 0.222 img= 0.036 grad= 0.043 res_real= 1.842 res_imag= 7.396 phase= 0.161 phase_unit= 0.000 amp= 0.000
+Step   7170 | Loss total= 0.276 img= 0.048 grad= 0.050 res_real= 2.229 res_imag= 6.032 phase= 0.227 phase_unit= 0.000 amp= 0.000
+Step   7180 | Loss total= 0.939 img= 0.080 grad= 0.054 res_real= 8.597 res_imag= 7.402 phase= 0.347 phase_unit= 0.000 amp= 0.000
+Step   7190 | Loss total= 0.632 img= 0.083 grad= 0.062 res_real= 5.488 res_imag= 6.879 phase= 0.366 phase_unit= 0.000 amp= 0.000
+Step   7200 | Loss total= 0.125 img= 0.011 grad= 0.017 res_real= 1.075 res_imag= 8.739 phase= 0.077 phase_unit= 0.000 amp= 0.000
+Step   7210 | Loss total= 0.264 img= 0.042 grad= 0.052 res_real= 2.167 res_imag= 7.791 phase= 0.201 phase_unit= 0.000 amp= 0.000
+Step   7220 | Loss total= 0.187 img= 0.044 grad= 0.043 res_real= 1.443 res_imag= 7.556 phase= 0.183 phase_unit= 0.000 amp= 0.000
+Step   7230 | Loss total= 0.126 img= 0.025 grad= 0.030 res_real= 0.839 res_imag= 7.538 phase= 0.188 phase_unit= 0.000 amp= 0.000
+Step   7240 | Loss total= 0.715 img= 0.077 grad= 0.057 res_real= 6.525 res_imag= 7.194 phase= 0.265 phase_unit= 0.000 amp= 0.000
+Step   7250 | Loss total= 0.223 img= 0.047 grad= 0.055 res_real= 1.707 res_imag= 8.019 phase= 0.223 phase_unit= 0.000 amp= 0.000
+Step   7260 | Loss total= 1.419 img= 0.121 grad= 0.064 res_real=13.207 res_imag= 6.170 phase= 0.430 phase_unit= 0.000 amp= 0.000
+Step   7270 | Loss total= 0.336 img= 0.054 grad= 0.049 res_real= 2.747 res_imag= 8.541 phase= 0.269 phase_unit= 0.000 amp= 0.000
+Step   7280 | Loss total= 1.543 img= 0.112 grad= 0.052 res_real=14.462 res_imag= 9.474 phase= 0.430 phase_unit= 0.000 amp= 0.000
+Step   7290 | Loss total= 0.146 img= 0.030 grad= 0.047 res_real= 1.180 res_imag= 7.121 phase= 0.112 phase_unit= 0.000 amp= 0.000
+Step   7300 | Loss total= 0.160 img= 0.049 grad= 0.063 res_real= 1.199 res_imag= 6.528 phase= 0.156 phase_unit= 0.000 amp= 0.000
+Step   7310 | Loss total= 0.317 img= 0.063 grad= 0.051 res_real= 2.346 res_imag= 7.947 phase= 0.372 phase_unit= 0.000 amp= 0.000
+Step   7320 | Loss total= 0.199 img= 0.023 grad= 0.034 res_real= 1.725 res_imag= 6.762 phase= 0.112 phase_unit= 0.000 amp= 0.000
+Step   7330 | Loss total= 1.462 img= 0.076 grad= 0.059 res_real=14.020 res_imag= 8.388 phase= 0.253 phase_unit= 0.000 amp= 0.000
+Step   7340 | Loss total= 0.284 img= 0.066 grad= 0.057 res_real= 2.142 res_imag= 7.449 phase= 0.305 phase_unit= 0.000 amp= 0.000
+Step   7350 | Loss total= 0.492 img= 0.059 grad= 0.057 res_real= 4.336 res_imag= 6.941 phase= 0.248 phase_unit= 0.000 amp= 0.000
+Step   7360 | Loss total= 0.454 img= 0.060 grad= 0.047 res_real= 3.798 res_imag= 8.076 phase= 0.331 phase_unit= 0.000 amp= 0.000
+Step   7370 | Loss total= 0.484 img= 0.046 grad= 0.038 res_real= 4.323 res_imag=10.082 phase= 0.226 phase_unit= 0.000 amp= 0.000
+Step   7380 | Loss total= 0.106 img= 0.031 grad= 0.045 res_real= 0.695 res_imag= 7.897 phase= 0.152 phase_unit= 0.000 amp= 0.000
+Step   7390 | Loss total= 0.199 img= 0.034 grad= 0.033 res_real= 1.410 res_imag= 6.307 phase= 0.266 phase_unit= 0.000 amp= 0.000
+Step   7400 | Loss total= 1.389 img= 0.087 grad= 0.056 res_real=12.995 res_imag=10.559 phase= 0.400 phase_unit= 0.000 amp= 0.000
+Step   7410 | Loss total= 0.524 img= 0.067 grad= 0.054 res_real= 4.540 res_imag= 9.007 phase= 0.306 phase_unit= 0.000 amp= 0.000
+Step   7420 | Loss total= 0.666 img= 0.047 grad= 0.039 res_real= 6.059 res_imag= 7.563 phase= 0.271 phase_unit= 0.000 amp= 0.000
+Step   7430 | Loss total= 0.555 img= 0.065 grad= 0.048 res_real= 4.752 res_imag= 8.642 phase= 0.361 phase_unit= 0.000 amp= 0.000
+Step   7440 | Loss total= 0.159 img= 0.031 grad= 0.048 res_real= 1.285 res_imag= 6.966 phase= 0.119 phase_unit= 0.000 amp= 0.000
+Step   7450 | Loss total= 0.569 img= 0.067 grad= 0.068 res_real= 5.096 res_imag= 9.421 phase= 0.247 phase_unit= 0.000 amp= 0.000
+Step   7460 | Loss total= 0.458 img= 0.064 grad= 0.065 res_real= 4.055 res_imag= 8.302 phase= 0.211 phase_unit= 0.000 amp= 0.000
+Step   7470 | Loss total= 0.697 img= 0.067 grad= 0.061 res_real= 6.271 res_imag= 7.415 phase= 0.304 phase_unit= 0.000 amp= 0.000
+Step   7480 | Loss total= 0.219 img= 0.024 grad= 0.032 res_real= 1.810 res_imag= 7.591 phase= 0.166 phase_unit= 0.000 amp= 0.000
+Step   7490 | Loss total= 0.235 img= 0.045 grad= 0.048 res_real= 1.802 res_imag= 9.318 phase= 0.238 phase_unit= 0.000 amp= 0.000
+Step   7500 | Loss total= 1.865 img= 0.083 grad= 0.037 res_real=17.756 res_imag= 9.751 phase= 0.410 phase_unit= 0.000 amp= 0.000
+Step   7510 | Loss total= 0.170 img= 0.042 grad= 0.038 res_real= 1.207 res_imag= 8.353 phase= 0.217 phase_unit= 0.000 amp= 0.000
+Step   7520 | Loss total= 0.310 img= 0.069 grad= 0.056 res_real= 2.306 res_imag= 8.659 phase= 0.354 phase_unit= 0.000 amp= 0.000
+Step   7530 | Loss total= 0.369 img= 0.067 grad= 0.067 res_real= 3.080 res_imag= 6.888 phase= 0.257 phase_unit= 0.000 amp= 0.000
+Step   7540 | Loss total= 0.603 img= 0.074 grad= 0.063 res_real= 5.233 res_imag= 9.406 phase= 0.349 phase_unit= 0.000 amp= 0.000
+Step   7550 | Loss total= 0.537 img= 0.076 grad= 0.064 res_real= 4.598 res_imag= 8.735 phase= 0.336 phase_unit= 0.000 amp= 0.000
+Step   7560 | Loss total= 0.123 img= 0.025 grad= 0.045 res_real= 0.992 res_imag= 8.204 phase= 0.092 phase_unit= 0.000 amp= 0.000
+Step   7570 | Loss total= 0.242 img= 0.051 grad= 0.053 res_real= 1.863 res_imag= 7.629 phase= 0.240 phase_unit= 0.000 amp= 0.000
+Step   7580 | Loss total= 0.150 img= 0.046 grad= 0.054 res_real= 1.026 res_imag= 7.057 phase= 0.196 phase_unit= 0.000 amp= 0.000
+Step   7590 | Loss total= 0.355 img= 0.063 grad= 0.052 res_real= 2.832 res_imag= 7.254 phase= 0.315 phase_unit= 0.000 amp= 0.000
+Step   7600 | Loss total= 0.194 img= 0.036 grad= 0.046 res_real= 1.492 res_imag= 8.993 phase= 0.192 phase_unit= 0.000 amp= 0.000
+Step   7610 | Loss total= 0.699 img= 0.048 grad= 0.039 res_real= 6.418 res_imag= 9.476 phase= 0.257 phase_unit= 0.000 amp= 0.000
+Step   7620 | Loss total= 0.622 img= 0.079 grad= 0.056 res_real= 5.345 res_imag= 8.352 phase= 0.389 phase_unit= 0.000 amp= 0.000
+Step   7630 | Loss total= 0.124 img= 0.033 grad= 0.053 res_real= 0.906 res_imag= 6.967 phase= 0.131 phase_unit= 0.000 amp= 0.000
+Step   7640 | Loss total= 0.611 img= 0.069 grad= 0.056 res_real= 5.352 res_imag= 9.065 phase= 0.332 phase_unit= 0.000 amp= 0.000
+Step   7650 | Loss total= 0.288 img= 0.057 grad= 0.050 res_real= 2.201 res_imag= 8.439 phase= 0.301 phase_unit= 0.000 amp= 0.000
+Step   7660 | Loss total= 0.235 img= 0.020 grad= 0.027 res_real= 1.967 res_imag= 7.967 phase= 0.172 phase_unit= 0.000 amp= 0.000
+Step   7670 | Loss total= 1.190 img= 0.082 grad= 0.050 res_real=11.040 res_imag= 9.343 phase= 0.386 phase_unit= 0.000 amp= 0.000
+Step   7680 | Loss total= 1.098 img= 0.071 grad= 0.051 res_real=10.329 res_imag= 7.657 phase= 0.281 phase_unit= 0.000 amp= 0.000
+Step   7690 | Loss total= 0.620 img= 0.087 grad= 0.064 res_real= 5.370 res_imag= 9.534 phase= 0.361 phase_unit= 0.000 amp= 0.000
+Step   7700 | Loss total= 0.231 img= 0.048 grad= 0.047 res_real= 1.707 res_imag= 8.582 phase= 0.265 phase_unit= 0.000 amp= 0.000
+Step   7710 | Loss total= 0.182 img= 0.047 grad= 0.044 res_real= 1.304 res_imag= 8.757 phase= 0.224 phase_unit= 0.000 amp= 0.000
+Step   7720 | Loss total= 0.222 img= 0.033 grad= 0.053 res_real= 1.883 res_imag= 6.924 phase= 0.131 phase_unit= 0.000 amp= 0.000
+Step   7730 | Loss total= 0.133 img= 0.015 grad= 0.033 res_real= 1.185 res_imag= 7.656 phase= 0.054 phase_unit= 0.000 amp= 0.000
+Step   7740 | Loss total= 0.193 img= 0.046 grad= 0.054 res_real= 1.453 res_imag= 9.147 phase= 0.201 phase_unit= 0.000 amp= 0.000
+Step   7750 | Loss total= 0.174 img= 0.037 grad= 0.039 res_real= 1.277 res_imag= 8.655 phase= 0.201 phase_unit= 0.000 amp= 0.000
+Step   7760 | Loss total= 0.132 img= 0.036 grad= 0.049 res_real= 0.982 res_imag= 6.929 phase= 0.136 phase_unit= 0.000 amp= 0.000
+Step   7770 | Loss total= 0.198 img= 0.014 grad= 0.026 res_real= 1.788 res_imag= 8.003 phase= 0.080 phase_unit= 0.000 amp= 0.000
+Step   7780 | Loss total= 0.234 img= 0.027 grad= 0.036 res_real= 2.044 res_imag= 9.036 phase= 0.124 phase_unit= 0.000 amp= 0.000
+Step   7790 | Loss total= 0.273 img= 0.025 grad= 0.031 res_real= 2.406 res_imag= 6.382 phase= 0.139 phase_unit= 0.000 amp= 0.000
+Step   7800 | Loss total= 0.453 img= 0.069 grad= 0.064 res_real= 3.815 res_imag= 8.001 phase= 0.307 phase_unit= 0.000 amp= 0.000
+Step   7810 | Loss total= 0.438 img= 0.061 grad= 0.050 res_real= 3.647 res_imag= 8.945 phase= 0.324 phase_unit= 0.000 amp= 0.000
+Step   7820 | Loss total= 0.238 img= 0.043 grad= 0.049 res_real= 1.820 res_imag= 9.151 phase= 0.242 phase_unit= 0.000 amp= 0.000
+Step   7830 | Loss total= 0.210 img= 0.047 grad= 0.063 res_real= 1.651 res_imag= 7.434 phase= 0.182 phase_unit= 0.000 amp= 0.000
+Step   7840 | Loss total= 0.209 img= 0.063 grad= 0.060 res_real= 1.446 res_imag= 7.832 phase= 0.277 phase_unit= 0.000 amp= 0.000
+Step   7850 | Loss total= 1.649 img= 0.069 grad= 0.033 res_real=15.872 res_imag= 8.920 phase= 0.276 phase_unit= 0.000 amp= 0.000
+Step   7860 | Loss total= 0.714 img= 0.090 grad= 0.069 res_real= 6.333 res_imag= 9.466 phase= 0.346 phase_unit= 0.000 amp= 0.000
+Step   7870 | Loss total= 0.655 img= 0.071 grad= 0.054 res_real= 5.896 res_imag=10.555 phase= 0.283 phase_unit= 0.000 amp= 0.000
+Step   7880 | Loss total= 0.325 img= 0.065 grad= 0.052 res_real= 2.471 res_imag= 7.816 phase= 0.348 phase_unit= 0.000 amp= 0.000
+Step   7890 | Loss total= 0.267 img= 0.048 grad= 0.055 res_real= 2.142 res_imag= 9.506 phase= 0.223 phase_unit= 0.000 amp= 0.000
+Step   7900 | Loss total= 0.156 img= 0.024 grad= 0.029 res_real= 1.192 res_imag= 8.880 phase= 0.165 phase_unit= 0.000 amp= 0.000
+Step   7910 | Loss total= 0.671 img= 0.101 grad= 0.069 res_real= 5.908 res_imag= 7.801 phase= 0.344 phase_unit= 0.000 amp= 0.000
+Step   7920 | Loss total= 0.241 img= 0.027 grad= 0.046 res_real= 2.135 res_imag= 8.214 phase= 0.108 phase_unit= 0.000 amp= 0.000
+Step   7930 | Loss total= 0.514 img= 0.066 grad= 0.058 res_real= 4.500 res_imag= 8.708 phase= 0.274 phase_unit= 0.000 amp= 0.000
+Step   7940 | Loss total= 0.156 img= 0.039 grad= 0.049 res_real= 1.136 res_imag= 7.950 phase= 0.180 phase_unit= 0.000 amp= 0.000
+Step   7950 | Loss total= 0.926 img= 0.059 grad= 0.053 res_real= 8.627 res_imag= 7.629 phase= 0.275 phase_unit= 0.000 amp= 0.000
+Step   7960 | Loss total= 0.293 img= 0.052 grad= 0.057 res_real= 2.344 res_imag= 8.444 phase= 0.253 phase_unit= 0.000 amp= 0.000
+Step   7970 | Loss total= 0.800 img= 0.073 grad= 0.041 res_real= 7.140 res_imag=11.108 phase= 0.389 phase_unit= 0.000 amp= 0.000
+Step   7980 | Loss total= 0.408 img= 0.070 grad= 0.065 res_real= 3.398 res_imag= 8.758 phase= 0.290 phase_unit= 0.000 amp= 0.000
+Step   7990 | Loss total= 0.633 img= 0.056 grad= 0.051 res_real= 5.699 res_imag= 8.627 phase= 0.276 phase_unit= 0.000 amp= 0.000
+Step   8000 | Loss total= 0.281 img= 0.048 grad= 0.055 res_real= 2.340 res_imag= 8.969 phase= 0.195 phase_unit= 0.000 amp= 0.000
+Step   8010 | Loss total= 0.105 img= 0.028 grad= 0.040 res_real= 0.769 res_imag= 8.498 phase= 0.113 phase_unit= 0.000 amp= 0.000
+Step   8020 | Loss total= 4.307 img= 0.104 grad= 0.041 res_real=42.214 res_imag= 9.905 phase= 0.383 phase_unit= 0.000 amp= 0.000
+Step   8030 | Loss total= 0.328 img= 0.051 grad= 0.050 res_real= 2.725 res_imag= 8.546 phase= 0.238 phase_unit= 0.000 amp= 0.000
+Step   8040 | Loss total= 0.312 img= 0.033 grad= 0.035 res_real= 2.735 res_imag= 8.819 phase= 0.167 phase_unit= 0.000 amp= 0.000
+Step   8050 | Loss total= 0.449 img= 0.045 grad= 0.039 res_real= 3.974 res_imag= 7.746 phase= 0.229 phase_unit= 0.000 amp= 0.000
+Step   8060 | Loss total= 0.254 img= 0.038 grad= 0.042 res_real= 2.048 res_imag= 9.731 phase= 0.214 phase_unit= 0.000 amp= 0.000
+Step   8070 | Loss total= 0.953 img= 0.079 grad= 0.069 res_real= 8.871 res_imag= 7.631 phase= 0.275 phase_unit= 0.000 amp= 0.000
+Step   8080 | Loss total= 0.113 img= 0.013 grad= 0.018 res_real= 0.944 res_imag= 8.163 phase= 0.082 phase_unit= 0.000 amp= 0.000
+Step   8090 | Loss total= 0.392 img= 0.064 grad= 0.058 res_real= 3.284 res_imag= 8.690 phase= 0.274 phase_unit= 0.000 amp= 0.000
+Step   8100 | Loss total= 0.211 img= 0.020 grad= 0.033 res_real= 1.885 res_imag= 9.329 phase= 0.091 phase_unit= 0.000 amp= 0.000
+Step   8110 | Loss total= 0.164 img= 0.036 grad= 0.049 res_real= 1.219 res_imag= 9.088 phase= 0.177 phase_unit= 0.000 amp= 0.000
+Step   8120 | Loss total= 1.124 img= 0.072 grad= 0.040 res_real=10.416 res_imag=10.329 phase= 0.372 phase_unit= 0.000 amp= 0.000
+Step   8130 | Loss total= 0.205 img= 0.052 grad= 0.060 res_real= 1.549 res_imag= 9.035 phase= 0.209 phase_unit= 0.000 amp= 0.000
+Step   8140 | Loss total= 1.157 img= 0.075 grad= 0.047 res_real=10.733 res_imag=10.056 phase= 0.375 phase_unit= 0.000 amp= 0.000
+Step   8150 | Loss total= 0.358 img= 0.061 grad= 0.046 res_real= 2.854 res_imag= 7.938 phase= 0.327 phase_unit= 0.000 amp= 0.000
+Step   8160 | Loss total= 0.163 img= 0.011 grad= 0.020 res_real= 1.469 res_imag= 8.175 phase= 0.068 phase_unit= 0.000 amp= 0.000
+Step   8170 | Loss total= 0.214 img= 0.039 grad= 0.050 res_real= 1.712 res_imag= 8.462 phase= 0.180 phase_unit= 0.000 amp= 0.000
+Step   8180 | Loss total= 0.343 img= 0.070 grad= 0.061 res_real= 2.688 res_imag= 9.508 phase= 0.322 phase_unit= 0.000 amp= 0.000
+Step   8190 | Loss total= 0.531 img= 0.096 grad= 0.071 res_real= 4.492 res_imag= 8.385 phase= 0.351 phase_unit= 0.000 amp= 0.000
+Step   8200 | Loss total= 0.707 img= 0.039 grad= 0.038 res_real= 6.733 res_imag= 8.969 phase= 0.141 phase_unit= 0.000 amp= 0.000
+Step   8210 | Loss total= 0.299 img= 0.055 grad= 0.056 res_real= 2.457 res_imag= 9.744 phase= 0.223 phase_unit= 0.000 amp= 0.000
+Step   8220 | Loss total= 1.758 img= 0.077 grad= 0.036 res_real=16.712 res_imag=11.402 phase= 0.398 phase_unit= 0.000 amp= 0.000
+Step   8230 | Loss total= 0.127 img= 0.019 grad= 0.034 res_real= 1.083 res_imag= 8.266 phase= 0.073 phase_unit= 0.000 amp= 0.000
+Step   8240 | Loss total= 0.466 img= 0.064 grad= 0.043 res_real= 4.169 res_imag= 7.438 phase= 0.209 phase_unit= 0.000 amp= 0.000
+Step   8250 | Loss total= 0.171 img= 0.047 grad= 0.055 res_real= 1.252 res_imag= 7.749 phase= 0.189 phase_unit= 0.000 amp= 0.000
+Step   8260 | Loss total= 0.264 img= 0.046 grad= 0.042 res_real= 2.140 res_imag= 8.306 phase= 0.218 phase_unit= 0.000 amp= 0.000
+Step   8270 | Loss total= 0.379 img= 0.056 grad= 0.059 res_real= 3.183 res_imag= 9.933 phase= 0.258 phase_unit= 0.000 amp= 0.000
+Step   8280 | Loss total= 0.674 img= 0.052 grad= 0.042 res_real= 6.154 res_imag= 7.279 phase= 0.259 phase_unit= 0.000 amp= 0.000
+Step   8290 | Loss total= 0.286 img= 0.074 grad= 0.066 res_real= 2.114 res_imag= 9.542 phase= 0.320 phase_unit= 0.000 amp= 0.000
+Step   8300 | Loss total= 0.180 img= 0.025 grad= 0.043 res_real= 1.519 res_imag= 8.570 phase= 0.111 phase_unit= 0.000 amp= 0.000
+Step   8310 | Loss total= 1.373 img= 0.078 grad= 0.060 res_real=13.069 res_imag= 8.930 phase= 0.280 phase_unit= 0.000 amp= 0.000
+Step   8320 | Loss total= 1.506 img= 0.050 grad= 0.020 res_real=14.479 res_imag= 9.664 phase= 0.268 phase_unit= 0.000 amp= 0.000
+Step   8330 | Loss total= 0.396 img= 0.043 grad= 0.043 res_real= 3.535 res_imag= 7.347 phase= 0.178 phase_unit= 0.000 amp= 0.000
+Step   8340 | Loss total= 0.197 img= 0.040 grad= 0.052 res_real= 1.542 res_imag= 8.869 phase= 0.177 phase_unit= 0.000 amp= 0.000
+Step   8350 | Loss total= 0.625 img= 0.044 grad= 0.042 res_real= 5.532 res_imag=10.324 phase= 0.325 phase_unit= 0.000 amp= 0.000
+Step   8360 | Loss total= 0.699 img= 0.064 grad= 0.057 res_real= 6.192 res_imag= 9.251 phase= 0.353 phase_unit= 0.000 amp= 0.000
+Step   8370 | Loss total= 0.074 img= 0.022 grad= 0.043 res_real= 0.552 res_imag= 7.082 phase= 0.068 phase_unit= 0.000 amp= 0.000
+Step   8380 | Loss total= 0.402 img= 0.082 grad= 0.064 res_real= 3.196 res_imag= 9.087 phase= 0.360 phase_unit= 0.000 amp= 0.000
+Step   8390 | Loss total= 0.546 img= 0.039 grad= 0.034 res_real= 4.920 res_imag=10.208 phase= 0.242 phase_unit= 0.000 amp= 0.000
+Step   8400 | Loss total= 0.063 img= 0.010 grad= 0.019 res_real= 0.471 res_imag= 9.718 phase= 0.068 phase_unit= 0.000 amp= 0.000
+Step   8410 | Loss total= 0.528 img= 0.076 grad= 0.065 res_real= 4.567 res_imag= 9.754 phase= 0.305 phase_unit= 0.000 amp= 0.000
+Step   8420 | Loss total= 0.437 img= 0.089 grad= 0.067 res_real= 3.649 res_imag= 8.697 phase= 0.307 phase_unit= 0.000 amp= 0.000
+Step   8430 | Loss total= 0.608 img= 0.053 grad= 0.050 res_real= 5.449 res_imag=11.343 phase= 0.277 phase_unit= 0.000 amp= 0.000
+Step   8440 | Loss total= 0.126 img= 0.012 grad= 0.017 res_real= 1.031 res_imag= 8.449 phase= 0.104 phase_unit= 0.000 amp= 0.000
+Step   8450 | Loss total= 0.112 img= 0.034 grad= 0.055 res_real= 0.833 res_imag= 8.410 phase= 0.106 phase_unit= 0.000 amp= 0.000
+Step   8460 | Loss total= 0.100 img= 0.019 grad= 0.034 res_real= 0.744 res_imag= 8.728 phase= 0.105 phase_unit= 0.000 amp= 0.000
+Step   8470 | Loss total= 0.318 img= 0.042 grad= 0.040 res_real= 2.549 res_imag= 9.657 phase= 0.287 phase_unit= 0.000 amp= 0.000
+Step   8480 | Loss total= 0.255 img= 0.034 grad= 0.048 res_real= 2.173 res_imag= 7.544 phase= 0.157 phase_unit= 0.000 amp= 0.000
+Step   8490 | Loss total= 0.140 img= 0.048 grad= 0.065 res_real= 0.988 res_imag= 9.401 phase= 0.161 phase_unit= 0.000 amp= 0.000
+Step   8500 | Loss total= 0.295 img= 0.051 grad= 0.044 res_real= 2.262 res_imag= 8.158 phase= 0.309 phase_unit= 0.000 amp= 0.000
+Step   8510 | Loss total= 0.350 img= 0.054 grad= 0.050 res_real= 2.872 res_imag= 9.263 phase= 0.278 phase_unit= 0.000 amp= 0.000
+Step   8520 | Loss total= 1.045 img= 0.072 grad= 0.057 res_real= 9.780 res_imag= 9.858 phase= 0.288 phase_unit= 0.000 amp= 0.000
+Step   8530 | Loss total= 0.225 img= 0.038 grad= 0.058 res_real= 1.905 res_imag= 9.911 phase= 0.136 phase_unit= 0.000 amp= 0.000
+Step   8540 | Loss total= 0.260 img= 0.060 grad= 0.064 res_real= 2.063 res_imag= 7.680 phase= 0.222 phase_unit= 0.000 amp= 0.000
+Step   8550 | Loss total= 0.236 img= 0.045 grad= 0.046 res_real= 1.772 res_imag=10.311 phase= 0.257 phase_unit= 0.000 amp= 0.000
+Step   8560 | Loss total= 0.311 img= 0.031 grad= 0.037 res_real= 2.681 res_imag= 7.191 phase= 0.190 phase_unit= 0.000 amp= 0.000
+Step   8570 | Loss total= 1.414 img= 0.089 grad= 0.052 res_real=13.297 res_imag=10.053 phase= 0.372 phase_unit= 0.000 amp= 0.000
+Step   8580 | Loss total= 0.366 img= 0.042 grad= 0.044 res_real= 3.073 res_imag= 8.283 phase= 0.261 phase_unit= 0.000 amp= 0.000
+Step   8590 | Loss total= 0.643 img= 0.066 grad= 0.050 res_real= 5.567 res_imag=11.696 phase= 0.388 phase_unit= 0.000 amp= 0.000
+Step   8600 | Loss total= 0.319 img= 0.058 grad= 0.050 res_real= 2.457 res_imag= 9.962 phase= 0.326 phase_unit= 0.000 amp= 0.000
+Step   8610 | Loss total= 0.131 img= 0.041 grad= 0.051 res_real= 0.937 res_imag=10.061 phase= 0.151 phase_unit= 0.000 amp= 0.000
+Step   8620 | Loss total= 0.225 img= 0.042 grad= 0.046 res_real= 1.839 res_imag= 9.044 phase= 0.174 phase_unit= 0.000 amp= 0.000
+Step   8630 | Loss total= 0.917 img= 0.083 grad= 0.056 res_real= 8.452 res_imag= 7.819 phase= 0.312 phase_unit= 0.000 amp= 0.000
+Step   8640 | Loss total= 0.471 img= 0.085 grad= 0.074 res_real= 3.999 res_imag=10.721 phase= 0.299 phase_unit= 0.000 amp= 0.000
+Step   8650 | Loss total= 1.001 img= 0.085 grad= 0.051 res_real= 9.308 res_imag= 7.160 phase= 0.306 phase_unit= 0.000 amp= 0.000
+Step   8660 | Loss total= 0.274 img= 0.074 grad= 0.062 res_real= 2.047 res_imag= 8.580 phase= 0.295 phase_unit= 0.000 amp= 0.000
+Step   8670 | Loss total= 0.336 img= 0.076 grad= 0.068 res_real= 2.645 res_imag= 8.455 phase= 0.303 phase_unit= 0.000 amp= 0.000
+Step   8680 | Loss total= 0.536 img= 0.072 grad= 0.062 res_real= 4.618 res_imag= 9.759 phase= 0.321 phase_unit= 0.000 amp= 0.000
+Step   8690 | Loss total= 0.416 img= 0.099 grad= 0.063 res_real= 3.322 res_imag= 7.988 phase= 0.364 phase_unit= 0.000 amp= 0.000
+Step   8700 | Loss total= 0.157 img= 0.031 grad= 0.045 res_real= 1.242 res_imag= 9.497 phase= 0.133 phase_unit= 0.000 amp= 0.000
+Step   8710 | Loss total= 0.266 img= 0.051 grad= 0.061 res_real= 2.106 res_imag= 7.589 phase= 0.232 phase_unit= 0.000 amp= 0.000
+Step   8720 | Loss total= 0.108 img= 0.042 grad= 0.059 res_real= 0.688 res_imag= 7.247 phase= 0.158 phase_unit= 0.000 amp= 0.000
+Step   8730 | Loss total= 0.327 img= 0.038 grad= 0.046 res_real= 2.901 res_imag= 7.436 phase= 0.154 phase_unit= 0.000 amp= 0.000
+Step   8740 | Loss total= 0.202 img= 0.064 grad= 0.066 res_real= 1.434 res_imag= 7.646 phase= 0.245 phase_unit= 0.000 amp= 0.000
+Step   8750 | Loss total= 0.171 img= 0.024 grad= 0.028 res_real= 1.322 res_imag=10.245 phase= 0.173 phase_unit= 0.000 amp= 0.000
+Step   8760 | Loss total= 0.236 img= 0.046 grad= 0.050 res_real= 1.877 res_imag= 9.284 phase= 0.206 phase_unit= 0.000 amp= 0.000
+Step   8770 | Loss total= 0.139 img= 0.026 grad= 0.034 res_real= 1.029 res_imag= 8.163 phase= 0.159 phase_unit= 0.000 amp= 0.000
+Step   8780 | Loss total= 0.677 img= 0.074 grad= 0.063 res_real= 6.224 res_imag= 8.216 phase= 0.225 phase_unit= 0.000 amp= 0.000
+Step   8790 | Loss total= 0.101 img= 0.017 grad= 0.030 res_real= 0.828 res_imag= 8.386 phase= 0.072 phase_unit= 0.000 amp= 0.000
+Step   8800 | Loss total= 0.192 img= 0.038 grad= 0.047 res_real= 1.502 res_imag= 8.094 phase= 0.174 phase_unit= 0.000 amp= 0.000
+Step   8810 | Loss total= 0.142 img= 0.026 grad= 0.037 res_real= 1.135 res_imag=10.797 phase= 0.117 phase_unit= 0.000 amp= 0.000
+Step   8820 | Loss total= 0.112 img= 0.032 grad= 0.052 res_real= 0.815 res_imag= 9.019 phase= 0.120 phase_unit= 0.000 amp= 0.000
+Step   8830 | Loss total= 0.265 img= 0.030 grad= 0.031 res_real= 2.162 res_imag= 6.699 phase= 0.222 phase_unit= 0.000 amp= 0.000
+Step   8840 | Loss total= 0.323 img= 0.059 grad= 0.059 res_real= 2.666 res_imag= 9.838 phase= 0.239 phase_unit= 0.000 amp= 0.000
+Step   8850 | Loss total= 0.137 img= 0.017 grad= 0.032 res_real= 1.190 res_imag= 8.372 phase= 0.070 phase_unit= 0.000 amp= 0.000
+Step   8860 | Loss total= 0.332 img= 0.032 grad= 0.031 res_real= 2.936 res_imag= 9.014 phase= 0.168 phase_unit= 0.000 amp= 0.000
+Step   8870 | Loss total= 0.362 img= 0.056 grad= 0.052 res_real= 2.897 res_imag=10.678 phase= 0.320 phase_unit= 0.000 amp= 0.000
+Step   8880 | Loss total= 0.104 img= 0.014 grad= 0.021 res_real= 0.838 res_imag= 9.349 phase= 0.087 phase_unit= 0.000 amp= 0.000
+Step   8890 | Loss total= 0.117 img= 0.025 grad= 0.034 res_real= 0.864 res_imag=10.860 phase= 0.129 phase_unit= 0.000 amp= 0.000
+Step   8900 | Loss total= 0.325 img= 0.045 grad= 0.036 res_real= 2.715 res_imag= 9.735 phase= 0.240 phase_unit= 0.000 amp= 0.000
+Step   8910 | Loss total= 0.742 img= 0.080 grad= 0.051 res_real= 6.499 res_imag= 9.018 phase= 0.417 phase_unit= 0.000 amp= 0.000
+Step   8920 | Loss total= 0.856 img= 0.084 grad= 0.058 res_real= 7.703 res_imag=10.348 phase= 0.379 phase_unit= 0.000 amp= 0.000
+Step   8930 | Loss total= 0.345 img= 0.048 grad= 0.058 res_real= 2.964 res_imag= 8.460 phase= 0.200 phase_unit= 0.000 amp= 0.000
+Step   8940 | Loss total= 0.226 img= 0.033 grad= 0.051 res_real= 1.910 res_imag= 9.445 phase= 0.139 phase_unit= 0.000 amp= 0.000
+Step   8950 | Loss total= 1.353 img= 0.082 grad= 0.051 res_real=12.873 res_imag=10.096 phase= 0.284 phase_unit= 0.000 amp= 0.000
+Step   8960 | Loss total= 0.211 img= 0.029 grad= 0.039 res_real= 1.786 res_imag= 8.153 phase= 0.134 phase_unit= 0.000 amp= 0.000
+Step   8970 | Loss total= 0.579 img= 0.063 grad= 0.050 res_real= 5.045 res_imag= 8.737 phase= 0.332 phase_unit= 0.000 amp= 0.000
+Step   8980 | Loss total= 0.483 img= 0.077 grad= 0.060 res_real= 3.983 res_imag=10.918 phase= 0.374 phase_unit= 0.000 amp= 0.000
+Step   8990 | Loss total= 0.375 img= 0.049 grad= 0.032 res_real= 3.211 res_imag=12.022 phase= 0.240 phase_unit= 0.000 amp= 0.000
+Step   9000 | Loss total= 0.187 img= 0.044 grad= 0.049 res_real= 1.337 res_imag= 9.305 phase= 0.232 phase_unit= 0.000 amp= 0.000
+Step   9010 | Loss total= 0.279 img= 0.061 grad= 0.058 res_real= 2.097 res_imag= 7.953 phase= 0.301 phase_unit= 0.000 amp= 0.000
+Step   9020 | Loss total= 0.156 img= 0.020 grad= 0.031 res_real= 1.275 res_imag= 9.826 phase= 0.121 phase_unit= 0.000 amp= 0.000
+Step   9030 | Loss total= 0.286 img= 0.037 grad= 0.038 res_real= 2.473 res_imag= 8.364 phase= 0.165 phase_unit= 0.000 amp= 0.000
+Step   9040 | Loss total= 0.215 img= 0.039 grad= 0.054 res_real= 1.714 res_imag= 9.559 phase= 0.179 phase_unit= 0.000 amp= 0.000
+Step   9050 | Loss total= 0.636 img= 0.085 grad= 0.075 res_real= 5.617 res_imag=12.078 phase= 0.313 phase_unit= 0.000 amp= 0.000
+Step   9060 | Loss total= 0.975 img= 0.096 grad= 0.069 res_real= 8.915 res_imag=10.324 phase= 0.361 phase_unit= 0.000 amp= 0.000
+Step   9070 | Loss total= 0.210 img= 0.044 grad= 0.064 res_real= 1.719 res_imag= 9.608 phase= 0.147 phase_unit= 0.000 amp= 0.000
+Step   9080 | Loss total= 0.365 img= 0.036 grad= 0.041 res_real= 3.259 res_imag=10.237 phase= 0.168 phase_unit= 0.000 amp= 0.000
+Step   9090 | Loss total= 0.178 img= 0.040 grad= 0.036 res_real= 1.160 res_imag= 7.968 phase= 0.284 phase_unit= 0.000 amp= 0.000
+Step   9100 | Loss total= 0.949 img= 0.083 grad= 0.053 res_real= 8.698 res_imag=11.292 phase= 0.351 phase_unit= 0.000 amp= 0.000
+Step   9110 | Loss total= 0.222 img= 0.048 grad= 0.046 res_real= 1.728 res_imag=10.070 phase= 0.210 phase_unit= 0.000 amp= 0.000
+Step   9120 | Loss total= 0.696 img= 0.069 grad= 0.055 res_real= 6.175 res_imag= 8.497 phase= 0.350 phase_unit= 0.000 amp= 0.000
+Step   9130 | Loss total= 0.282 img= 0.054 grad= 0.046 res_real= 2.074 res_imag= 9.424 phase= 0.337 phase_unit= 0.000 amp= 0.000
+Step   9140 | Loss total= 0.951 img= 0.072 grad= 0.058 res_real= 8.780 res_imag=11.326 phase= 0.316 phase_unit= 0.000 amp= 0.000
+Step   9150 | Loss total= 0.554 img= 0.064 grad= 0.060 res_real= 4.868 res_imag= 8.613 phase= 0.290 phase_unit= 0.000 amp= 0.000
+Step   9160 | Loss total= 0.330 img= 0.067 grad= 0.058 res_real= 2.544 res_imag= 9.150 phase= 0.334 phase_unit= 0.000 amp= 0.000
+Step   9170 | Loss total= 0.332 img= 0.049 grad= 0.052 res_real= 2.820 res_imag= 9.468 phase= 0.213 phase_unit= 0.000 amp= 0.000
+Step   9180 | Loss total= 0.493 img= 0.060 grad= 0.043 res_real= 4.157 res_imag=10.705 phase= 0.348 phase_unit= 0.000 amp= 0.000
+Step   9190 | Loss total= 0.299 img= 0.081 grad= 0.066 res_real= 2.214 res_imag=10.100 phase= 0.336 phase_unit= 0.000 amp= 0.000
+Step   9200 | Loss total= 0.332 img= 0.037 grad= 0.040 res_real= 2.771 res_imag=10.672 phase= 0.245 phase_unit= 0.000 amp= 0.000
+Step   9210 | Loss total= 0.238 img= 0.039 grad= 0.050 res_real= 1.951 res_imag= 9.158 phase= 0.182 phase_unit= 0.000 amp= 0.000
+Step   9220 | Loss total= 0.249 img= 0.060 grad= 0.055 res_real= 1.803 res_imag= 8.590 phase= 0.302 phase_unit= 0.000 amp= 0.000
+Step   9230 | Loss total= 0.175 img= 0.018 grad= 0.031 res_real= 1.533 res_imag=10.895 phase= 0.086 phase_unit= 0.000 amp= 0.000
+Step   9240 | Loss total= 0.227 img= 0.023 grad= 0.027 res_real= 1.920 res_imag= 9.646 phase= 0.157 phase_unit= 0.000 amp= 0.000
+Step   9250 | Loss total= 0.378 img= 0.053 grad= 0.046 res_real= 3.122 res_imag= 8.554 phase= 0.291 phase_unit= 0.000 amp= 0.000
+Step   9260 | Loss total= 0.532 img= 0.062 grad= 0.041 res_real= 4.509 res_imag= 8.229 phase= 0.367 phase_unit= 0.000 amp= 0.000
+Step   9270 | Loss total= 0.444 img= 0.070 grad= 0.062 res_real= 3.714 res_imag= 9.735 phase= 0.315 phase_unit= 0.000 amp= 0.000
+Step   9280 | Loss total= 0.297 img= 0.056 grad= 0.051 res_real= 2.425 res_imag=10.981 phase= 0.235 phase_unit= 0.000 amp= 0.000
+Step   9290 | Loss total= 0.329 img= 0.072 grad= 0.068 res_real= 2.599 res_imag= 9.149 phase= 0.292 phase_unit= 0.000 amp= 0.000
+Step   9300 | Loss total= 0.322 img= 0.068 grad= 0.064 res_real= 2.527 res_imag= 8.850 phase= 0.297 phase_unit= 0.000 amp= 0.000
+Step   9310 | Loss total= 0.162 img= 0.037 grad= 0.044 res_real= 1.229 res_imag=10.611 phase= 0.165 phase_unit= 0.000 amp= 0.000
+Step   9320 | Loss total= 0.082 img= 0.013 grad= 0.027 res_real= 0.665 res_imag= 8.792 phase= 0.061 phase_unit= 0.000 amp= 0.000
+Step   9330 | Loss total= 0.186 img= 0.032 grad= 0.032 res_real= 1.467 res_imag= 9.833 phase= 0.171 phase_unit= 0.000 amp= 0.000
+Step   9340 | Loss total= 0.253 img= 0.054 grad= 0.059 res_real= 2.023 res_imag=10.701 phase= 0.212 phase_unit= 0.000 amp= 0.000
+Step   9350 | Loss total= 0.414 img= 0.072 grad= 0.054 res_real= 3.612 res_imag= 7.796 phase= 0.220 phase_unit= 0.000 amp= 0.000
+Step   9360 | Loss total= 0.167 img= 0.037 grad= 0.053 res_real= 1.292 res_imag= 8.530 phase= 0.155 phase_unit= 0.000 amp= 0.000
+Step   9370 | Loss total= 0.186 img= 0.035 grad= 0.041 res_real= 1.398 res_imag= 9.032 phase= 0.200 phase_unit= 0.000 amp= 0.000
+Step   9380 | Loss total= 0.197 img= 0.046 grad= 0.047 res_real= 1.478 res_imag= 9.654 phase= 0.210 phase_unit= 0.000 amp= 0.000
+Step   9390 | Loss total= 0.708 img= 0.049 grad= 0.037 res_real= 6.489 res_imag=10.892 phase= 0.263 phase_unit= 0.000 amp= 0.000
+Step   9400 | Loss total= 0.472 img= 0.089 grad= 0.075 res_real= 3.977 res_imag=10.950 phase= 0.314 phase_unit= 0.000 amp= 0.000
+Step   9410 | Loss total= 0.340 img= 0.058 grad= 0.050 res_real= 2.737 res_imag=10.041 phase= 0.292 phase_unit= 0.000 amp= 0.000
+Step   9420 | Loss total= 0.329 img= 0.059 grad= 0.061 res_real= 2.711 res_imag= 9.843 phase= 0.242 phase_unit= 0.000 amp= 0.000
+Step   9430 | Loss total= 0.205 img= 0.039 grad= 0.045 res_real= 1.666 res_imag=10.945 phase= 0.160 phase_unit= 0.000 amp= 0.000
+Step   9440 | Loss total= 0.200 img= 0.065 grad= 0.064 res_real= 1.364 res_imag= 9.503 phase= 0.271 phase_unit= 0.000 amp= 0.000
+Step   9450 | Loss total= 0.189 img= 0.047 grad= 0.042 res_real= 1.416 res_imag=10.879 phase= 0.202 phase_unit= 0.000 amp= 0.000
+Step   9460 | Loss total= 0.191 img= 0.034 grad= 0.037 res_real= 1.522 res_imag=11.094 phase= 0.165 phase_unit= 0.000 amp= 0.000
+Step   9470 | Loss total= 0.220 img= 0.022 grad= 0.041 res_real= 1.997 res_imag=10.887 phase= 0.077 phase_unit= 0.000 amp= 0.000
+Step   9480 | Loss total= 0.263 img= 0.021 grad= 0.022 res_real= 2.329 res_imag= 9.241 phase= 0.133 phase_unit= 0.000 amp= 0.000
+Step   9490 | Loss total= 0.261 img= 0.039 grad= 0.046 res_real= 2.128 res_imag=12.500 phase= 0.211 phase_unit= 0.000 amp= 0.000
+Step   9500 | Loss total= 0.383 img= 0.039 grad= 0.037 res_real= 3.238 res_imag= 7.659 phase= 0.267 phase_unit= 0.000 amp= 0.000
+Step   9510 | Loss total= 0.151 img= 0.037 grad= 0.046 res_real= 1.069 res_imag=11.367 phase= 0.187 phase_unit= 0.000 amp= 0.000
+Step   9520 | Loss total= 0.457 img= 0.054 grad= 0.052 res_real= 4.016 res_imag=12.620 phase= 0.237 phase_unit= 0.000 amp= 0.000
+Step   9530 | Loss total= 0.282 img= 0.062 grad= 0.059 res_real= 2.235 res_imag= 9.485 phase= 0.250 phase_unit= 0.000 amp= 0.000
+Step   9540 | Loss total= 0.365 img= 0.053 grad= 0.052 res_real= 3.042 res_imag=11.329 phase= 0.262 phase_unit= 0.000 amp= 0.000
+Step   9550 | Loss total= 0.162 img= 0.069 grad= 0.070 res_real= 1.006 res_imag= 8.516 phase= 0.257 phase_unit= 0.000 amp= 0.000
+Step   9560 | Loss total= 0.755 img= 0.098 grad= 0.069 res_real= 6.725 res_imag=11.239 phase= 0.354 phase_unit= 0.000 amp= 0.000
+Step   9570 | Loss total= 0.201 img= 0.036 grad= 0.040 res_real= 1.491 res_imag= 9.357 phase= 0.231 phase_unit= 0.000 amp= 0.000
+Step   9580 | Loss total= 0.143 img= 0.040 grad= 0.046 res_real= 1.044 res_imag= 9.692 phase= 0.162 phase_unit= 0.000 amp= 0.000
+Step   9590 | Loss total= 0.339 img= 0.041 grad= 0.050 res_real= 2.880 res_imag= 9.265 phase= 0.219 phase_unit= 0.000 amp= 0.000
+Step   9600 | Loss total= 0.130 img= 0.020 grad= 0.039 res_real= 1.075 res_imag= 8.392 phase= 0.088 phase_unit= 0.000 amp= 0.000
+Step   9610 | Loss total= 0.296 img= 0.038 grad= 0.047 res_real= 2.482 res_imag=10.208 phase= 0.206 phase_unit= 0.000 amp= 0.000
+Step   9620 | Loss total= 0.533 img= 0.076 grad= 0.060 res_real= 4.553 res_imag=11.753 phase= 0.341 phase_unit= 0.000 amp= 0.000
+Step   9630 | Loss total= 0.158 img= 0.035 grad= 0.038 res_real= 1.163 res_imag=11.131 phase= 0.182 phase_unit= 0.000 amp= 0.000
+Step   9640 | Loss total= 0.258 img= 0.042 grad= 0.057 res_real= 2.148 res_imag=11.034 phase= 0.175 phase_unit= 0.000 amp= 0.000
+Step   9650 | Loss total= 0.464 img= 0.067 grad= 0.060 res_real= 4.078 res_imag=10.887 phase= 0.235 phase_unit= 0.000 amp= 0.000
+Step   9660 | Loss total= 0.658 img= 0.074 grad= 0.061 res_real= 5.866 res_imag=10.452 phase= 0.308 phase_unit= 0.000 amp= 0.000
+Step   9670 | Loss total= 0.302 img= 0.070 grad= 0.059 res_real= 2.357 res_imag= 8.386 phase= 0.286 phase_unit= 0.000 amp= 0.000
+Step   9680 | Loss total= 3.987 img= 0.118 grad= 0.062 res_real=39.012 res_imag= 9.791 phase= 0.369 phase_unit= 0.000 amp= 0.000
+Step   9690 | Loss total= 0.318 img= 0.056 grad= 0.055 res_real= 2.533 res_imag=10.699 phase= 0.280 phase_unit= 0.000 amp= 0.000
+Step   9700 | Loss total= 0.164 img= 0.056 grad= 0.068 res_real= 1.168 res_imag=10.039 phase= 0.186 phase_unit= 0.000 amp= 0.000
+Step   9710 | Loss total= 0.608 img= 0.056 grad= 0.053 res_real= 5.489 res_imag= 9.231 phase= 0.254 phase_unit= 0.000 amp= 0.000
+Step   9720 | Loss total= 0.204 img= 0.059 grad= 0.056 res_real= 1.382 res_imag= 8.691 phase= 0.287 phase_unit= 0.000 amp= 0.000
+Step   9730 | Loss total= 0.249 img= 0.040 grad= 0.050 res_real= 2.078 res_imag= 9.102 phase= 0.169 phase_unit= 0.000 amp= 0.000
+Step   9740 | Loss total= 0.751 img= 0.060 grad= 0.056 res_real= 6.774 res_imag=11.558 phase= 0.326 phase_unit= 0.000 amp= 0.000
+Step   9750 | Loss total= 0.576 img= 0.077 grad= 0.062 res_real= 4.944 res_imag=10.592 phase= 0.355 phase_unit= 0.000 amp= 0.000
+Step   9760 | Loss total= 0.376 img= 0.047 grad= 0.055 res_real= 3.227 res_imag=10.518 phase= 0.230 phase_unit= 0.000 amp= 0.000
+Step   9770 | Loss total= 0.287 img= 0.044 grad= 0.052 res_real= 2.451 res_imag= 8.829 phase= 0.174 phase_unit= 0.000 amp= 0.000
+Step   9780 | Loss total= 0.413 img= 0.051 grad= 0.045 res_real= 3.405 res_imag= 8.572 phase= 0.327 phase_unit= 0.000 amp= 0.000
+Step   9790 | Loss total= 0.163 img= 0.027 grad= 0.043 res_real= 1.314 res_imag=11.114 phase= 0.128 phase_unit= 0.000 amp= 0.000
+Step   9800 | Loss total= 0.200 img= 0.045 grad= 0.050 res_real= 1.422 res_imag= 9.395 phase= 0.252 phase_unit= 0.000 amp= 0.000
+Step   9810 | Loss total= 0.346 img= 0.061 grad= 0.052 res_real= 2.728 res_imag=10.374 phase= 0.326 phase_unit= 0.000 amp= 0.000
+Step   9820 | Loss total= 0.441 img= 0.071 grad= 0.052 res_real= 3.782 res_imag= 8.257 phase= 0.272 phase_unit= 0.000 amp= 0.000
+Step   9830 | Loss total= 0.202 img= 0.015 grad= 0.026 res_real= 1.833 res_imag= 9.709 phase= 0.079 phase_unit= 0.000 amp= 0.000
+Step   9840 | Loss total= 0.855 img= 0.055 grad= 0.036 res_real= 8.017 res_imag=11.259 phase= 0.235 phase_unit= 0.000 amp= 0.000
+Step   9850 | Loss total= 0.155 img= 0.040 grad= 0.046 res_real= 1.061 res_imag=10.312 phase= 0.212 phase_unit= 0.000 amp= 0.000
+Step   9860 | Loss total= 0.175 img= 0.042 grad= 0.040 res_real= 1.152 res_imag= 9.587 phase= 0.270 phase_unit= 0.000 amp= 0.000
+Step   9870 | Loss total= 0.241 img= 0.055 grad= 0.056 res_real= 1.861 res_imag=10.373 phase= 0.231 phase_unit= 0.000 amp= 0.000
+Step   9880 | Loss total= 0.663 img= 0.086 grad= 0.067 res_real= 5.913 res_imag=11.705 phase= 0.305 phase_unit= 0.000 amp= 0.000
+Step   9890 | Loss total= 0.259 img= 0.054 grad= 0.053 res_real= 2.088 res_imag= 8.636 phase= 0.213 phase_unit= 0.000 amp= 0.000
+Step   9900 | Loss total= 0.470 img= 0.067 grad= 0.070 res_real= 4.098 res_imag=12.130 phase= 0.252 phase_unit= 0.000 amp= 0.000
+Step   9910 | Loss total= 0.319 img= 0.037 grad= 0.051 res_real= 2.730 res_imag= 9.237 phase= 0.195 phase_unit= 0.000 amp= 0.000
+Step   9920 | Loss total= 0.805 img= 0.103 grad= 0.062 res_real= 7.168 res_imag= 9.843 phase= 0.382 phase_unit= 0.000 amp= 0.000
+Step   9930 | Loss total= 0.415 img= 0.060 grad= 0.059 res_real= 3.566 res_imag=12.004 phase= 0.248 phase_unit= 0.000 amp= 0.000
+Step   9940 | Loss total= 0.308 img= 0.076 grad= 0.072 res_real= 2.375 res_imag=10.834 phase= 0.296 phase_unit= 0.000 amp= 0.000
+Step   9950 | Loss total= 0.381 img= 0.054 grad= 0.055 res_real= 3.184 res_imag=11.304 phase= 0.271 phase_unit= 0.000 amp= 0.000
+Step   9960 | Loss total= 0.351 img= 0.073 grad= 0.057 res_real= 2.771 res_imag=10.221 phase= 0.325 phase_unit= 0.000 amp= 0.000
+Step   9970 | Loss total= 0.451 img= 0.077 grad= 0.058 res_real= 3.931 res_imag= 8.255 phase= 0.243 phase_unit= 0.000 amp= 0.000
+Step   9980 | Loss total= 0.410 img= 0.064 grad= 0.050 res_real= 3.311 res_imag= 9.673 phase= 0.351 phase_unit= 0.000 amp= 0.000
+Step   9990 | Loss total= 0.137 img= 0.025 grad= 0.045 res_real= 1.124 res_imag=10.446 phase= 0.095 phase_unit= 0.000 amp= 0.000
+Step  10000 | Loss total= 0.378 img= 0.074 grad= 0.059 res_real= 3.248 res_imag= 8.461 phase= 0.218 phase_unit= 0.000 amp= 0.000
+Step  10010 | Loss total= 0.422 img= 0.067 grad= 0.057 res_real= 3.522 res_imag=11.968 phase= 0.304 phase_unit= 0.000 amp= 0.000
+Step  10020 | Loss total= 0.171 img= 0.038 grad= 0.053 res_real= 1.314 res_imag=10.537 phase= 0.163 phase_unit= 0.000 amp= 0.000
+Step  10030 | Loss total= 0.562 img= 0.095 grad= 0.076 res_real= 4.803 res_imag=11.980 phase= 0.346 phase_unit= 0.000 amp= 0.000
+Step  10040 | Loss total= 0.266 img= 0.054 grad= 0.051 res_real= 2.082 res_imag=11.125 phase= 0.249 phase_unit= 0.000 amp= 0.000
+Step  10050 | Loss total= 0.628 img= 0.077 grad= 0.059 res_real= 5.433 res_imag=11.939 phase= 0.377 phase_unit= 0.000 amp= 0.000
+Step  10060 | Loss total= 0.128 img= 0.028 grad= 0.041 res_real= 0.952 res_imag=10.572 phase= 0.138 phase_unit= 0.000 amp= 0.000
+Step  10070 | Loss total= 1.751 img= 0.116 grad= 0.070 res_real=16.555 res_imag=10.608 phase= 0.413 phase_unit= 0.000 amp= 0.000
+Step  10080 | Loss total= 0.335 img= 0.052 grad= 0.046 res_real= 2.681 res_imag=12.633 phase= 0.299 phase_unit= 0.000 amp= 0.000
+Step  10090 | Loss total= 0.221 img= 0.044 grad= 0.044 res_real= 1.730 res_imag=11.342 phase= 0.208 phase_unit= 0.000 amp= 0.000
+Step  10100 | Loss total= 0.161 img= 0.030 grad= 0.050 res_real= 1.296 res_imag= 8.376 phase= 0.124 phase_unit= 0.000 amp= 0.000
