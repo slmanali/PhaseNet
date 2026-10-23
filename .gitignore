@@ -104,3 +104,7 @@ utils/__pycache__/reproducibility.cpython-312.pyc
 __pycache__/train.cpython-312.pyc
 /debug_real_safes/
 /debug_real_safe
+results/computer_optics/legacy_12models/complex-full-64
+results/computer_optics/legacy_12models/complex-loss-matched-64
+results/computer_optics/legacy_12models/phasenet-64
+results/computer_optics/legacy_12models/phasenet-93
