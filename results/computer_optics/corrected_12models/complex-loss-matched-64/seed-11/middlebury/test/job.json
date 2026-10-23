@@ -1,0 +1,110 @@
+{
+  "plan": {
+    "study_id": "computer_optics_12models_corrected_v1",
+    "stage": "corrected",
+    "reference_commit": "57cdf8b53673f607fcdd1eec1ed57988d7fb79e2",
+    "run_root": "runs_seeded",
+    "expected_epochs": 40,
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "output_root": "results/computer_optics/corrected_12models",
+    "deterministic": "strict",
+    "tile_size": 0,
+    "models": {
+      "phasenet-64": {
+        "architecture": "real",
+        "feature_dim": 64
+      },
+      "phasenet-93": {
+        "architecture": "real",
+        "feature_dim": 93
+      },
+      "complex-full-64": {
+        "architecture": "complex",
+        "feature_dim": 64
+      },
+      "complex-loss-matched-64": {
+        "architecture": "complex",
+        "feature_dim": 64
+      }
+    },
+    "datasets": {
+      "davis": {
+        "kind": "davis",
+        "path": "DAVIS-data/DAVIS/JPEGImages/480p",
+        "image_size": "256",
+        "subsets": [
+          "val"
+        ]
+      },
+      "ucf101": {
+        "kind": "ucf101",
+        "path": "ucf101_interp_ours",
+        "image_size": "256",
+        "subsets": [
+          "test"
+        ]
+      },
+      "middlebury": {
+        "kind": "middlebury",
+        "path": "eval-color-allframes",
+        "image_size": "256",
+        "subsets": [
+          "test"
+        ]
+      },
+      "snufilm": {
+        "kind": "snufilm",
+        "path": "SNU-FILM",
+        "image_size": "256",
+        "subsets": [
+          "easy",
+          "medium",
+          "hard",
+          "extreme"
+        ]
+      }
+    },
+    "evaluation_sources": [
+      "test.py",
+      "test_complex_safe_baseline.py",
+      "train_complex_safe_baseline.py",
+      "utils/metrics.py",
+      "utils/davis.py",
+      "utils/snufilm.py",
+      "utils/average_metrics.py",
+      "utils/best_metrics.py",
+      "utils/reproducibility.py",
+      "net/__init__.py",
+      "net/complex_nn/__init__.py",
+      "net/complex_nn/complex_layers.py",
+      "net/complex_nn/complex_utils.py",
+      "net/complex_phasenet.py",
+      "net/complex_phasenet_safe_baseline.py",
+      "net/phasenet.py",
+      "net/phasenet_aligned.py",
+      "net/phasenet_safe.py",
+      "steerable/SCFpyr_NumPy.py",
+      "steerable/SCFpyr_PyTorch.py",
+      "steerable/__init__.py",
+      "steerable/math_utils.py",
+      "steerable/utils.py",
+      "utils/model_loading.py",
+      "utils/journal_diagnostics.py",
+      "utils/evaluation_protocol.py",
+      "tools/run_saved_evaluation.py"
+    ]
+  },
+  "job": {
+    "variant": "complex-loss-matched-64",
+    "seed": 11,
+    "dataset": "middlebury",
+    "subset": "test"
+  },
+  "destination": "results/computer_optics/corrected_12models/complex-loss-matched-64/seed-11/middlebury/test",
+  "device": "cuda:0",
+  "overwrite": false
+}

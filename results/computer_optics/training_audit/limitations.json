@@ -1,0 +1,6 @@
+{
+  "total_loss_comparison": "full and loss-matched models have different weights; totals are not a common objective",
+  "historical_logs": "one rounded minibatch every ten steps; complex logger recorded the last RGB channel",
+  "phase_unit_zero": "printed 0.000 only establishes rounding; use corrected diagnostics for unrounded values",
+  "convergence": "equal epochs and smoothed logs do not establish equal convergence"
+}

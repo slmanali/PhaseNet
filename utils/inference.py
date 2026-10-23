@@ -50,12 +50,14 @@ def interpolate_endpoints(model, pyramid, start_rgb, end_rgb, *, complex_model,
             train_i = [x.to(start_rgb.device).float() for x in train_i]
             prediction_r, prediction_i = model(train_r, train_i, tile_size=tile_size)
             output_coeff = output_convert_complex(prediction_r, prediction_i, highpass=highpass)
-            prepared.append((train_r, train_i, highpass))
+            if return_prepared:
+                prepared.append((train_r, train_i, highpass))
         else:
             inputs, scales = prepare_real_channel(start, end, pyramid, pyr_type)
             inputs = [x.to(start_rgb.device).float() for x in inputs]
             output_coeff = output_convert(model(inputs), amp_scales=scales)
-            prepared.append((inputs, scales))
+            if return_prepared:
+                prepared.append((inputs, scales))
         reconstructed = pyramid.reconstruct(output_coeff, pyr_type=pyr_type)
         if reconstructed.ndim == 3:
             reconstructed = reconstructed.unsqueeze(1)

@@ -1,0 +1,337 @@
+{
+  "protocol": {
+    "selection": "all valid folders found by the existing dataset reader",
+    "samples": 11,
+    "sample_manifest_sha256": "625d980ae8630863ac211076f4b0b74608a15fbb633655fac32c130c58e53462",
+    "hash_scope": "ordered paths, grouping and dimensions; not image bytes",
+    "image_size": "256",
+    "rgb": true,
+    "output_clamp": [
+      0,
+      1
+    ],
+    "resize": "256x256 bilinear antialiased; PIL for DAVIS, tensor for external datasets",
+    "evaluation_padding_crop": "none; pyramid uses its existing internal conventions"
+  },
+  "samples": [
+    {
+      "sample_index": 0,
+      "sample_key": "6c939b4675bee164d79203ca64efe7b2ccbc17b16dac583f7992faa1e85fc5ed",
+      "frames": [
+        "eval-data/Army/frame10.png",
+        "eval-data/Army/frame11.png",
+        "eval-data/Army/frame12.png"
+      ],
+      "sequence_id": "eval-data/Army",
+      "sequence_grouping_verified": false,
+      "source_sizes_hw": [
+        [
+          388,
+          584
+        ],
+        [
+          388,
+          584
+        ],
+        [
+          388,
+          584
+        ]
+      ],
+      "metric_size_hw": [
+        256,
+        256
+      ]
+    },
+    {
+      "sample_index": 1,
+      "sample_key": "acca6818fc56edb191fc7f90a043501a63cef0c8d8f08556266e66ae2c8b39b5",
+      "frames": [
+        "eval-data/Backyard/frame10.png",
+        "eval-data/Backyard/frame11.png",
+        "eval-data/Backyard/frame12.png"
+      ],
+      "sequence_id": "eval-data/Backyard",
+      "sequence_grouping_verified": false,
+      "source_sizes_hw": [
+        [
+          480,
+          640
+        ],
+        [
+          480,
+          640
+        ],
+        [
+          480,
+          640
+        ]
+      ],
+      "metric_size_hw": [
+        256,
+        256
+      ]
+    },
+    {
+      "sample_index": 2,
+      "sample_key": "38cd588becc7484f9711cb5c134d5b6fcf11bcfaf3ccaf7156f7fc43bc210141",
+      "frames": [
+        "eval-data/Basketball/frame10.png",
+        "eval-data/Basketball/frame11.png",
+        "eval-data/Basketball/frame12.png"
+      ],
+      "sequence_id": "eval-data/Basketball",
+      "sequence_grouping_verified": false,
+      "source_sizes_hw": [
+        [
+          480,
+          640
+        ],
+        [
+          480,
+          640
+        ],
+        [
+          480,
+          640
+        ]
+      ],
+      "metric_size_hw": [
+        256,
+        256
+      ]
+    },
+    {
+      "sample_index": 3,
+      "sample_key": "d9d21a888953a9aa7bee5b2f1524f1e8b86fd4bf4dedc0a5740aff0c98507bfb",
+      "frames": [
+        "eval-data/Dumptruck/frame10.png",
+        "eval-data/Dumptruck/frame11.png",
+        "eval-data/Dumptruck/frame12.png"
+      ],
+      "sequence_id": "eval-data/Dumptruck",
+      "sequence_grouping_verified": false,
+      "source_sizes_hw": [
+        [
+          480,
+          640
+        ],
+        [
+          480,
+          640
+        ],
+        [
+          480,
+          640
+        ]
+      ],
+      "metric_size_hw": [
+        256,
+        256
+      ]
+    },
+    {
+      "sample_index": 4,
+      "sample_key": "9c65df537d7bb2a3b3102dd379620aa3937437beaf912c22438d56de0b8f1f17",
+      "frames": [
+        "eval-data/Evergreen/frame10.png",
+        "eval-data/Evergreen/frame11.png",
+        "eval-data/Evergreen/frame12.png"
+      ],
+      "sequence_id": "eval-data/Evergreen",
+      "sequence_grouping_verified": false,
+      "source_sizes_hw": [
+        [
+          480,
+          640
+        ],
+        [
+          480,
+          640
+        ],
+        [
+          480,
+          640
+        ]
+      ],
+      "metric_size_hw": [
+        256,
+        256
+      ]
+    },
+    {
+      "sample_index": 5,
+      "sample_key": "029337d6b98ea6dd98bd9652b69d6b02593fef34ff0a6cdea3b166c0b9a3b192",
+      "frames": [
+        "eval-data/Grove/frame10.png",
+        "eval-data/Grove/frame11.png",
+        "eval-data/Grove/frame12.png"
+      ],
+      "sequence_id": "eval-data/Grove",
+      "sequence_grouping_verified": false,
+      "source_sizes_hw": [
+        [
+          480,
+          640
+        ],
+        [
+          480,
+          640
+        ],
+        [
+          480,
+          640
+        ]
+      ],
+      "metric_size_hw": [
+        256,
+        256
+      ]
+    },
+    {
+      "sample_index": 6,
+      "sample_key": "71c1ef72479e50714c7f0570b6d10abc83bbf02cc407e3c0d9cb17935df13637",
+      "frames": [
+        "eval-data/Mequon/frame10.png",
+        "eval-data/Mequon/frame11.png",
+        "eval-data/Mequon/frame12.png"
+      ],
+      "sequence_id": "eval-data/Mequon",
+      "sequence_grouping_verified": false,
+      "source_sizes_hw": [
+        [
+          388,
+          584
+        ],
+        [
+          388,
+          584
+        ],
+        [
+          388,
+          584
+        ]
+      ],
+      "metric_size_hw": [
+        256,
+        256
+      ]
+    },
+    {
+      "sample_index": 7,
+      "sample_key": "b2fb61c4151a614ce50860941c703953720ec37d1c845a7c575622beba10c9ae",
+      "frames": [
+        "eval-data/Schefflera/frame10.png",
+        "eval-data/Schefflera/frame11.png",
+        "eval-data/Schefflera/frame12.png"
+      ],
+      "sequence_id": "eval-data/Schefflera",
+      "sequence_grouping_verified": false,
+      "source_sizes_hw": [
+        [
+          388,
+          584
+        ],
+        [
+          388,
+          584
+        ],
+        [
+          388,
+          584
+        ]
+      ],
+      "metric_size_hw": [
+        256,
+        256
+      ]
+    },
+    {
+      "sample_index": 8,
+      "sample_key": "66efa39411a4d03d1fb5d687017b42e5ae33ec231221452637640456a2544624",
+      "frames": [
+        "eval-data/Urban/frame10.png",
+        "eval-data/Urban/frame11.png",
+        "eval-data/Urban/frame12.png"
+      ],
+      "sequence_id": "eval-data/Urban",
+      "sequence_grouping_verified": false,
+      "source_sizes_hw": [
+        [
+          480,
+          640
+        ],
+        [
+          480,
+          640
+        ],
+        [
+          480,
+          640
+        ]
+      ],
+      "metric_size_hw": [
+        256,
+        256
+      ]
+    },
+    {
+      "sample_index": 9,
+      "sample_key": "e89341b8bf41e6147b457696117698c41e9ead3df75500a7a361b8c2927a2d0c",
+      "frames": [
+        "eval-data/Wooden/frame10.png",
+        "eval-data/Wooden/frame11.png",
+        "eval-data/Wooden/frame12.png"
+      ],
+      "sequence_id": "eval-data/Wooden",
+      "sequence_grouping_verified": false,
+      "source_sizes_hw": [
+        [
+          388,
+          584
+        ],
+        [
+          388,
+          584
+        ],
+        [
+          388,
+          584
+        ]
+      ],
+      "metric_size_hw": [
+        256,
+        256
+      ]
+    },
+    {
+      "sample_index": 10,
+      "sample_key": "6345e0651b2cf7da71aa85a359d692171497060d41e46f7f3fa421e6215da391",
+      "frames": [
+        "eval-data/Yosemite/frame10.png",
+        "eval-data/Yosemite/frame11.png",
+        "eval-data/Yosemite/frame12.png"
+      ],
+      "sequence_id": "eval-data/Yosemite",
+      "sequence_grouping_verified": false,
+      "source_sizes_hw": [
+        [
+          252,
+          316
+        ],
+        [
+          252,
+          316
+        ],
+        [
+          252,
+          316
+        ]
+      ],
+      "metric_size_hw": [
+        256,
+        256
+      ]
+    }
+  ]
+}

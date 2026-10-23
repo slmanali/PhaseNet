@@ -70,6 +70,8 @@ def run_job(plan, job, destination, device, overwrite=False):
             raise ValueError("existing evaluation differs; use a new output root or --overwrite")
         if not (destination / "samples.csv").is_file():
             raise FileNotFoundError("completed summary has no per-sample results")
+        if plan["stage"] == "corrected" and not (destination / "diagnostics.json").is_file():
+            raise FileNotFoundError("completed corrected summary has no phase diagnostics")
         return saved
     architecture = plan["models"][job["variant"]]
     module = importlib.import_module("test" if architecture["architecture"] == "real" else "test_complex_safe_baseline")
